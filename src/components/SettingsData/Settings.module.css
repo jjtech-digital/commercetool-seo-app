@@ -1,0 +1,46 @@
+.gridRuleDataSection {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+}
+
+.gridRuleInputWrapper {
+    display: flex;
+    gap: 16px
+}
+
+.gridRuleInputContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 6px
+}
+
+.gridRuleInputStyle {
+    width: 100%;
+    height: 40px;
+    font-size: 16px;
+    font-family: 'Inter', 'IBM Plex Sans', sans-serif;
+    font-weight: 400;
+    padding-inline: 16px;
+    border: 1px solid rgb(195, 197, 213);
+    border-radius: 4px;
+    background-color: rgb(255, 255, 255);
+    box-sizing: border-box;
+    outline: none;
+}
+
+.gridRuleInputStyle:focus {
+    border: 2px solid rgb(87, 87, 255);
+}
+
+.gridRuleInputStyle::placeholder {
+    font-size: 16px;
+    font-family: 'Inter', 'IBM Plex Sans', sans-serif;
+    font-weight: 400;
+}
+
+.ruleFormSubmitButton {
+    display: flex;
+    justify-content: end;
+}

@@ -1,0 +1,41 @@
+.tableContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px
+}
+
+.tableSearchSection {
+  display: flex;
+  justify-content: space-between
+}
+
+.searchBar {
+  width: 40%;
+  display: flex
+}
+
+.actionContainer {
+  display: flex;
+  gap: 10px;
+}
+
+.actionButons {
+  display: flex;
+  gap: 6px;
+}
+
+.settingIcon {
+  width: 35px;
+}
+
+.settingIcon:hover {
+  cursor: 'pointer'
+}
+
+.emptyState {
+  height: 65vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
