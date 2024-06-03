@@ -7,6 +7,7 @@ import { useAppContext } from '../../context/AppContext';
 import SecondaryButton from '@commercetools-uikit/secondary-button';
 import LoadingSpinner from '@commercetools-uikit/loading-spinner';
 import Loader from '../Loader/Loader';
+import { LS_KEY } from '../../constants';
 const SettingsOpenAiData = () => {
   const { saveAiKeyHandler, getSavedAiKeyHandler } = useAiKey();
   const { state, setState } = useAppContext();
@@ -22,7 +23,7 @@ const SettingsOpenAiData = () => {
 
     try {
       const response = await saveAiKeyHandler(data.openAi, setState);
-      localStorage.setItem('openAIKey', response.data.value);
+      localStorage.setItem(LS_KEY.OPEN_AI_KEY, response.data.value);
       setState((prev: any) => ({
         ...prev,
         notificationMessage: response?.message,
@@ -40,7 +41,7 @@ const SettingsOpenAiData = () => {
     try {
       const response = await getSavedAiKeyHandler(setState);
       if (response.value) {
-        localStorage.setItem('openAIKey', response.value);
+        localStorage.setItem(LS_KEY.OPEN_AI_KEY, response.value);
         setValue('openAi', response.value);
       }
     } catch (error) {
