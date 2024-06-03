@@ -27,7 +27,6 @@ import ActionRenderer from '../Renderers/ActionRenderer';
 import CustomLoadingOverlay from '../CustomLoadingOverlay/CustomLoadingOverlay';
 import { useBulkProducts } from '../../scripts/useBulkProducts/useBulkProducts';
 import { descriptionPattern, titlePattern } from '../../constants';
-import { useSearch } from '../../scripts/useSearch/useSearch';
 import apiRoot from '../../api/apiRoot';
 import { getProducts } from '../../api/graphql/products';
 
@@ -56,7 +55,6 @@ const TableContainer = () => {
 
   const { page, perPage } = usePaginationState();
   const { getBulkSeoMetaData, applyBulkProducts } = useBulkProducts();
-  const fetchSearchResults = useSearch();
 
   const { state, setState } = useAppContext();
   const match = useRouteMatch();
@@ -270,7 +268,7 @@ const TableContainer = () => {
       if (!dataLocale) {
         throw new Error('Locale is not defined');
       }
-      
+      setState((prev: any) => ({ ...prev, pageLoading: true }));
       const data = await apiRoot
         .productProjections()
         .search()
@@ -281,8 +279,8 @@ const TableContainer = () => {
             offset: offSet,
           },
         })
-        .execute(); 
-        console.log("response", data?.body)
+        .execute();
+      setState((prev: any) => ({ ...prev, pageLoading: false }));
 
       const filteredData = data?.body?.results?.map((product: any) => {
         const nameInCurrentLocale = product?.name?.[dataLocale];
@@ -306,6 +304,7 @@ const TableContainer = () => {
       setTableData(filteredData);
       setTotalProductCount(data?.body?.total);
     } catch (error) {
+      setState((prev: any) => ({ ...prev, pageLoading: false }));
       console.error('Search failed:', error);
     }
   };
