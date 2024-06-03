@@ -273,14 +273,21 @@ const TableContainer = () => {
       if (!dataLocale) {
         throw new Error('Locale is not defined');
       }
-      const data = await fetchSearchResults(
-        search,
-        Number(perPage?.value),
-        Number(offSet),
-        dataLocale,
-        setState
-      );
-      const filteredData = data?.results?.map((product: any) => {
+      
+      const data = await apiRoot
+        .productProjections()
+        .search()
+        .get({
+          queryArgs: {
+            [`text.${dataLocale}`]: search,
+            limit: perPage?.value,
+            offset: offSet,
+          },
+        })
+        .execute(); 
+        console.log("response", data?.body)
+
+      const filteredData = data?.body?.results?.map((product: any) => {
         const nameInCurrentLocale = product?.name?.[dataLocale];
         const metaTitleInCurrentLocale = product?.metaTitle?.[dataLocale];
         const metaDescriptionInCurrentLocale =
@@ -290,9 +297,6 @@ const TableContainer = () => {
           id: product.id,
           version: product.version,
           key: product.key,
-          name: nameInCurrentLocale,
-          seoTitle: metaTitleInCurrentLocale,
-          seoDescription: metaDescriptionInCurrentLocale,
           masterData: {
             current: {
               name: nameInCurrentLocale,
@@ -303,7 +307,7 @@ const TableContainer = () => {
         };
       });
       setTableData(filteredData);
-      setTotalProductCount(data.total);
+      setTotalProductCount(data?.body?.total);
     } catch (error) {
       console.error('Search failed:', error);
     }

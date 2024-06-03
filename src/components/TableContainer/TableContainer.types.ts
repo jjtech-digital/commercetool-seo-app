@@ -7,8 +7,8 @@ export interface CategoriesType {
   slug: string | null;
 }
 export interface MasterDataCurrentType {
-  name: string;
-  nameAllLocales: LocaleType[];
+  name?: string;
+  nameAllLocales?: LocaleType[];
   title?: string | null;
   description?: string | null;
   categories?: CategoriesType[];
