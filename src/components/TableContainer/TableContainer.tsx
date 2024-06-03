@@ -20,10 +20,7 @@ import { Pagination } from '@commercetools-uikit/pagination';
 import { usePaginationState } from '@commercetools-uikit/hooks';
 import { GearIcon } from '@commercetools-uikit/icons';
 import { Link, useRouteMatch } from 'react-router-dom';
-import {
-  IProduct,
-  IResponseFromAi,
-} from './TableContainer.types';
+import { IProduct, IResponseFromAi } from './TableContainer.types';
 import styles from './TableContainer.module.css';
 
 import { useAppContext } from '../../context/AppContext';
@@ -33,6 +30,8 @@ import CustomLoadingOverlay from '../CustomLoadingOverlay/CustomLoadingOverlay';
 import { useBulkProducts } from '../../scripts/useBulkProducts/useBulkProducts';
 import { descriptionPattern, titlePattern } from '../../constants';
 import { useSearch } from '../../scripts/useSearch/useSearch';
+import apiRoot from '../../api/apiRoot';
+import { getProducts } from '../../api/graphql/products';
 
 const TableContainer = () => {
   const [gridApi, setGridApi] = useState(null);
@@ -261,7 +260,6 @@ const TableContainer = () => {
     }
   };
   const handleSearch = async () => {
-
     setSearchPerformed(true);
     try {
       if (!search) {
@@ -313,18 +311,26 @@ const TableContainer = () => {
   const fetchData = async () => {
     setSearchPerformed(false);
     try {
-      const productsData = await getAllProductsData(
-        Number(perPage?.value),
-        Number(offSet),
-        dataLocale,
-        setState
-      );
-      setTotalProductCount(productsData?.total);
-      setTableData(productsData.data);
+      const productsData = await apiRoot
+        .graphql()
+        .post({
+          body: {
+            query: getProducts(),
+            variables: {
+              limit: Number(perPage?.value),
+              offset: Number(offSet),
+              Locale: dataLocale,
+            },
+          },
+        })
+        .execute();
+      setTotalProductCount(productsData?.body?.data?.products?.total);
+      setTableData(productsData?.body?.data?.products?.results);
     } catch (error) {
       console.log(error);
     }
   };
+
   useEffect(() => {
     if (search) {
       handleSearch();
@@ -447,14 +453,18 @@ const TableContainer = () => {
           />
         </div>
       ) : (
-        <div 
-        className={`${styles.emptyState}`}>
+        <div className={`${styles.emptyState}`}>
           {state.pageLoading ? (
-            <Loader shoudLoaderSpinnerShow={true} loadingMessage={'Loading...'} />
+            <Loader
+              shoudLoaderSpinnerShow={true}
+              loadingMessage={'Loading...'}
+            />
           ) : searchPerformed ? (
-            <Text.Body>{"No products found matching your search criteria."}</Text.Body>
+            <Text.Body>
+              {'No products found matching your search criteria.'}
+            </Text.Body>
           ) : (
-            <Text.Body>{"No products available."}</Text.Body>
+            <Text.Body>{'No products available.'}</Text.Body>
           )}
         </div>
       )}
