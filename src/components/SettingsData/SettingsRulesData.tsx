@@ -14,6 +14,7 @@ import { useSettings } from '../../scripts/useSettings/useSettings';
 import { useAppContext } from '../../context/AppContext';
 import LoadingSpinner from '@commercetools-uikit/loading-spinner';
 import Loader from '../Loader/Loader';
+import { LS_KEY } from '../../constants';
 export interface RuleContentItem {
   rulesInput: string;
   deletable: boolean;
@@ -52,7 +53,7 @@ const SettingsRulesData = () => {
 
 
   useEffect(() => {
-    const accessToken = localStorage.getItem('token');
+    const accessToken = localStorage.getItem(LS_KEY.CT_OBJ_TOKEN);
     const fetchSavedRules = async () => {
       try {
         if (accessToken) {

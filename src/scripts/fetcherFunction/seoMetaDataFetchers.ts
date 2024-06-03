@@ -1,13 +1,13 @@
 import axios from 'axios';
-import { apiBaseUrl } from '../../constants';
+import { LS_KEY, apiBaseUrl } from '../../constants';
 
 export const generateSeoMetaData = async (
   productId: string,
   dataLocale: any,
   setState: Function
 ) => {
-  const accessToken = localStorage.getItem('token');
-  const openAiKey = localStorage.getItem('openAIKey');
+  const accessToken = localStorage.getItem(LS_KEY.CT_OBJ_TOKEN);
+  const openAiKey = localStorage.getItem(LS_KEY.OPEN_AI_KEY);
   if (!openAiKey) {
     setState((prev: any) => ({
       ...prev,
@@ -63,7 +63,7 @@ export const updateProductSeoMeta = async (
   dataLocale: any,
   setState: Function
 ) => {
-  const accessToken = localStorage.getItem('token');
+  const accessToken = localStorage.getItem(LS_KEY.CT_OBJ_TOKEN);
   const body = {
     metaTitle,
     metaDescription,

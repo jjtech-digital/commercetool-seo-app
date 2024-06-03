@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { apiBaseUrl } from '../../constants';
+import { LS_KEY, apiBaseUrl } from '../../constants';
 
 export const saveAiKey = async (aiKey: string, setState: Function) => {
-  const accessToken = localStorage.getItem('token');
+  const accessToken = localStorage.getItem(LS_KEY.CT_OBJ_TOKEN);
   try {
     setState((prev: any) => ({ ...prev, isApiFetching: true }));
     const response = await axios.post(`${apiBaseUrl}/ai-key`, {
@@ -19,7 +19,7 @@ export const saveAiKey = async (aiKey: string, setState: Function) => {
 };
 
 export const getSavedAiKey = async (setState: Function) => {
-  const accessToken = localStorage.getItem('token');
+  const accessToken = localStorage.getItem(LS_KEY.CT_OBJ_TOKEN);
   try {
     setState((prev: any) => ({ ...prev, pageLoading: true }));
     const response = await axios.get(`${apiBaseUrl}/ai-key`, {

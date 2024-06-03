@@ -1,13 +1,13 @@
 import axios from 'axios';
-import { apiBaseUrl } from '../../constants';
+import { LS_KEY, apiBaseUrl } from '../../constants';
 
 export const bulkGenerateSeoMetaData = async (
   productIds: string[],
   dataLocale: any,
   setState: Function
 ) => {
-  const accessToken = localStorage.getItem('token');
-  const openAiKey = localStorage.getItem('openAIKey');
+  const accessToken = localStorage.getItem(LS_KEY.CT_OBJ_TOKEN);
+  const openAiKey = localStorage.getItem(LS_KEY.OPEN_AI_KEY);
   if (!openAiKey) {
     setState((prev: any) => ({
       ...prev,
@@ -71,7 +71,7 @@ export const applyBulkProductSeoMeta = async (
   dataLocale: any,
   setState: Function
 ) => {
-  const accessToken = localStorage.getItem('token');
+  const accessToken = localStorage.getItem(LS_KEY.CT_OBJ_TOKEN);
   const batchSize = 20; // Define your batch size
   const totalBatches = Math.ceil(bulkSelectedProductsData.length / batchSize);
   let responses: any[] = [];

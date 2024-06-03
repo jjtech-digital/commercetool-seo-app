@@ -6,7 +6,8 @@ import {
 import type { ApplicationWindow } from '@commercetools-frontend/constants';
 import loadMessages from '../../load-messages';
 import { AppContextProvider } from '../../context/AppContext';
-import { useSettings } from '../../scripts/useSettings/useSettings';
+import { createCtObjToken } from '../../api/fetchersFunction/ctObjTokenfetcher';
+import { LS_KEY } from '../../constants';
 
 declare let window: ApplicationWindow;
 
@@ -22,12 +23,12 @@ const AsyncApplicationRoutes = lazy(
 setupGlobalErrorListener();
 
 const EntryPoint = () => {
-  const { getCtObjToken } = useSettings();
   const storeToken = async () => {
     try {
-      const token = await getCtObjToken();
+      const token = await createCtObjToken();
+
       if (token) {
-        localStorage.setItem('token', token);
+        localStorage.setItem(LS_KEY.CT_OBJ_TOKEN, token);
       }
     } catch (error) {
       console.error('Error storing token:', error);
