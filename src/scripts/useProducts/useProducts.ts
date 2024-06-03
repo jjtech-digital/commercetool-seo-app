@@ -1,19 +1,9 @@
-import { getAllProducts } from '../fetcherFunction/productFetchers';
 import {
   generateSeoMetaData,
   updateProductSeoMeta,
 } from '../fetcherFunction/seoMetaDataFetchers';
 
 export function useProducts() {
-  const getAllProductsData = async (
-    limit: number,
-    offset: number,
-    dataLocale:string | null,
-    setState: Function
-  ) => {
-    const response = await getAllProducts(limit, offset,dataLocale, setState);
-    return response;
-  };
 
   const getSeoMetaData = async (productId: string,  dataLocale: string| null, setState:Function) => { 
     const response = await generateSeoMetaData(productId, dataLocale,setState);
@@ -37,5 +27,5 @@ export function useProducts() {
     );
     return response;
   };
-  return { getAllProductsData, getSeoMetaData, updateProductSeoMetaData };
+  return { getSeoMetaData, updateProductSeoMetaData };
 }

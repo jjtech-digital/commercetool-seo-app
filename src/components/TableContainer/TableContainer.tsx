@@ -13,7 +13,6 @@ import PrimaryButton from '@commercetools-uikit/primary-button';
 import { SearchTextInput } from '@commercetools-frontend/ui-kit';
 import Text from '@commercetools-uikit/text';
 import CustomTooltip from '../CustomTooltip/CustomTooltip';
-import { useProducts } from '../../scripts/useProducts/useProducts';
 import { SimpleTextEditor } from '../SimpleTextEditor/SimpleTextEditor';
 import { useApplicationContext } from '@commercetools-frontend/application-shell-connectors';
 import { Pagination } from '@commercetools-uikit/pagination';
@@ -22,7 +21,6 @@ import { GearIcon } from '@commercetools-uikit/icons';
 import { Link, useRouteMatch } from 'react-router-dom';
 import { IProduct, IResponseFromAi } from './TableContainer.types';
 import styles from './TableContainer.module.css';
-
 import { useAppContext } from '../../context/AppContext';
 import Loader from '../Loader/Loader';
 import ActionRenderer from '../Renderers/ActionRenderer';
@@ -57,7 +55,6 @@ const TableContainer = () => {
   }));
 
   const { page, perPage } = usePaginationState();
-  const { getAllProductsData } = useProducts();
   const { getBulkSeoMetaData, applyBulkProducts } = useBulkProducts();
   const fetchSearchResults = useSearch();
 
@@ -315,6 +312,7 @@ const TableContainer = () => {
   const fetchData = async () => {
     setSearchPerformed(false);
     try {
+      setState((prev: any) => ({ ...prev, pageLoading: true }));
       const productsData = await apiRoot
         .graphql()
         .post({
@@ -328,9 +326,11 @@ const TableContainer = () => {
           },
         })
         .execute();
+        setState((prev: any) => ({ ...prev, pageLoading: false }));
       setTotalProductCount(productsData?.body?.data?.products?.total);
       setTableData(productsData?.body?.data?.products?.results);
     } catch (error) {
+      setState((state: any) => ({ ...state, pageLoading: false }));
       console.log(error);
     }
   };
