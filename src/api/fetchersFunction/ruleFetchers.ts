@@ -41,21 +41,20 @@ export const createRulesInCtCustomObj = async (
 };
 export const getAllSavedRulesFromCtObj = async (
   accessToken: string,
-  setState: Function
+  setState?: Function
 ) => {
   try {
-    setState((prev: any) => ({ ...prev, pageLoading: true }));
+    setState && setState((prev: any) => ({ ...prev, pageLoading: true }));
     const baseUrl = `${CTP_API_URL}/${CTP_PROJECT_KEY}/custom-objects/${CTP_CUSTOM_OBJ_CONTAINER_NAME}/${CTP_CUSTOM_OBJ_CONTAINER_KEY}`;
     const response = await axios.get(baseUrl, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    setState((prev: any) => ({ ...prev, pageLoading: false }));
-    console.log('response from', response);
+    setState &&setState((prev: any) => ({ ...prev, pageLoading: false }));
     return response?.data;
   } catch (error) {
-    setState((prev: any) => ({ ...prev, pageLoading: false }));
+    setState && setState((prev: any) => ({ ...prev, pageLoading: false }));
     console.error('Error fetching all rules:', error);
     return error;
   }

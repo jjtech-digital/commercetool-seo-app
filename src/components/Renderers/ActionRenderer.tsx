@@ -1,13 +1,12 @@
 import PrimaryButton from '@commercetools-uikit/primary-button';
 import { descriptionPattern, titlePattern } from '../../constants';
-import { useProducts } from '../../scripts/useProducts/useProducts';
 import { useAppContext } from '../../context/AppContext';
 import { useApplicationContext } from '@commercetools-frontend/application-shell-connectors';
+import { generateSeoMetaData, updateProductSeoMeta } from '../../api/fetchersFunction/seoMetaDataFetchers';
 
 export default (props: any) => {
   const { setState } = useAppContext();
 
-  const { getSeoMetaData, updateProductSeoMetaData } = useProducts();
   const { dataLocale } = useApplicationContext((context) => ({
     dataLocale: context.dataLocale,
     projectLanguages: context.project?.languages,
@@ -17,7 +16,8 @@ export default (props: any) => {
     props.context.loadingOverlayMessage = 'Generating meta data';
 
     props.gridRef.current!.api.showLoadingOverlay();
-    const aiResponse = await getSeoMetaData(params?.data?.id, dataLocale, setState);
+    const aiResponse = await generateSeoMetaData(params?.data?.id, dataLocale, setState);
+    
     let metaData = aiResponse?.choices?.[0]?.message?.content;
 
     const titleMatch = metaData?.match(titlePattern);
@@ -68,7 +68,7 @@ export default (props: any) => {
       } else {
         props.context.loadingOverlayMessage = 'Applying';
         props.gridRef.current!.api.showLoadingOverlay();
-        const res = await updateProductSeoMetaData(
+        const res = await updateProductSeoMeta(
           updatedRowData.id,
           metaTitle,
           metaDescription,
@@ -76,9 +76,10 @@ export default (props: any) => {
           dataLocale,
           setState
         );
+
         props.setResponseFromAi((prev: any) => ({
           ...prev,
-          version: res?.data?.version,
+          version: res?.version,
         }));
         props.gridRef.current!.api.hideOverlay();
         props.context.loadingOverlayMessage = 'Loading';
