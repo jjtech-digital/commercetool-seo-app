@@ -24,7 +24,6 @@ export const CTP_CUSTOM_OBJ_AI_CONTAINER_KEY="ct-seo-ai-key"
 
 export const APPLICATION_ID="clukw6xob001mliooc1pc4t5q"
 export const CTP_PROJECT_KEY="jj-seo-app"
-export const CTP_CLIENT_SECRET="GWq7MCknLhc-Oiu5oLebXqHNMac3zJ85"
 export const CTP_CLIENT_ID="DCPHZDYQ_wKThdKR_iEti3EP"
 export const CTP_AUTH_URL="https://auth.australia-southeast1.gcp.commercetools.com"
 export const CTP_API_URL="https://api.australia-southeast1.gcp.commercetools.com"
