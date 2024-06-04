@@ -10,11 +10,11 @@ import { PlusBoldIcon, CloseBoldIcon } from '@commercetools-uikit/icons';
 import styles from './Settings.module.css';
 import PrimaryButton from '@commercetools-uikit/primary-button';
 import SecondaryButton from '@commercetools-uikit/secondary-button';
-import { useSettings } from '../../scripts/useSettings/useSettings';
 import { useAppContext } from '../../context/AppContext';
 import LoadingSpinner from '@commercetools-uikit/loading-spinner';
 import Loader from '../Loader/Loader';
 import { LS_KEY } from '../../constants';
+import { createRulesInCtCustomObj, getAllSavedRulesFromCtObj } from '../../api/fetchersFunction/ruleFetchers';
 export interface RuleContentItem {
   rulesInput: string;
   deletable: boolean;
@@ -27,7 +27,6 @@ export interface SubmitEvent {
 }
 const SettingsRulesData = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const { createRuleshandler, getsavedRules } = useSettings();
   const { state, setState } = useAppContext();
   const {
     control,
@@ -57,8 +56,7 @@ const SettingsRulesData = () => {
     const fetchSavedRules = async () => {
       try {
         if (accessToken) {
-          const response = await getsavedRules(accessToken, setState);
-
+          const response = await getAllSavedRulesFromCtObj(accessToken, setState);
           if (response && Array.isArray(response.value)) {
             remove();
             response.value.forEach((value: any) => {
@@ -88,7 +86,7 @@ const SettingsRulesData = () => {
     event?.preventDefault();
     const formData: FormData = data as FormData;
     try {
-      const response = await createRuleshandler(formData, setState);
+      const response = await createRulesInCtCustomObj(formData, setState);
       setState((prev: any) => ({
         ...prev,
         notificationMessage: response?.message,
