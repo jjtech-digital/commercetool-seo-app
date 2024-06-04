@@ -35,12 +35,12 @@ export const getProductById = async (productId: string, locale?: string) => {
 export const generateSeoMetaData = async (
   productId: string,
   dataLocale: any,
-  setState: Function
+  setState?: Function
 ) => {
   const accessToken = localStorage.getItem(LS_KEY.CT_OBJ_TOKEN);
   const openAiKey = localStorage.getItem(LS_KEY.OPEN_AI_KEY);
   if (!openAiKey) {
-    setState((prev: any) => ({
+    setState && setState((prev: any) => ({
       ...prev,
       notificationMessage:
         'OpenAI key is missing. Please set it in the settings.',
@@ -66,7 +66,7 @@ export const generateSeoMetaData = async (
       openAiKey
     );
     if (data?.status && data?.status == 401) {
-      setState((prev: any) => ({
+      setState && setState((prev: any) => ({
         ...prev,
         notificationMessage: data?.error?.message,
         notificationMessageType: 'error',
@@ -77,7 +77,7 @@ export const generateSeoMetaData = async (
     return { ...data, productId: productId };
   } catch (error) {
     console.error('Error generating SEO metadata:', error);
-    setState((prev: any) => ({
+    setState && setState((prev: any) => ({
       ...prev,
       notificationMessage: 'Error generating SEO metadata.',
       notificationMessageType: 'error',

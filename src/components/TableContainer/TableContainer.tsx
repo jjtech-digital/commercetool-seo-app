@@ -29,6 +29,7 @@ import { useBulkProducts } from '../../scripts/useBulkProducts/useBulkProducts';
 import { descriptionPattern, titlePattern } from '../../constants';
 import apiRoot from '../../api/apiRoot';
 import { getProducts } from '../../api/graphql/products';
+import { bulkGenerateSeoMetaData } from '../../api/fetchersFunction/bulkSeoMetaDataFetchers';
 
 const TableContainer = () => {
   const [gridApi, setGridApi] = useState(null);
@@ -173,7 +174,7 @@ const TableContainer = () => {
     gridRef.current!.api.showLoadingOverlay();
 
     const bulkProductIds: any = selectedRows?.map((products) => products?.id);
-    const aiBulkResponse = await getBulkSeoMetaData(
+    const aiBulkResponse = await bulkGenerateSeoMetaData(
       bulkProductIds,
       dataLocale,
       setState
@@ -182,7 +183,7 @@ const TableContainer = () => {
     const updatedTableData = [...tableData];
 
     aiBulkResponse?.forEach((response) => {
-      const message = response?.data?.choices?.[0]?.message?.content;
+      const message = response?.choices?.[0]?.message?.content;
       const titleMatch = message?.match(titlePattern);
       const title = titleMatch ? titleMatch[2]?.trim() : null;
 
@@ -192,7 +193,7 @@ const TableContainer = () => {
       const cleanedDescription = removeDoubleQuotes(description);
 
       const index = updatedTableData.findIndex(
-        (item) => item.id === response?.data?.productId
+        (item) => item.id === response?.productId
       );
       if (index !== -1) {
         updatedTableData[index].masterData.current.metaTitle = cleanedTitle;
