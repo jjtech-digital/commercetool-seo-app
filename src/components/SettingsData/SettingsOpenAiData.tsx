@@ -2,14 +2,16 @@ import styles from './Settings.module.css';
 import PrimaryButton from '@commercetools-uikit/primary-button';
 import { useEffect } from 'react';
 import { useForm, SubmitHandler, FieldValues } from 'react-hook-form';
-import { useAiKey } from '../../scripts/useAiKey/useAiKey';
 import { useAppContext } from '../../context/AppContext';
 import SecondaryButton from '@commercetools-uikit/secondary-button';
 import LoadingSpinner from '@commercetools-uikit/loading-spinner';
 import Loader from '../Loader/Loader';
 import { LS_KEY } from '../../constants';
+import {
+  getSavedAiKeyFromCtCustomObj,
+  saveAiKeyInCtCustomObj,
+} from '../../api/fetchersFunction/aiKeyFetchers';
 const SettingsOpenAiData = () => {
-  const { saveAiKeyHandler, getSavedAiKeyHandler } = useAiKey();
   const { state, setState } = useAppContext();
   const {
     handleSubmit,
@@ -22,11 +24,12 @@ const SettingsOpenAiData = () => {
     event?.preventDefault();
 
     try {
-      const response = await saveAiKeyHandler(data.openAi, setState);
-      localStorage.setItem(LS_KEY.OPEN_AI_KEY, response.data.value);
+      const response = await saveAiKeyInCtCustomObj(data.openAi, setState);
+      localStorage.setItem(LS_KEY.OPEN_AI_KEY, response?.value);
+
       setState((prev: any) => ({
         ...prev,
-        notificationMessage: response?.message,
+        notificationMessage: response?.message || "Key saved successfully.",
         notificationMessageType: 'success',
       }));
     } catch (error) {
@@ -39,7 +42,7 @@ const SettingsOpenAiData = () => {
   };
   const fetchKey = async () => {
     try {
-      const response = await getSavedAiKeyHandler(setState);
+      const response = await getSavedAiKeyFromCtCustomObj(setState);
       if (response.value) {
         localStorage.setItem(LS_KEY.OPEN_AI_KEY, response.value);
         setValue('openAi', response.value);
