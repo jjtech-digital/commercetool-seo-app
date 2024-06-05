@@ -1,7 +1,8 @@
-import axios from 'axios';
-import { LS_KEY, apiBaseUrl } from '../../constants';
-import { generateSeoMetaData } from './seoMetaDataFetchers';
-
+import { LS_KEY } from '../../constants';
+import {
+  generateSeoMetaData,
+  updateProductSeoMeta,
+} from './seoMetaDataFetchers';
 export const bulkGenerateSeoMetaData = async (
   productIds: string[],
   dataLocale: any,
@@ -27,15 +28,13 @@ export const bulkGenerateSeoMetaData = async (
     const batchIds = productIds.slice(start, end);
 
     try {
-      const response:any = batchIds.map(async (id) => {
+      const response: any = batchIds.map(async (id) => {
         return await generateSeoMetaData(id, dataLocale);
       });
-      
+
       const data = await Promise.all(response);
-      
-      const has401Error = data?.some(
-        (res: any) => res?.data?.status === 401
-      );
+
+      const has401Error = data?.some((res: any) => res?.data?.status === 401);
       if (has401Error) {
         setState((prev: any) => ({
           ...prev,
@@ -64,45 +63,42 @@ export const applyBulkProductSeoMeta = async (
   dataLocale: any,
   setState: Function
 ) => {
-  const accessToken = localStorage.getItem(LS_KEY.CT_OBJ_TOKEN);
   const batchSize = 20; // Define your batch size
-  const totalBatches = Math.ceil(bulkSelectedProductsData.length / batchSize);
-  let responses: any[] = [];
+  const totalBatches = Math.ceil(bulkSelectedProductsData?.length / batchSize);
+  let applyBulkResponses: any[] = [];
 
   for (let i = 0; i < totalBatches; i++) {
     const start = i * batchSize;
-    const end = Math.min((i + 1) * batchSize, bulkSelectedProductsData.length);
-    const batchProducts = bulkSelectedProductsData.slice(start, end);
+    const end = Math.min((i + 1) * batchSize, bulkSelectedProductsData?.length);
+    const batchProducts = bulkSelectedProductsData?.slice(start, end);
 
-    const batchData = batchProducts.map((product) => ({
+    const batchData = batchProducts?.map((product) => ({
       productId: product.productId,
       metaTitle: product.metaTitle,
       metaDescription: product.metaDescription,
       version: product.version,
       dataLocale: dataLocale,
     }));
-    const body = {
-      products: batchData,
-      token: accessToken,
-    };
 
     try {
-      const response = await axios.post(
-        `${apiBaseUrl}/products/bulk-update-seo-meta`,
-        body,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
+      const applyBulkPromises = batchData?.map(async (product) => {
+        return await updateProductSeoMeta(
+          product?.productId,
+          product?.metaTitle,
+          product?.metaDescription,
+          product?.version,
+          product?.dataLocale
+        );
+      });
+      const data = await Promise.all(applyBulkPromises);
 
-      responses = [...responses, ...response.data];
       setState((prev: any) => ({
         ...prev,
         notificationMessage: 'SEO meta applied successfully.',
         notificationMessageType: 'success',
       }));
+
+      applyBulkResponses = [...applyBulkResponses, ...data];
     } catch (error) {
       setState((prev: any) => ({
         ...prev,
@@ -112,5 +108,5 @@ export const applyBulkProductSeoMeta = async (
       console.error('Error applying SEO meta in batch:', error);
     }
   }
-  return responses;
+  return applyBulkResponses;
 };

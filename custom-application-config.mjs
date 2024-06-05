@@ -25,7 +25,6 @@ const config = {
         'https://api.australia-southeast1.gcp.commercetools.com/ct-assessment',
         'https://api.australia-southeast1.gcp.commercetools.com/ct-assessment/product-projections',
         'https://api.openai.com/v1/chat/completions',
-        'https://api.openai.com/v1/chat/completions',
         '*'
       ],
     },

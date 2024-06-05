@@ -40,12 +40,13 @@ export const generateSeoMetaData = async (
   const accessToken = localStorage.getItem(LS_KEY.CT_OBJ_TOKEN);
   const openAiKey = localStorage.getItem(LS_KEY.OPEN_AI_KEY);
   if (!openAiKey) {
-    setState && setState((prev: any) => ({
-      ...prev,
-      notificationMessage:
-        'OpenAI key is missing. Please set it in the settings.',
-      notificationMessageType: 'error',
-    }));
+    setState &&
+      setState((prev: any) => ({
+        ...prev,
+        notificationMessage:
+          'OpenAI key is missing. Please set it in the settings.',
+        notificationMessageType: 'error',
+      }));
     return null;
   }
   try {
@@ -66,22 +67,24 @@ export const generateSeoMetaData = async (
       openAiKey
     );
     if (data?.status && data?.status == 401) {
-      setState && setState((prev: any) => ({
-        ...prev,
-        notificationMessage: data?.error?.message,
-        notificationMessageType: 'error',
-      }));
+      setState &&
+        setState((prev: any) => ({
+          ...prev,
+          notificationMessage: data?.error?.message,
+          notificationMessageType: 'error',
+        }));
       return;
     }
 
     return { ...data, productId: productId };
   } catch (error) {
     console.error('Error generating SEO metadata:', error);
-    setState && setState((prev: any) => ({
-      ...prev,
-      notificationMessage: 'Error generating SEO metadata.',
-      notificationMessageType: 'error',
-    }));
+    setState &&
+      setState((prev: any) => ({
+        ...prev,
+        notificationMessage: 'Error generating SEO metadata.',
+        notificationMessageType: 'error',
+      }));
     return null;
   }
 };
@@ -92,7 +95,7 @@ export const updateProductSeoMeta = async (
   metaDescription: string,
   version: number,
   dataLocale: any,
-  setState: Function
+  setState?: Function
 ) => {
   const accessToken = localStorage.getItem(LS_KEY.CT_OBJ_TOKEN);
 
@@ -145,18 +148,20 @@ export const updateProductSeoMeta = async (
   try {
     const response = await axios.post(apiUrl, payload, { headers });
 
-    setState((prev: any) => ({
-      ...prev,
-      notificationMessage: 'SEO title and description updated successfully.',
-      notificationMessageType: 'success',
-    }));
+    setState &&
+      setState((prev: any) => ({
+        ...prev,
+        notificationMessage: 'SEO title and description updated successfully.',
+        notificationMessageType: 'success',
+      }));
     return response.data;
   } catch (error) {
-    setState((prev: any) => ({
-      ...prev,
-      notificationMessage: 'Error updating SEO title and description.',
-      notificationMessageType: 'error',
-    }));
+    setState &&
+      setState((prev: any) => ({
+        ...prev,
+        notificationMessage: 'Error updating SEO title and description.',
+        notificationMessageType: 'error',
+      }));
     console.error('Error updating product SEO meta:', error);
     return null;
   }
@@ -169,7 +174,7 @@ export const queryOpenAi = async (
 ) => {
   const openAi = new OpenAI({
     apiKey: openAiKey,
-    dangerouslyAllowBrowser: true
+    dangerouslyAllowBrowser: true,
   });
   let updatedPrompt = '';
   if (accessToken) {
