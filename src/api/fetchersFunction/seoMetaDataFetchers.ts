@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { LS_KEY } from '../../constants';
+import { CTP_API_URL, CTP_PROJECT_KEY, LS_KEY } from '../../constants';
 import { getProductDetails } from '../graphql/productDetails';
 import apiRoot from '../apiRoot';
 import OpenAI from 'openai';
@@ -124,7 +124,7 @@ export const updateProductSeoMeta = async (
   // Add the new metaDescription for dataLocale
   metaDescriptionObj[dataLocale] = metaDescription;
 
-  const apiUrl = `https://api.australia-southeast1.gcp.commercetools.com/jj-seo-app/products/${productId}`;
+  const apiUrl = `${CTP_API_URL}/${CTP_PROJECT_KEY}/products/${productId}`;
   const headers = {
     Authorization: `Bearer ${accessToken}`,
     'Content-Type': 'application/json',
