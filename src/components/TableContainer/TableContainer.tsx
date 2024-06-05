@@ -25,11 +25,10 @@ import { useAppContext } from '../../context/AppContext';
 import Loader from '../Loader/Loader';
 import ActionRenderer from '../Renderers/ActionRenderer';
 import CustomLoadingOverlay from '../CustomLoadingOverlay/CustomLoadingOverlay';
-import { useBulkProducts } from '../../scripts/useBulkProducts/useBulkProducts';
 import { descriptionPattern, titlePattern } from '../../constants';
 import apiRoot from '../../api/apiRoot';
 import { getProducts } from '../../api/graphql/products';
-import { bulkGenerateSeoMetaData } from '../../api/fetchersFunction/bulkSeoMetaDataFetchers';
+import { applyBulkProductSeoMeta, bulkGenerateSeoMetaData } from '../../api/fetchersFunction/bulkSeoMetaDataFetchers';
 
 const TableContainer = () => {
   const [gridApi, setGridApi] = useState(null);
@@ -55,8 +54,6 @@ const TableContainer = () => {
   }));
 
   const { page, perPage } = usePaginationState();
-  const { getBulkSeoMetaData, applyBulkProducts } = useBulkProducts();
-
   const { state, setState } = useAppContext();
   const match = useRouteMatch();
   const offSet = (page?.value - 1) * perPage?.value;
@@ -221,30 +218,31 @@ const TableContainer = () => {
         notificationMessageType: 'error',
       }));
     } else {
-      const bulkSelectedProductsData = selectedRows?.map((product) => ({
-        productId: product.id,
-        metaTitle: product.masterData.current.metaTitle,
-        metaDescription: product.masterData.current.metaDescription,
-        version: product.version,
+      const bulkSelectedProductsData: any  = selectedRows?.map((product) => ({
+        productId: product?.id,
+        metaTitle: product?.masterData?.current?.metaTitle,
+        metaDescription: product?.masterData?.current?.metaDescription,
+        version: product?.version,
       }));
       context.loadingOverlayMessage =
         'Applying SEO meta for selected products. This may take some time';
       gridRef.current!.api.showLoadingOverlay();
 
-      const res: any = await applyBulkProducts(
+      const res: any = await applyBulkProductSeoMeta(
         bulkSelectedProductsData,
         dataLocale,
         setState
       );
+  
       if (res) {
         const updatedTableData = [...tableData];
 
         res.forEach((updatedProduct: any) => {
           const index = updatedTableData?.findIndex(
-            (item) => item?.id === updatedProduct?.data?.id
+            (item) => item?.id === updatedProduct?.id
           );
           if (index !== -1) {
-            updatedTableData[index].version = updatedProduct?.data?.version;
+            updatedTableData[index].version = updatedProduct?.version;
           }
         });
 
