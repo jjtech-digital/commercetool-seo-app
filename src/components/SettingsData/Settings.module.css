@@ -2,6 +2,7 @@
     display: flex;
     gap: 10px;
     flex-direction: column;
+    padding-top: 1rem;
 }
 
 .gridRuleInputWrapper {
@@ -43,4 +44,10 @@
 .ruleFormSubmitButton {
     display: flex;
     justify-content: end;
+}
+
+.ruleHeading{
+    color : rgb(79, 79, 216);
+    text-decoration: underline;
+    padding-left: 5px;
 }

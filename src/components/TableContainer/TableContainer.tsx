@@ -28,7 +28,10 @@ import CustomLoadingOverlay from '../CustomLoadingOverlay/CustomLoadingOverlay';
 import { descriptionPattern, titlePattern } from '../../constants';
 import apiRoot from '../../api/apiRoot';
 import { getProducts } from '../../api/graphql/products';
-import { applyBulkProductSeoMeta, bulkGenerateSeoMetaData } from '../../api/fetchersFunction/bulkSeoMetaDataFetchers';
+import {
+  applyBulkProductSeoMeta,
+  bulkGenerateSeoMetaData,
+} from '../../api/fetchersFunction/bulkSeoMetaDataFetchers';
 
 const TableContainer = () => {
   const [gridApi, setGridApi] = useState(null);
@@ -44,7 +47,8 @@ const TableContainer = () => {
     description: null,
     version: null,
   });
-
+  const [showDescriptionAndKeyFeatures, setShowDescriptionAndKeyFeatures] =
+    useState(false);
   const gridRef = useRef<AgGridReact>(null);
   const gridStyle = useMemo(() => ({ width: '100%', height: '65vh' }), []);
 
@@ -57,7 +61,7 @@ const TableContainer = () => {
   const { state, setState } = useAppContext();
   const match = useRouteMatch();
   const offSet = (page?.value - 1) * perPage?.value;
-  const [colDefs, setColDefs] = useState([
+  let defaultColDefs = [
     {
       field: 'productKey',
       flex: 1,
@@ -124,7 +128,8 @@ const TableContainer = () => {
         gridRef: gridRef,
       },
     },
-  ]);
+  ];
+  const [colDefs, setColDefs] = useState(defaultColDefs);
 
   const components = useMemo(
     () => ({
@@ -218,7 +223,7 @@ const TableContainer = () => {
         notificationMessageType: 'error',
       }));
     } else {
-      const bulkSelectedProductsData: any  = selectedRows?.map((product) => ({
+      const bulkSelectedProductsData: any = selectedRows?.map((product) => ({
         productId: product?.id,
         metaTitle: product?.masterData?.current?.metaTitle,
         metaDescription: product?.masterData?.current?.metaDescription,
@@ -233,7 +238,7 @@ const TableContainer = () => {
         dataLocale,
         setState
       );
-  
+
       if (res) {
         const updatedTableData = [...tableData];
 
@@ -324,13 +329,16 @@ const TableContainer = () => {
           },
         })
         .execute();
-        setState((prev: any) => ({ ...prev, pageLoading: false }));
+      setState((prev: any) => ({ ...prev, pageLoading: false }));
       setTotalProductCount(productsData?.body?.data?.products?.total);
       setTableData(productsData?.body?.data?.products?.results);
     } catch (error) {
       setState((state: any) => ({ ...state, pageLoading: false }));
       console.log(error);
     }
+  };
+  const onToggleShowDescriptionAndKeyFeatures = () => {
+    setShowDescriptionAndKeyFeatures((prev) => !prev);
   };
 
   useEffect(() => {
@@ -366,6 +374,50 @@ const TableContainer = () => {
     }
   }, [responseFromAi]);
 
+  useEffect(() => {
+    let newColDefs = [...defaultColDefs];
+    if (showDescriptionAndKeyFeatures) {
+      const additionalColumns = [
+        {
+          field: 'description',
+          headerName: 'Description',
+          flex: 3,
+          tooltipValueGetter: (p : {value : any}) => p.value,
+          valueGetter: (params : any) => {
+            return params.data?.masterData?.current?.description;
+          },
+          valueSetter: (params: any) => {
+            params.data.masterData.current.description = params.newValue;
+            return true;
+          },
+          editable: true,
+          sortable: false,
+          cellEditor: SimpleTextEditor,
+          cellEditorPopup: true,
+        },
+        {
+          field: 'keyFeatures',
+          headerName: 'Key Features',
+          flex: 3,
+          tooltipValueGetter: (p: {value : any}) => p.value,
+          valueGetter: (params : any) => {
+            return params.data?.masterData?.current?.keyFeatures;
+          },
+          valueSetter: (params: any) => {
+            params.data.masterData.current.keyFeatures = params.newValue;
+            return true;
+          },
+          editable: true,
+          sortable: false,
+          cellEditor: SimpleTextEditor,
+          cellEditorPopup: true,
+        },
+      ];
+      newColDefs.splice(2, 0, ...additionalColumns);
+    }
+    setColDefs(newColDefs);
+  }, [showDescriptionAndKeyFeatures]);
+  
   return (
     <div className={`${styles.tableContainer}`}>
       <Text.Headline as="h2">
@@ -386,6 +438,16 @@ const TableContainer = () => {
             }}
             // isClearable={false}
           />
+        </div>
+        <div className={styles.checkboxContainer}>
+          <label>
+            <input
+              type="checkbox"
+              checked={showDescriptionAndKeyFeatures}
+              onChange={onToggleShowDescriptionAndKeyFeatures}
+            />
+            Show Description and Key Features
+          </label>
         </div>
         <div className={`${styles.actionContainer}`}>
           {selectedRows && selectedRows.length > 0 && (

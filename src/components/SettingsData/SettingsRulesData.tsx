@@ -14,7 +14,10 @@ import { useAppContext } from '../../context/AppContext';
 import LoadingSpinner from '@commercetools-uikit/loading-spinner';
 import Loader from '../Loader/Loader';
 import { LS_KEY } from '../../constants';
-import { createRulesInCtCustomObj, getAllSavedRulesFromCtObj } from '../../api/fetchersFunction/ruleFetchers';
+import {
+  createRulesInCtCustomObj,
+  getAllSavedRulesFromCtObj,
+} from '../../api/fetchersFunction/ruleFetchers';
 export interface RuleContentItem {
   rulesInput: string;
   deletable: boolean;
@@ -50,13 +53,15 @@ const SettingsRulesData = () => {
     }
   }, [fields, append]);
 
-
   useEffect(() => {
     const accessToken = localStorage.getItem(LS_KEY.CT_OBJ_TOKEN);
     const fetchSavedRules = async () => {
       try {
         if (accessToken) {
-          const response = await getAllSavedRulesFromCtObj(accessToken, setState);
+          const response = await getAllSavedRulesFromCtObj(
+            accessToken,
+            setState
+          );
           if (response && Array.isArray(response.value)) {
             remove();
             response.value.forEach((value: any) => {
@@ -90,67 +95,91 @@ const SettingsRulesData = () => {
       setState((prev: any) => ({
         ...prev,
         notificationMessage: response?.message,
-        notificationMessageType:"success"
+        notificationMessageType: 'success',
       }));
     } catch (error) {
       console.log(error);
     }
   };
 
+  const ruleComponents = [
+    {
+      heading: 'Seo Rules',
+      onSubmitFunction: onSubmit,
+    },
+    {
+      heading: 'Description Rules',
+      onSubmitFunction: onSubmit,
+    },
+    {
+      heading: 'Key Feature Rules',
+      onSubmitFunction: onSubmit,
+    },
+  ];
+
   return !state.pageLoading ? (
     <div>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className={`${styles.gridRuleDataSection}`}
-      >
-        {fields.map((item, index) => (
-          <div key={item.id}>
-            <div className={`${styles.gridRuleInputWrapper}`}>
-              <div className={`${styles.gridRuleInputContainer}`}>
-                <input
-                  className={`${styles.gridRuleInputStyle}`}
-                  {...register(`rulesContent.${index}.rulesInput`, {
-                    required: 'Rules Content is required',
-                  })}
-                  placeholder="Generate good content"
-                />
-                {errors?.rulesContent &&
-                  errors?.rulesContent[index]?.rulesInput && (
-                    <div style={{ color: 'red', marginTop: '4px' }}>
-                      {errors.rulesContent[index]?.rulesInput?.message}
+      {ruleComponents?.map((component) => {
+        return (
+          <div key={component?.heading}>
+            <span className={`${styles.ruleHeading}`}>
+              {component?.heading}
+            </span>
+            <form
+              onSubmit={handleSubmit(component?.onSubmitFunction)}
+              className={`${styles.gridRuleDataSection}`}
+            >
+              {fields.map((item, index) => (
+                <div key={item.id}>
+                  <div className={`${styles.gridRuleInputWrapper}`}>
+                    <div className={`${styles.gridRuleInputContainer}`}>
+                      <input
+                        className={`${styles.gridRuleInputStyle}`}
+                        {...register(`rulesContent.${index}.rulesInput`, {
+                          required: 'Rules Content is required',
+                        })}
+                        placeholder="Generate good content"
+                      />
+                      {errors?.rulesContent &&
+                        errors?.rulesContent[index]?.rulesInput && (
+                          <div style={{ color: 'red', marginTop: '4px' }}>
+                            {errors.rulesContent[index]?.rulesInput?.message}
+                          </div>
+                        )}
                     </div>
-                  )}
-              </div>
 
-              {index === currentIndex ? (
-                <IconButton
-                  icon={<PlusBoldIcon />}
-                  label="Add"
-                  onClick={handleAddField}
-                />
-              ) : (
-                <IconButton
-                  icon={<CloseBoldIcon />}
-                  label="Delete"
-                  onClick={() => handleRemoveField(index)}
-                />
-              )}
-            </div>
+                    {index === currentIndex ? (
+                      <IconButton
+                        icon={<PlusBoldIcon />}
+                        label="Add"
+                        onClick={handleAddField}
+                      />
+                    ) : (
+                      <IconButton
+                        icon={<CloseBoldIcon />}
+                        label="Delete"
+                        onClick={() => handleRemoveField(index)}
+                      />
+                    )}
+                  </div>
+                </div>
+              ))}
+              <div className={`${styles.ruleFormSubmitButton}`}>
+                {state?.isApiFetching ? (
+                  <SecondaryButton
+                    iconLeft={<LoadingSpinner />}
+                    label="Submitting"
+                    type="submit"
+                    isDisabled={true}
+                  />
+                ) : (
+                  <PrimaryButton label="Submit" type="submit" />
+                )}
+              </div>
+            </form>
           </div>
-        ))}
-        <div className={`${styles.ruleFormSubmitButton}`}>
-          {state?.isApiFetching ? (
-            <SecondaryButton
-              iconLeft={<LoadingSpinner />}
-              label="Submitting"
-              type="submit"
-              isDisabled={true}
-            />
-          ) : (
-            <PrimaryButton label="Submit" type="submit" />
-          )}
-        </div>
-      </form>
+        );
+      })}
     </div>
   ) : (
     <Loader shoudLoaderSpinnerShow={true} loadingMessage={'Loading...'} />

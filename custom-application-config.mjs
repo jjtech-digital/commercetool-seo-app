@@ -31,7 +31,7 @@ const config = {
   },
   env: {
     development: {
-      initialProjectKey: 'jj-seo-app',
+      initialProjectKey: 'jj-seo-ct-app',
     },
     production: {
       applicationId: '${env:APPLICATION_ID}',
