@@ -4,7 +4,9 @@ interface Props {
   [key: string]: any;
 }
 interface IAppContext {
-  isApiFetching: boolean;
+  isApiFetchingSEO: boolean;
+  isApiFetchingDescription: boolean;
+  isApiFetchingKeyFeatures: boolean;
   pageLoading: boolean;
   notificationMessage: string;
   notificationMessageType: 'success' | 'error' | 'info' | 'warning';
@@ -15,16 +17,18 @@ export type IUseAppState = {
 };
 const AppContext = createContext<IUseAppState>({} as IUseAppState);
 
-const initalState: IAppContext = {
+const initialState: IAppContext = {
   pageLoading: false,
-  isApiFetching: false,
+  isApiFetchingSEO: false,
+  isApiFetchingDescription: false,
+  isApiFetchingKeyFeatures: false,
   notificationMessage: '',
   notificationMessageType: 'success',
 };
 
 export const AppContextProvider = ({ children }: Props) => {
   const [state, setState] = useState({
-    ...initalState,
+    ...initialState,
   });
 
   return (

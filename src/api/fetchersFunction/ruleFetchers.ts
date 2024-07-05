@@ -1,15 +1,13 @@
 import axios from 'axios';
 import {
   CTP_API_URL,
-  CTP_CUSTOM_OBJ_CONTAINER_KEY,
-  CTP_CUSTOM_OBJ_CONTAINER_NAME,
   CTP_PROJECT_KEY,
   LS_KEY,
 } from '../../constants';
 
 export const createRulesInCtCustomObj = async (
   payload: any,
-  setState: Function
+  setState: Function, key : string, name : string
 ) => {
   const prompts = payload.rulesContent.map(
     (rule: { rulesInput: any }) => rule.rulesInput
@@ -20,8 +18,8 @@ export const createRulesInCtCustomObj = async (
     const baseUrl = `${CTP_API_URL}/${CTP_PROJECT_KEY}/custom-objects`;
 
     const requestBody = {
-      container: `${CTP_CUSTOM_OBJ_CONTAINER_NAME}`,
-      key: `${CTP_CUSTOM_OBJ_CONTAINER_KEY}`,
+      container: `${key}`,
+      key: `${name}`,
       value: prompts,
     };
 
@@ -41,11 +39,13 @@ export const createRulesInCtCustomObj = async (
 };
 export const getAllSavedRulesFromCtObj = async (
   accessToken: string,
+  name ?: string,
+  key ?: string, 
   setState?: Function
 ) => {
   try {
     setState && setState((prev: any) => ({ ...prev, pageLoading: true }));
-    const baseUrl = `${CTP_API_URL}/${CTP_PROJECT_KEY}/custom-objects/${CTP_CUSTOM_OBJ_CONTAINER_NAME}/${CTP_CUSTOM_OBJ_CONTAINER_KEY}`;
+    const baseUrl = `${CTP_API_URL}/${CTP_PROJECT_KEY}/custom-objects/${name}/${key}`;
     const response = await axios.get(baseUrl, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
