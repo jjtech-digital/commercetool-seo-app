@@ -17,13 +17,11 @@ import { SimpleTextEditor } from '../SimpleTextEditor/SimpleTextEditor';
 import { useApplicationContext } from '@commercetools-frontend/application-shell-connectors';
 import { Pagination } from '@commercetools-uikit/pagination';
 import { usePaginationState } from '@commercetools-uikit/hooks';
-import { GearIcon } from '@commercetools-uikit/icons';
-import { Link, useRouteMatch } from 'react-router-dom';
 import { IProduct, IResponseFromAi } from './TableContainer.types';
 import styles from './TableContainer.module.css';
 import { useAppContext } from '../../context/AppContext';
 import Loader from '../Loader/Loader';
-import ActionRenderer from '../Renderers/ActionRenderer';
+import ActionRendererSEO from '../Renderers/ActionRendererSEO';
 import CustomLoadingOverlay from '../CustomLoadingOverlay/CustomLoadingOverlay';
 import { descriptionPattern, titlePattern } from '../../constants';
 import apiRoot from '../../api/apiRoot';
@@ -47,8 +45,6 @@ const TableContainer = () => {
     description: null,
     version: null,
   });
-  const [showDescriptionAndKeyFeatures, setShowDescriptionAndKeyFeatures] =
-    useState(false);
   const gridRef = useRef<AgGridReact>(null);
   const gridStyle = useMemo(() => ({ width: '100%', height: '65vh' }), []);
 
@@ -59,7 +55,6 @@ const TableContainer = () => {
 
   const { page, perPage } = usePaginationState();
   const { state, setState } = useAppContext();
-  const match = useRouteMatch();
   const offSet = (page?.value - 1) * perPage?.value;
   let defaultColDefs = [
     {
@@ -133,7 +128,7 @@ const TableContainer = () => {
 
   const components = useMemo(
     () => ({
-      actionRenderer: ActionRenderer,
+      actionRenderer: ActionRendererSEO,
     }),
     []
   );
@@ -337,9 +332,6 @@ const TableContainer = () => {
       console.log(error);
     }
   };
-  const onToggleShowDescriptionAndKeyFeatures = () => {
-    setShowDescriptionAndKeyFeatures((prev) => !prev);
-  };
 
   useEffect(() => {
     if (search) {
@@ -374,55 +366,9 @@ const TableContainer = () => {
     }
   }, [responseFromAi]);
 
-  useEffect(() => {
-    let newColDefs = [...defaultColDefs];
-    if (showDescriptionAndKeyFeatures) {
-      const additionalColumns = [
-        {
-          field: 'description',
-          headerName: 'Description',
-          flex: 3,
-          tooltipValueGetter: (p : {value : any}) => p.value,
-          valueGetter: (params : any) => {
-            return params.data?.masterData?.current?.description;
-          },
-          valueSetter: (params: any) => {
-            params.data.masterData.current.description = params.newValue;
-            return true;
-          },
-          editable: true,
-          sortable: false,
-          cellEditor: SimpleTextEditor,
-          cellEditorPopup: true,
-        },
-        {
-          field: 'keyFeatures',
-          headerName: 'Key Features',
-          flex: 3,
-          tooltipValueGetter: (p: {value : any}) => p.value,
-          valueGetter: (params : any) => {
-            return params.data?.masterData?.current?.keyFeatures;
-          },
-          valueSetter: (params: any) => {
-            params.data.masterData.current.keyFeatures = params.newValue;
-            return true;
-          },
-          editable: true,
-          sortable: false,
-          cellEditor: SimpleTextEditor,
-          cellEditorPopup: true,
-        },
-      ];
-      newColDefs.splice(2, 0, ...additionalColumns);
-    }
-    setColDefs(newColDefs);
-  }, [showDescriptionAndKeyFeatures]);
   
   return (
     <div className={`${styles.tableContainer}`}>
-      <Text.Headline as="h2">
-        {'Generate SEO title and description'}
-      </Text.Headline>
       <div className={`${styles.tableSearchSection}`}>
         <div className={`${styles.searchBar}`}>
           <SearchTextInput
@@ -438,16 +384,6 @@ const TableContainer = () => {
             }}
             // isClearable={false}
           />
-        </div>
-        <div className={styles.checkboxContainer}>
-          <label>
-            <input
-              type="checkbox"
-              checked={showDescriptionAndKeyFeatures}
-              onChange={onToggleShowDescriptionAndKeyFeatures}
-            />
-            Show Description and Key Features
-          </label>
         </div>
         <div className={`${styles.actionContainer}`}>
           {selectedRows && selectedRows.length > 0 && (
@@ -472,12 +408,6 @@ const TableContainer = () => {
               />
             </div>
           )}
-          <Link
-            to={`${match.url}/settings`}
-            className={`${styles.settingIcon}`}
-          >
-            <GearIcon size="scale" color="primary40" />
-          </Link>
         </div>
       </div>
       {!state.pageLoading && !!tableData?.length ? (
