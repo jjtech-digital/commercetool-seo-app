@@ -5,7 +5,7 @@ export const createCtObjToken = async () => {
   try {
     const accessTokenUrl = `${CTP_AUTH_URL}/oauth/token?grant_type=client_credentials`;
     const basicAuth = Buffer.from(
-      `${CTP_CLIENT_ID}:GWq7MCknLhc-Oiu5oLebXqHNMac3zJ85`
+      `${CTP_CLIENT_ID}:Wq0FXRJSQpbsxHDKIU6ObdebuiQDJVAs`
     ).toString('base64');
     const requestBody = new URLSearchParams();
     requestBody.append('grant_type', 'client_credentials'); // Use the appropriate grant type

@@ -20,7 +20,7 @@ const config = {
         'https://ct-custom-seo-be.vercel.app/rule',
         'https://ct-custom-seo-be.vercel.app/rule/create-rules',
         'https://ct-custom-seo-be.vercel.app/rule/saved-rules',
-        'https://api.australia-southeast1.gcp.commercetools.com/jj-seo-app',
+        'https://api.australia-southeast1.gcp.commercetools.com/jj-custom-app',
         'https://auth.australia-southeast1.gcp.commercetools.com/oauth/token',
         'https://api.australia-southeast1.gcp.commercetools.com/ct-assessment',
         'https://api.australia-southeast1.gcp.commercetools.com/ct-assessment/product-projections',
@@ -31,7 +31,7 @@ const config = {
   },
   env: {
     development: {
-      initialProjectKey: 'jj-seo-ct-app',
+      initialProjectKey: 'jj-custom-app',
     },
     production: {
       applicationId: '${env:APPLICATION_ID}',
