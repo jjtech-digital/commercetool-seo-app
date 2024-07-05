@@ -39,3 +39,14 @@ export interface IResponseFromAi {
   description: string | null | undefined;
   version: number | null | undefined;
 }
+
+export enum NavItems {
+  SEO = 'SEO',
+  DESCRIPTION = 'Description',
+}
+
+export interface ISelectedPageProps {
+  title: string;
+  isDefaultSelected: boolean;
+  name: string;
+}
