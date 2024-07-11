@@ -32,5 +32,4 @@ const ctpClient = new ClientBuilder()
 const apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({
   projectKey: 'jj-custom-app',
 });
-
 export default apiRoot;
