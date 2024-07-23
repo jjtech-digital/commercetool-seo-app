@@ -17,7 +17,7 @@ const TableDataContainer = () => {
   return (
     <div className={`${styles.tableContainer}`}>
       <Text.Headline as="h2">
-        {'Generate SEO title and description'}
+        {'Generate Product information'}
       </Text.Headline>
       <div className={`${styles.navContainer}`}>
         <TableNavHeader

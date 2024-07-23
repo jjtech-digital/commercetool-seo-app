@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CTP_API_URL, CTP_PROJECT_KEY, LS_KEY } from '../../constants';
+import { CTP_API_URL, CTP_CUSTOM_OBJ_SEO_CONTAINER_KEY, CTP_CUSTOM_OBJ_SEO_CONTAINER_NAME, CTP_PROJECT_KEY, LS_KEY } from '../../constants';
 import { getProductDetails } from '../graphql/productDetails';
 import apiRoot from '../apiRoot';
 import OpenAI from 'openai';
@@ -178,7 +178,8 @@ export const queryOpenAi = async (
   });
   let updatedPrompt = '';
   if (accessToken) {
-    const prompt: any = getAllSavedRulesFromCtObj(accessToken);
+    const prompt: any = getAllSavedRulesFromCtObj(accessToken, CTP_CUSTOM_OBJ_SEO_CONTAINER_NAME,
+      CTP_CUSTOM_OBJ_SEO_CONTAINER_KEY,);
     const allEmpty = prompt?.value?.every((p: string) => /^\s*$/.test(p));
 
     // If any prompt is non-empty, update updatedPrompt
