@@ -45,10 +45,10 @@ export const bulkGenerateProductMetaData = async (
     } catch (error) {
       setState((prev: any) => ({
         ...prev,
-        notificationMessage: 'Error generating SEO metadata in batch.',
+        notificationMessage: 'Error generating product description and key features in batch.',
         notificationMessageType: 'error',
       }));
-      console.error('Error generating SEO metadata in batch:', error);
+      console.error('Error generating product description and key features in batch:', error);
     }
   }
 
@@ -71,18 +71,17 @@ export const applyBulkProductMeta = async (
 
     const batchData = batchProducts?.map((product) => ({
       productId: product.productId,
-      metaTitle: product.metaTitle,
-      metaDescription: product.metaDescription,
+      keyFeatures: product.keyFeatures,
+      description: product.description,
       version: product.version,
       dataLocale: dataLocale,
     }));
-
     try {
       const applyBulkPromises = batchData?.map(async (product) => {
         return await updateProductMeta(
           product?.productId,
-          product?.metaTitle,
-          product?.metaDescription,
+          product?.keyFeatures,
+          product?.description,
           product?.version,
           product?.dataLocale
         );

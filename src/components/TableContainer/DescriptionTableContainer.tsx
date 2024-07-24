@@ -180,7 +180,7 @@ const DescriptionTableContainer = () => {
 
   const handleBulkGenerateClick = async () => {
     context.loadingOverlayMessage =
-      'Generating SEO metadata for selected products. This may take some time';
+      'Generating description and key features for selected products. This may take some time';
     gridRef.current!.api.showLoadingOverlay();
 
     const bulkProductIds: any = selectedRows?.map((products) => products?.id);
@@ -201,15 +201,26 @@ const DescriptionTableContainer = () => {
       const descriptionMatch = metaData?.match(normalDescPattern);
       const description = descriptionMatch ? descriptionMatch[1].trim() : null
 
-      const cleanedTitle = removeDoubleQuotes(keyFeatures);
+      const cleanedKeyFeatures = removeDoubleQuotes(keyFeatures);
       const cleanedDescription = removeDoubleQuotes(description);
 
       const index = updatedTableData.findIndex(
         (item) => item.id === response?.productId
       );
       if (index !== -1) {
-        updatedTableData[index].masterData.current.metaTitle = cleanedTitle;
-        updatedTableData[index].masterData.current.metaDescription =
+        const attributesRaw = updatedTableData[index].masterData.current.masterVariant.attributesRaw;
+        let features = attributesRaw.find(
+          (item: any) => item.name === 'features'
+        );
+        let featureDatalocale = dataLocale || "en";
+        if (!features) {
+          features = { name: 'features', value: [{ [featureDatalocale]: '' }] };
+          attributesRaw.push(features);
+        }
+       if (features && features.value[0]) {
+        features.value[0][featureDatalocale] = cleanedKeyFeatures;
+      }
+        updatedTableData[index].masterData.current.description =
           cleanedDescription;
       }
     });
@@ -222,25 +233,24 @@ const DescriptionTableContainer = () => {
   const handleBulkApplyClick = async () => {
     const hasEmptyMeta = selectedRows?.some(
       (product) =>
-        !product.masterData.current.metaTitle ||
-        !product.masterData.current.metaDescription
+        !product.masterData.current.description
     );
     if (hasEmptyMeta) {
       setState((prev: any) => ({
         ...prev,
         notificationMessage:
-          'SEO Title or description cannot be empty for selected products.',
+          'Description cannot be empty for selected products.',
         notificationMessageType: 'error',
       }));
     } else {
       const bulkSelectedProductsData: any = selectedRows?.map((product) => ({
         productId: product?.id,
-        metaTitle: product?.masterData?.current?.metaTitle,
-        metaDescription: product?.masterData?.current?.metaDescription,
+        keyFeatures: product?.masterData?.current?.masterVariant.attributesRaw.find((item : any)=> item.name === "features").value[0][dataLocale ? dataLocale : "en"],
+        description: product?.masterData?.current?.description,
         version: product?.version,
       }));
       context.loadingOverlayMessage =
-        'Applying SEO meta for selected products. This may take some time';
+        'Applying description and key features for selected products. This may take some time';
       gridRef.current!.api.showLoadingOverlay();
 
       const res: any = await applyBulkProductMeta(
@@ -298,7 +308,9 @@ const DescriptionTableContainer = () => {
         console.log("initial data",data)
       const filteredData = data?.body?.results?.map((product: any) => {
         console.log("single product",product)
-        const description = product.description
+        const keyFeatures = product.masterVariant.attributes.find((item : any) => item.name === "features")
+        const features = keyFeatures?.value[0][dataLocale] || ""
+        const description = product?.description || ""
         const nameInCurrentLocale = product?.name?.[dataLocale];
 
         return {
@@ -308,7 +320,12 @@ const DescriptionTableContainer = () => {
           masterData: {
             current: {
               name: nameInCurrentLocale,
-              description: description,
+              description: description?.[dataLocale],
+              masterVariant : {
+                attributesRaw : [
+                  { name : "features", value : [ { [dataLocale] : features}]}
+                ]
+              }
             },
           },
         };
@@ -415,8 +432,7 @@ const DescriptionTableContainer = () => {
             // isClearable={false}
           />
         </div>
-        {/* bulk generator in progress */}
-        {/* <div className={`${styles.actionContainer}`}>
+        <div className={`${styles.actionContainer}`}>
           {selectedRows && selectedRows.length > 0 && (
             <div className={`${styles.actionButons}`}>
               <PrimaryButton
@@ -439,7 +455,7 @@ const DescriptionTableContainer = () => {
               />
             </div>
           )}
-        </div> */}
+        </div>
       </div>
       {!state.pageLoading && !!tableData?.length ? (
         <div
