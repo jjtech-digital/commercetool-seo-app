@@ -121,6 +121,7 @@ export const updateProductMeta = async (
     }
   }
   descriptionObj[dataLocale] = description;
+  
   let keyFeaturesObj: any = {};
   let existingFeatures =
     productResponse?.masterData?.current?.masterVariant.attributesRaw.find(
