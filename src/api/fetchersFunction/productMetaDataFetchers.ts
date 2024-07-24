@@ -126,12 +126,8 @@ export const updateProductMeta = async (
     productResponse?.masterData?.current?.masterVariant.attributesRaw.find(
       (item: any) => item.name === 'features'
     );
-    if (existingFeatures) {
-      if (Object.hasOwn(existingFeatures.value[0], dataLocale)) {
+    if (existingFeatures?.value?.[0]) {
         existingFeatures.value[0][dataLocale] = keyFeatures || " ";
-      } else {
-        existingFeatures.value[0][dataLocale] = keyFeatures || " ";
-      }
     }
     if(!existingFeatures){
       existingFeatures = { name : "features", value : [{ [dataLocale] : ""}]}

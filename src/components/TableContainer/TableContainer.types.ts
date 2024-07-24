@@ -37,10 +37,10 @@ export interface IFetchrawData {
 
 export interface IResponseFromAi {
   id: string | null | undefined;
-  title?: string | null | undefined;
+  title?: string | null;
   description: string | null | undefined;
   version: number | null | undefined;
-  keyFeatures?: string | null | undefined;
+  keyFeatures?: string | null;
 }
 
 export enum NavItems {

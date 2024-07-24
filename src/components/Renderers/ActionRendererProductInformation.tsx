@@ -2,7 +2,10 @@ import PrimaryButton from '@commercetools-uikit/primary-button';
 import { featuresPattern, normalDescPattern } from '../../constants';
 import { useAppContext } from '../../context/AppContext';
 import { useApplicationContext } from '@commercetools-frontend/application-shell-connectors';
-import { generateProductMetaData, updateProductMeta } from '../../api/fetchersFunction/productMetaDataFetchers';
+import {
+  generateProductMetaData,
+  updateProductMeta,
+} from '../../api/fetchersFunction/productMetaDataFetchers';
 
 export default (props: any) => {
   const { setState } = useAppContext();
@@ -13,11 +16,16 @@ export default (props: any) => {
   }));
 
   const handleGenerateClick = async (params: any) => {
-    props.context.loadingOverlayMessage = 'Generating product description and features';
+    props.context.loadingOverlayMessage =
+      'Generating product description and features';
 
     props.gridRef.current!.api.showLoadingOverlay();
     try {
-      const aiResponse = await generateProductMetaData(params?.data?.id, dataLocale, setState);
+      const aiResponse = await generateProductMetaData(
+        params?.data?.id,
+        dataLocale,
+        setState
+      );
 
       let metaData = aiResponse?.choices?.[0]?.message?.content;
 
@@ -31,7 +39,7 @@ export default (props: any) => {
         id: params.data.id,
         keyFeatures: keyFeatures,
         description: description,
-        version: params.data.version
+        version: params.data.version,
       });
     } catch (error) {
       console.error('Error generating product metadata:', error);
@@ -42,13 +50,18 @@ export default (props: any) => {
   };
 
   const handleApplyClick = async (rowIndex: number) => {
-    const updatedRowData = props?.gridRef?.current?.api?.getDisplayedRowAtIndex(rowIndex)?.data;
+    const updatedRowData =
+      props?.gridRef?.current?.api?.getDisplayedRowAtIndex(rowIndex)?.data;
     if (updatedRowData?.masterData?.current) {
-
       const { description } = updatedRowData.masterData.current;
-      console.log(updatedRowData?.masterData?.current?.masterVariant?.attributesRaw)
-      const featureDataLocale = dataLocale || "en"
-      const keyFeatures = updatedRowData.masterData.current.masterVariant.attributesRaw.find((item : any) => item.name === "features").value[0][featureDataLocale]
+      console.log(
+        updatedRowData?.masterData?.current?.masterVariant?.attributesRaw
+      );
+      const featureDataLocale = dataLocale || 'en';
+      const keyFeatures =
+        updatedRowData.masterData.current.masterVariant.attributesRaw.find(
+          (item: any) => item.name === 'features'
+        ).value[0][featureDataLocale];
       if (!description && !keyFeatures) {
         setState((prev: any) => ({
           ...prev,
@@ -61,16 +74,15 @@ export default (props: any) => {
           notificationMessage: 'Description cannot be empty.',
           notificationMessageType: 'error',
         }));
-      } 
+      }
       // Can be uncommented if we want make key features compulsory
       // else if (!keyFeatures) {
-
       //   setState((prev: any) => ({
       //     ...prev,
       //     notificationMessage: 'Key Features cannot be empty.',
       //     notificationMessageType: 'error',
       //   }));
-      // } 
+      // }
       else {
         props.context.loadingOverlayMessage = 'Applying';
         props.gridRef.current!.api.showLoadingOverlay();
@@ -81,7 +93,7 @@ export default (props: any) => {
             description,
             updatedRowData.version,
             dataLocale,
-            setState,
+            setState
           );
 
           props.setResponseFromAi((prev: any) => ({
@@ -100,26 +112,23 @@ export default (props: any) => {
   };
 
   return (
-    <>
-      <div style={{ display: 'flex' }}>
-        <div>
-          <PrimaryButton
-            size="medium"
-            label="Generate"
-            onClick={() => handleGenerateClick(props)}
-            isDisabled={false}
-          />
-        </div>
-        <div style={{ marginInline: '6px' }}>
-          <PrimaryButton
-            size="medium"
-            label="Apply"
-            onClick={() => handleApplyClick(props.rowIndex)}
-            isDisabled={false}
-          />
-        </div>
+    <div style={{ display: 'flex' }}>
+      <div>
+        <PrimaryButton
+          size="medium"
+          label="Generate"
+          onClick={() => handleGenerateClick(props)}
+          isDisabled={false}
+        />
       </div>
-    </>
+      <div style={{ marginInline: '6px' }}>
+        <PrimaryButton
+          size="medium"
+          label="Apply"
+          onClick={() => handleApplyClick(props.rowIndex)}
+          isDisabled={false}
+        />
+      </div>
+    </div>
   );
 };
-

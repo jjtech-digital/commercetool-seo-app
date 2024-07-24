@@ -111,7 +111,7 @@ const DescriptionTableContainer = () => {
           params.data.masterData.current.masterVariant.attributesRaw.find(
             (item: any) => item.name === 'features'
           );
-        if (features && features.value && features.value[0] && dataLocale) {
+        if (features?.value?.[0] && dataLocale) {
           features.value[0][dataLocale] = params.newValue;
           return true;
         }
@@ -178,6 +178,7 @@ const DescriptionTableContainer = () => {
   }, [offSet, perPage?.value]);
 
   const handleBulkGenerateClick = async () => {
+
     context.loadingOverlayMessage =
       'Generating description and key features for selected products. This may take some time';
     gridRef.current!.api.showLoadingOverlay();
@@ -216,7 +217,7 @@ const DescriptionTableContainer = () => {
           features = { name: 'features', value: [{ [featureDatalocale]: '' }] };
           attributesRaw.push(features);
         }
-       if (features && features.value[0]) {
+       if (features?.value[0]) {
         features.value[0][featureDatalocale] = cleanedKeyFeatures;
       }
         updatedTableData[index].masterData.current.description =
@@ -230,6 +231,7 @@ const DescriptionTableContainer = () => {
     context.loadingOverlayMessage = 'Loading';
   };
   const handleBulkApplyClick = async () => {
+    const featuredDataLocale = dataLocale || "en"
     const hasEmptyMeta = selectedRows?.some(
       (product) =>
         !product.masterData.current.description
@@ -244,7 +246,7 @@ const DescriptionTableContainer = () => {
     } else {
       const bulkSelectedProductsData: any = selectedRows?.map((product) => ({
         productId: product?.id,
-        keyFeatures: product?.masterData?.current?.masterVariant.attributesRaw.find((item : any)=> item.name === "features").value[0][dataLocale ? dataLocale : "en"],
+        keyFeatures: product?.masterData?.current?.masterVariant.attributesRaw.find((item : any)=> item.name === "features").value[0][featuredDataLocale],
         description: product?.masterData?.current?.description,
         version: product?.version,
       }));
@@ -394,13 +396,10 @@ const DescriptionTableContainer = () => {
           features = { name: 'features', value: [{ [featureDatalocale]: '' }] };
           attributesRaw.push(features);
         }
-        if (features && features.value[0]) {
-          if (Object.hasOwn(features.value[0], featureDatalocale)) {
-            features.value[0][featureDatalocale] = cleanedFeatures;
-          } else {
-            features.value[0][featureDatalocale] = cleanedFeatures;
-          }
+        if ( features && features.value[0] ) { 
+          features.value[0][featureDatalocale] = cleanedFeatures;
         }
+
         updatedTableData[index].masterData.current.description =
           cleanedDescription;
         updatedTableData[index].version = responseFromAi.version;
