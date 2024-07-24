@@ -98,7 +98,6 @@ const DescriptionTableContainer = () => {
         return p.value;
       },
       valueGetter: (params: any) => {
-        console.log("From getter", dataLocale)
         const features =
           params.data.masterData.current.masterVariant.attributesRaw.find(
             (item: any) => item.name === 'features'
@@ -208,7 +207,7 @@ const DescriptionTableContainer = () => {
         (item) => item.id === response?.productId
       );
       if (index !== -1) {
-        const attributesRaw = updatedTableData[index].masterData.current.masterVariant.attributesRaw;
+        const attributesRaw = updatedTableData[index].masterData.current?.masterVariant?.attributesRaw;
         let features = attributesRaw.find(
           (item: any) => item.name === 'features'
         );
@@ -305,9 +304,7 @@ const DescriptionTableContainer = () => {
         })
         .execute();
       setState((prev: any) => ({ ...prev, pageLoading: false }));
-        console.log("initial data",data)
       const filteredData = data?.body?.results?.map((product: any) => {
-        console.log("single product",product)
         const keyFeatures = product.masterVariant.attributes.find((item : any) => item.name === "features")
         const features = keyFeatures?.value[0][dataLocale] || ""
         const description = product?.description || ""
@@ -330,7 +327,6 @@ const DescriptionTableContainer = () => {
           },
         };
       });
-      console.log("all products",filteredData)
       setTableData(filteredData);
       setTotalProductCount(data?.body?.total);
     } catch (error) {
@@ -367,7 +363,6 @@ const DescriptionTableContainer = () => {
 
   useEffect(() => {
     if (search) {
-      console.log("Hi")
       handleSearch();
     } else {
       fetchData();
@@ -400,7 +395,7 @@ const DescriptionTableContainer = () => {
           attributesRaw.push(features);
         }
         if (features && features.value[0]) {
-          if (features.value[0].hasOwnProperty(featureDatalocale)) {
+          if (Object.hasOwn(features.value[0], featureDatalocale)) {
             features.value[0][featureDatalocale] = cleanedFeatures;
           } else {
             features.value[0][featureDatalocale] = cleanedFeatures;
@@ -444,7 +439,7 @@ const DescriptionTableContainer = () => {
               <PrimaryButton
                 size="medium"
                 label="Cancel"
-                onClick={() => gridRef?.current!?.api?.stopEditing(true)}
+                onClick={() => gridRef?.current?.api?.stopEditing(true)}
                 isDisabled={false}
               />
               <PrimaryButton

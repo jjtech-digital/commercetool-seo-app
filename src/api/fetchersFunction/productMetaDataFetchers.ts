@@ -127,7 +127,7 @@ export const updateProductMeta = async (
       (item: any) => item.name === 'features'
     );
     if (existingFeatures) {
-      if (existingFeatures.value[0].hasOwnProperty(dataLocale)) {
+      if (Object.hasOwn(existingFeatures.value[0], dataLocale)) {
         existingFeatures.value[0][dataLocale] = keyFeatures || " ";
       } else {
         existingFeatures.value[0][dataLocale] = keyFeatures || " ";
@@ -137,11 +137,7 @@ export const updateProductMeta = async (
       existingFeatures = { name : "features", value : [{ [dataLocale] : ""}]}
       const features = {name : "features", value : [{ [dataLocale] : ""}]}
       productResponse?.masterData?.current?.masterVariant.attributesRaw.push(features);
-      if (existingFeatures.value[0].hasOwnProperty(dataLocale)) {
-        existingFeatures.value[0][dataLocale] = keyFeatures || " ";
-      } else {
-        existingFeatures.value[0][dataLocale] = keyFeatures || " ";
-      }
+      existingFeatures.value[0][dataLocale] = keyFeatures || " ";
     }
 
   keyFeaturesObj = existingFeatures.value[0]

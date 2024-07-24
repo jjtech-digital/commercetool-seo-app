@@ -42,8 +42,8 @@ export default (props: any) => {
   };
 
   const handleApplyClick = async (rowIndex: number) => {
-    const updatedRowData = props?.gridRef?.current!?.api?.getDisplayedRowAtIndex(rowIndex)?.data;
-    if (updatedRowData && updatedRowData?.masterData && updatedRowData?.masterData?.current) {
+    const updatedRowData = props?.gridRef?.current?.api?.getDisplayedRowAtIndex(rowIndex)?.data;
+    if (updatedRowData?.masterData?.current) {
 
       const { description } = updatedRowData.masterData.current;
       console.log(updatedRowData?.masterData?.current?.masterVariant?.attributesRaw)
@@ -96,7 +96,7 @@ export default (props: any) => {
         }
       }
     }
-    props.gridRef?.current!?.api?.stopEditing(false);
+    props.gridRef?.current?.api?.stopEditing(false);
   };
 
   return (
