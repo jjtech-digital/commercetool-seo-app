@@ -4,7 +4,6 @@ import { entryPointUriPathToPermissionKeys } from '@commercetools-frontend/appli
 export const entryPointUriPath = 'custom-seo';
 
 export const PERMISSIONS = entryPointUriPathToPermissionKeys(entryPointUriPath);
-
 export const apiBaseUrl = 'https://ct-custom-seo-be.vercel.app';
 
 export const titlePattern = /(SEO Title:|Title:)\s*(.+)/;
