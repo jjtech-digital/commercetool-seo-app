@@ -101,18 +101,17 @@ const DescriptionTableContainer = () => {
         const features =
           params.data.masterData.current.masterVariant.attributesRaw.find(
             (item: any) => item.name === 'features'
-          );
-        if (dataLocale) {
-          return features?.value?.[0][dataLocale];
-        }
+          )?.value?.[0];
+        const locale = dataLocale || 'en';
+        return features?.[locale];
       },
       valueSetter: (params: any) => {
         const features =
           params.data.masterData.current.masterVariant.attributesRaw.find(
             (item: any) => item.name === 'features'
-          );
-        if (features?.value?.[0] && dataLocale) {
-          features.value[0][dataLocale] = params.newValue;
+          )?.value?.[0];
+        if (features && dataLocale) {
+          features[dataLocale] = params.newValue;
           return true;
         }
         return false;
@@ -173,7 +172,7 @@ const DescriptionTableContainer = () => {
   };
 
   const onSelectionChanged = useCallback(() => {
-    var getSelectedRows = gridRef.current!.api.getSelectedRows();
+    let getSelectedRows = gridRef.current!.api.getSelectedRows();
     setSelectedRows(getSelectedRows);
   }, [offSet, perPage?.value]);
 
@@ -332,8 +331,13 @@ const DescriptionTableContainer = () => {
       setTableData(filteredData);
       setTotalProductCount(data?.body?.total);
     } catch (error) {
-      setState((prev: any) => ({ ...prev, pageLoading: false }));
       console.error('Search failed:', error);
+      setState((prev: any) => ({
+        ...prev,
+        pageLoading: false,
+        notificationMessage: 'Search failed. Please try again later.',
+        notificationMessageType: 'error',
+      }));
     }
   };
 
@@ -358,8 +362,14 @@ const DescriptionTableContainer = () => {
       setTotalProductCount(productsData?.body?.data?.products?.total);
       setTableData(productsData?.body?.data?.products?.results);
     } catch (error) {
-      setState((state: any) => ({ ...state, pageLoading: false }));
-      console.log(error);
+      console.error('Error fetching product data:', error);
+      setState((state: any) => ({
+        ...state,
+        pageLoading: false,
+        notificationMessage:
+          'Error fetching product data. Please try again later.',
+        notificationMessageType: 'error',
+      }));
     }
   };
 
@@ -396,7 +406,7 @@ const DescriptionTableContainer = () => {
           features = { name: 'features', value: [{ [featureDatalocale]: '' }] };
           attributesRaw.push(features);
         }
-        if ( features && features.value[0] ) { 
+        if (features?.value?.[0] ) { 
           features.value[0][featureDatalocale] = cleanedFeatures;
         }
 

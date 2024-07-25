@@ -35,7 +35,7 @@ export const getProductById = async (productId: string, locale?: string) => {
     }
     return product;
   } catch (error) {
-    console.error('Error retrieving product by ID:', error);
+    console.error(`Error retrieving product by ID ${productId}:`, error);
 
     return 'Failed to retrieve product details';
   }
@@ -50,8 +50,7 @@ export const generateProductMetaData = async (
   const accessToken = localStorage.getItem(LS_KEY.CT_OBJ_TOKEN);
   const openAiKey = localStorage.getItem(LS_KEY.OPEN_AI_KEY);
   if (!openAiKey) {
-    setState &&
-      setState((prev: any) => ({
+      setState?.((prev: any) => ({
         ...prev,
         notificationMessage:
           'OpenAI key is missing. Please set it in the settings.',
@@ -76,8 +75,8 @@ export const generateProductMetaData = async (
       openAiKey
     );
     if (data?.status && data?.status == 401) {
-      setState &&
-        setState((prev: any) => ({
+
+        setState?.((prev: any) => ({
           ...prev,
           notificationMessage: data?.error?.message,
           notificationMessageType: 'error',
@@ -88,8 +87,7 @@ export const generateProductMetaData = async (
     return { ...data, productId: productId };
   } catch (error) {
     console.error('Error generating product description and key features:', error);
-    setState &&
-      setState((prev: any) => ({
+      setState?.((prev: any) => ({
         ...prev,
         notificationMessage: 'Error generating product description and key features',
         notificationMessageType: 'error',
@@ -165,8 +163,7 @@ export const updateProductMeta = async (
   try {
     const response = await axios.post(apiUrl, payload, { headers });
 
-    setState &&
-      setState((prev: any) => ({
+      setState?.((prev: any) => ({
         ...prev,
         notificationMessage:
           keyFeatures ? 'Description and key features updated successfully.' : 'Description updated successfully.',
@@ -174,8 +171,7 @@ export const updateProductMeta = async (
       }));
     return response.data;
   } catch (error) {
-    setState &&
-      setState((prev: any) => ({
+      setState?.((prev: any) => ({
         ...prev,
         notificationMessage: 'Error updating product description and key features.',
         notificationMessageType: 'error',

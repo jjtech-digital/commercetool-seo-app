@@ -340,8 +340,7 @@ const SettingsRulesData = () => {
                         })}
                         placeholder="Generate good content"
                       />
-                      {component.errors?.rulesContent &&
-                        component.errors?.rulesContent[index]?.rulesInput && (
+                      {component?.errors?.rulesContent?.[index]?.rulesInput && (
                           <div style={{ color: 'red', marginTop: '4px' }}>
                             {component.errors.rulesContent[index]?.rulesInput?.message}
                           </div>

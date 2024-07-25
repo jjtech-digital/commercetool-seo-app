@@ -40,8 +40,7 @@ export const generateSeoMetaData = async (
   const accessToken = localStorage.getItem(LS_KEY.CT_OBJ_TOKEN);
   const openAiKey = localStorage.getItem(LS_KEY.OPEN_AI_KEY);
   if (!openAiKey) {
-    setState &&
-      setState((prev: any) => ({
+      setState?.((prev: any) => ({
         ...prev,
         notificationMessage:
           'OpenAI key is missing. Please set it in the settings.',
@@ -67,8 +66,7 @@ export const generateSeoMetaData = async (
       openAiKey
     );
     if (data?.status && data?.status == 401) {
-      setState &&
-        setState((prev: any) => ({
+        setState?.((prev: any) => ({
           ...prev,
           notificationMessage: data?.error?.message,
           notificationMessageType: 'error',
@@ -79,8 +77,8 @@ export const generateSeoMetaData = async (
     return { ...data, productId: productId };
   } catch (error) {
     console.error('Error generating SEO metadata:', error);
-    setState &&
-      setState((prev: any) => ({
+
+      setState?.((prev: any) => ({
         ...prev,
         notificationMessage: 'Error generating SEO metadata.',
         notificationMessageType: 'error',
@@ -148,16 +146,14 @@ export const updateProductSeoMeta = async (
   try {
     const response = await axios.post(apiUrl, payload, { headers });
 
-    setState &&
-      setState((prev: any) => ({
+      setState?.((prev: any) => ({
         ...prev,
         notificationMessage: 'SEO title and description updated successfully.',
         notificationMessageType: 'success',
       }));
     return response.data;
   } catch (error) {
-    setState &&
-      setState((prev: any) => ({
+      setState?.((prev: any) => ({
         ...prev,
         notificationMessage: 'Error updating SEO title and description.',
         notificationMessageType: 'error',
