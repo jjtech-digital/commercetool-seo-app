@@ -10,7 +10,7 @@ export const apiBaseUrl = 'https://ct-custom-seo-be.vercel.app';
 export const titlePattern = /(SEO Title:|Title:)\s*(.+)/;
 export const descriptionPattern = /(SEO Description:|Description:)\s*(.+)/;
 
-export const normalDescPattern =/\*Description\*:\s*(.*?)\s*\*Key Features\*:/
+export const normalDescPattern =/\*Description\*:\s*(.*?)(?=\s*\*Key Features\*:)/s
 export const featuresPattern =  /\*Key Features\*:\s*(.+)/s;
 
 export const LS_KEY = {
