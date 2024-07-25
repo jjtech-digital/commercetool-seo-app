@@ -27,7 +27,7 @@ export const getProductById = async (productId: string, locale?: string) => {
     }
     return product;
   } catch (error) {
-    console.error('Error retrieving product by ID:', error);
+    console.error(`Error retrieving product by ID ${productId}:`, error);
 
     return 'Failed to retrieve product details';
   }

@@ -241,6 +241,7 @@ export const queryOpenAi = async (
     });
     return response;
   } catch (error) {
-    return error;
+    console.error('Error querying OpenAI:', error);
+    return null;
   }
 };
