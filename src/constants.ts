@@ -18,7 +18,6 @@ export const LS_KEY = {
   OPEN_AI_KEY: 'openAIKey',
 };
 
-
 export const CTP_CUSTOM_OBJ_SEO_CONTAINER_NAME="ct-seo-container"
 export const CTP_CUSTOM_OBJ_SEO_CONTAINER_KEY="ct-seo-key"
 
