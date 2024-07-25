@@ -99,12 +99,12 @@ const DescriptionTableContainer = () => {
         return p.value;
       },
       valueGetter: (params: any) => {
+        const LS_DataLocale = localStorage.getItem("selectedDataLocale") || "en";
         const features =
           params.data.masterData.current.masterVariant.attributesRaw.find(
             (item: any) => item.name === 'features'
           )?.value?.[0];
-        const locale = dataLocale || 'en';
-        return features?.[locale];
+        return features?.[LS_DataLocale];
       },
       valueSetter: (params: any) => {
         const features =
@@ -417,7 +417,8 @@ const DescriptionTableContainer = () => {
         setTableData(updatedTableData);
       }
     }
-  }, [responseFromAi]);
+  }, [responseFromAi, dataLocale]);
+
 
   return (
     <div className={`${styles.tableContainer}`}>
