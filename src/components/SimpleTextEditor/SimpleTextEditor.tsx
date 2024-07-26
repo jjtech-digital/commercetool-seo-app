@@ -1,5 +1,5 @@
 import { forwardRef, useEffect, useRef } from 'react';
-import styles from './SimpleTextEditor.module.css';
+import styles from './simpleTextEditor.module.css';
 import IconButton from '@commercetools-uikit/icon-button';
 import { CheckBoldIcon, CloseBoldIcon } from '@commercetools-uikit/icons';
 interface SimpleTextEditorProps {

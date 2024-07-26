@@ -12,17 +12,17 @@ import 'ag-grid-community/styles/ag-theme-quartz.css';
 import PrimaryButton from '@commercetools-uikit/primary-button';
 import { SearchTextInput } from '@commercetools-frontend/ui-kit';
 import Text from '@commercetools-uikit/text';
-import CustomTooltip from '../CustomTooltip/CustomTooltip';
-import { SimpleTextEditor } from '../SimpleTextEditor/SimpleTextEditor';
+import CustomTooltip from '../customTooltip/customTooltip';
+import { SimpleTextEditor } from '../simpleTextEditor/simpleTextEditor';
 import { useApplicationContext } from '@commercetools-frontend/application-shell-connectors';
 import { Pagination } from '@commercetools-uikit/pagination';
 import { usePaginationState } from '@commercetools-uikit/hooks';
-import { IProduct, IResponseFromAi } from './TableContainer.types';
-import styles from './TableContainer.module.css';
+import { IProduct, IResponseFromAi } from './tableContainer.types';
+import styles from './tableContainer.module.css';
 import { useAppContext } from '../../context/AppContext';
-import Loader from '../Loader/Loader';
-import ActionRendererSEO from '../Renderers/ActionRendererSEO';
-import CustomLoadingOverlay from '../CustomLoadingOverlay/CustomLoadingOverlay';
+import Loader from '../loader/loader';
+import actionRendererSEO from '../renderers/actionRendererSEO';
+import CustomLoadingOverlay from '../customLoadingOverlay/customLoadingOverlay';
 import { descriptionPattern, titlePattern } from '../../constants';
 import apiRoot from '../../api/apiRoot';
 import { getProducts } from '../../api/graphql/products';
@@ -128,7 +128,7 @@ const TableContainer = () => {
 
   const components = useMemo(
     () => ({
-      actionRenderer: ActionRendererSEO,
+      actionRenderer: actionRendererSEO,
     }),
     []
   );
@@ -378,7 +378,6 @@ const TableContainer = () => {
     }
   };
 
-  
   return (
     <div className={`${styles.tableContainer}`}>
       <div className={`${styles.tableSearchSection}`}>
@@ -465,7 +464,9 @@ const TableContainer = () => {
               shoudLoaderSpinnerShow={true}
               loadingMessage={'Loading...'}
             />
-          ) : isSearchPerformed(searchPerformed)}
+          ) : (
+            isSearchPerformed(searchPerformed)
+          )}
         </div>
       )}
     </div>

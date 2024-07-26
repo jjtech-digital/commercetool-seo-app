@@ -1,5 +1,5 @@
 export const getProductDetails = (): string => {
-    return `
+  return `
     fragment variantFields on ProductVariant {
       sku
       attributesRaw {
@@ -47,4 +47,4 @@ export const getProductDetails = (): string => {
       }
     }
       `;
-  };
+};

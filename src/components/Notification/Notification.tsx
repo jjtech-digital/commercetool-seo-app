@@ -1,5 +1,5 @@
 import { ContentNotification } from '@commercetools-uikit/notifications';
-import styles from './Notification.module.css';
+import styles from './notification.module.css';
 import { useEffect } from 'react';
 
 interface INotificationProps {
@@ -17,7 +17,7 @@ const Notification = ({
     setSuccessMessage((prev: any) => ({
       ...prev,
       notificationMessage: '',
-      notificationMessageType:""
+      notificationMessageType: '',
     }));
   };
 

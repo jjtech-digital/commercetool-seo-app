@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import Text from '@commercetools-uikit/text';
-import styles from './TableContainer.module.css';
-import { ISelectedPageProps } from './TableContainer.types';
-import { TableContainerNavMock } from './TableContainer.mock';
-import TableNavHeader from './TableNavHeader';
-import TableData from './TableData';
+import styles from './tableContainer.module.css';
+import { ISelectedPageProps } from './tableContainer.types';
+import { TableContainerNavMock } from './tableContainer.mock';
+import TableNavHeader from './tableNavHeader';
+import TableData from './tableData';
 import { Link, useRouteMatch } from 'react-router-dom';
 import { GearIcon } from '@commercetools-uikit/icons';
 
@@ -16,9 +16,7 @@ const TableDataContainer = () => {
   const match = useRouteMatch();
   return (
     <div className={`${styles.tableContainer}`}>
-      <Text.Headline as="h2">
-        {'Generate Product information'}
-      </Text.Headline>
+      <Text.Headline as="h2">{'Generate Product information'}</Text.Headline>
       <div className={`${styles.navContainer}`}>
         <TableNavHeader
           defaultPage={defaultPage}

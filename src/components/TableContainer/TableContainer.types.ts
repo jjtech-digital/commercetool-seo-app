@@ -24,7 +24,7 @@ export interface IProduct {
   id: string;
   key: string;
   masterData: MasterDataType;
-  version:number
+  version: number;
 }
 export interface IFetchrawData {
   data: IProduct[];

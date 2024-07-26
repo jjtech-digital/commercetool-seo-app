@@ -7,12 +7,12 @@ import {
 } from 'react-hook-form';
 import IconButton from '@commercetools-uikit/icon-button';
 import { PlusBoldIcon, CloseBoldIcon } from '@commercetools-uikit/icons';
-import styles from './Settings.module.css';
+import styles from './settings.module.css';
 import PrimaryButton from '@commercetools-uikit/primary-button';
 import SecondaryButton from '@commercetools-uikit/secondary-button';
 import { useAppContext } from '../../context/AppContext';
 import LoadingSpinner from '@commercetools-uikit/loading-spinner';
-import Loader from '../Loader/Loader';
+import Loader from '../loader/loader';
 import {
   LS_KEY,
   CTP_CUSTOM_OBJ_SEO_CONTAINER_NAME,
