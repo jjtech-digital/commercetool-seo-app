@@ -1,11 +1,11 @@
-import styles from './Settings.module.css';
+import styles from './settings.module.css';
 import PrimaryButton from '@commercetools-uikit/primary-button';
 import { useEffect } from 'react';
 import { useForm, SubmitHandler, FieldValues } from 'react-hook-form';
 import { useAppContext } from '../../context/AppContext';
 import SecondaryButton from '@commercetools-uikit/secondary-button';
 import LoadingSpinner from '@commercetools-uikit/loading-spinner';
-import Loader from '../Loader/Loader';
+import Loader from '../loader/loader';
 import { LS_KEY } from '../../constants';
 import {
   getSavedAiKeyFromCtCustomObj,
@@ -29,7 +29,7 @@ const SettingsOpenAiData = () => {
 
       setState((prev: any) => ({
         ...prev,
-        notificationMessage: response?.message || "Key saved successfully.",
+        notificationMessage: response?.message || 'Key saved successfully.',
         notificationMessageType: 'success',
       }));
     } catch (error) {

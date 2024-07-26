@@ -1,9 +1,9 @@
-.customTooltip  {
+.customTooltip {
     min-width: 100px;
     max-width: 300px;
     height: fit-content;
-    padding:12px;
+    padding: 12px;
     border-radius: 4px;
     border: 2px solid white;
-    font-weight: normal; 
+    font-weight: normal;
 }

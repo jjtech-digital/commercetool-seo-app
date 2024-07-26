@@ -2,7 +2,10 @@ import PrimaryButton from '@commercetools-uikit/primary-button';
 import { descriptionPattern, titlePattern } from '../../constants';
 import { useAppContext } from '../../context/AppContext';
 import { useApplicationContext } from '@commercetools-frontend/application-shell-connectors';
-import { generateSeoMetaData, updateProductSeoMeta } from '../../api/fetchersFunction/seoMetaDataFetchers';
+import {
+  generateSeoMetaData,
+  updateProductSeoMeta,
+} from '../../api/fetchersFunction/seoMetaDataFetchers';
 
 export default (props: any) => {
   const { setState } = useAppContext();
@@ -16,8 +19,12 @@ export default (props: any) => {
     props.context.loadingOverlayMessage = 'Generating meta data';
 
     props.gridRef.current!.api.showLoadingOverlay();
-    const aiResponse = await generateSeoMetaData(params?.data?.id, dataLocale, setState);
-    
+    const aiResponse = await generateSeoMetaData(
+      params?.data?.id,
+      dataLocale,
+      setState
+    );
+
     let metaData = aiResponse?.choices?.[0]?.message?.content;
 
     const titleMatch = metaData?.match(titlePattern);
@@ -30,7 +37,7 @@ export default (props: any) => {
       id: params.data.id,
       title: title,
       description: description,
-      version: params.data.version
+      version: params.data.version,
     });
     props.gridRef.current!.api.hideOverlay();
     props.context.loadingOverlayMessage = 'Loading';
@@ -40,9 +47,7 @@ export default (props: any) => {
     const updatedRowData =
       props?.gridRef?.current!?.api?.getDisplayedRowAtIndex(rowIndex)?.data;
 
-    if (
-      updatedRowData?.masterData?.current
-    ) {
+    if (updatedRowData?.masterData?.current) {
       const { metaTitle, metaDescription } = updatedRowData.masterData.current;
 
       if (!metaTitle && !metaDescription) {
@@ -87,23 +92,23 @@ export default (props: any) => {
   };
 
   return (
-      <div style={{ display: 'flex' }}>
-        <div>
-          <PrimaryButton
-            size="medium"
-            label="Generate"
-            onClick={() => handleGenerateClick(props)}
-            isDisabled={false}
-          />
-        </div>
-        <div style={{ marginInline: '6px' }}>
-          <PrimaryButton
-            size="medium"
-            label="Apply"
-            onClick={() => handleApplyClick(props.rowIndex)}
-            isDisabled={false}
-          />
-        </div>
+    <div style={{ display: 'flex' }}>
+      <div>
+        <PrimaryButton
+          size="medium"
+          label="Generate"
+          onClick={() => handleGenerateClick(props)}
+          isDisabled={false}
+        />
       </div>
+      <div style={{ marginInline: '6px' }}>
+        <PrimaryButton
+          size="medium"
+          label="Apply"
+          onClick={() => handleApplyClick(props.rowIndex)}
+          isDisabled={false}
+        />
+      </div>
+    </div>
   );
 };

@@ -1,5 +1,8 @@
 import { LS_KEY } from '../../constants';
-import { generateProductMetaData, updateProductMeta } from './productMetaDataFetchers';
+import {
+  generateProductMetaData,
+  updateProductMeta,
+} from './productMetaDataFetchers';
 export const bulkGenerateProductMetaData = async (
   productIds: string[],
   dataLocale: any,
@@ -45,10 +48,14 @@ export const bulkGenerateProductMetaData = async (
     } catch (error) {
       setState((prev: any) => ({
         ...prev,
-        notificationMessage: 'Error generating product description and key features in batch.',
+        notificationMessage:
+          'Error generating product description and key features in batch.',
         notificationMessageType: 'error',
       }));
-      console.error('Error generating product description and key features in batch:', error);
+      console.error(
+        'Error generating product description and key features in batch:',
+        error
+      );
     }
   }
 

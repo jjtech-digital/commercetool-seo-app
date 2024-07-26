@@ -1,5 +1,5 @@
 import ViewSwitcher from '@commercetools-uikit/view-switcher';
-import { ISelectedPageProps } from '../SettingsData/Settings.types';
+import { ISelectedPageProps } from '../settingsData/settings.types';
 interface ISettingsHeaderProps {
   defaultPage: ISelectedPageProps | undefined;
   selectedPage: ISelectedPageProps[];
@@ -10,7 +10,6 @@ const SettingsHeader = ({
   selectedPage,
   setSelectedPage,
 }: ISettingsHeaderProps) => {
-  
   const menuToggleHandler = (pageName: string) => {
     const updatedActivePages = selectedPage.map(
       (navMenu: ISelectedPageProps) => {

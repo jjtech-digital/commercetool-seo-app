@@ -1,5 +1,11 @@
 import axios from 'axios';
-import { CTP_API_URL, CTP_CUSTOM_OBJ_SEO_CONTAINER_KEY, CTP_CUSTOM_OBJ_SEO_CONTAINER_NAME, CTP_PROJECT_KEY, LS_KEY } from '../../constants';
+import {
+  CTP_API_URL,
+  CTP_CUSTOM_OBJ_SEO_CONTAINER_KEY,
+  CTP_CUSTOM_OBJ_SEO_CONTAINER_NAME,
+  CTP_PROJECT_KEY,
+  LS_KEY,
+} from '../../constants';
 import { getProductDetails } from '../graphql/productDetails';
 import apiRoot from '../apiRoot';
 import OpenAI from 'openai';
@@ -40,12 +46,12 @@ export const generateSeoMetaData = async (
   const accessToken = localStorage.getItem(LS_KEY.CT_OBJ_TOKEN);
   const openAiKey = localStorage.getItem(LS_KEY.OPEN_AI_KEY);
   if (!openAiKey) {
-      setState?.((prev: any) => ({
-        ...prev,
-        notificationMessage:
-          'OpenAI key is missing. Please set it in the settings.',
-        notificationMessageType: 'error',
-      }));
+    setState?.((prev: any) => ({
+      ...prev,
+      notificationMessage:
+        'OpenAI key is missing. Please set it in the settings.',
+      notificationMessageType: 'error',
+    }));
     return null;
   }
   try {
@@ -66,11 +72,11 @@ export const generateSeoMetaData = async (
       openAiKey
     );
     if (data?.status && data?.status == 401) {
-        setState?.((prev: any) => ({
-          ...prev,
-          notificationMessage: data?.error?.message,
-          notificationMessageType: 'error',
-        }));
+      setState?.((prev: any) => ({
+        ...prev,
+        notificationMessage: data?.error?.message,
+        notificationMessageType: 'error',
+      }));
       return;
     }
 
@@ -78,11 +84,11 @@ export const generateSeoMetaData = async (
   } catch (error) {
     console.error('Error generating SEO metadata:', error);
 
-      setState?.((prev: any) => ({
-        ...prev,
-        notificationMessage: 'Error generating SEO metadata.',
-        notificationMessageType: 'error',
-      }));
+    setState?.((prev: any) => ({
+      ...prev,
+      notificationMessage: 'Error generating SEO metadata.',
+      notificationMessageType: 'error',
+    }));
     return null;
   }
 };
@@ -146,18 +152,18 @@ export const updateProductSeoMeta = async (
   try {
     const response = await axios.post(apiUrl, payload, { headers });
 
-      setState?.((prev: any) => ({
-        ...prev,
-        notificationMessage: 'SEO title and description updated successfully.',
-        notificationMessageType: 'success',
-      }));
+    setState?.((prev: any) => ({
+      ...prev,
+      notificationMessage: 'SEO title and description updated successfully.',
+      notificationMessageType: 'success',
+    }));
     return response.data;
   } catch (error) {
-      setState?.((prev: any) => ({
-        ...prev,
-        notificationMessage: 'Error updating SEO title and description.',
-        notificationMessageType: 'error',
-      }));
+    setState?.((prev: any) => ({
+      ...prev,
+      notificationMessage: 'Error updating SEO title and description.',
+      notificationMessageType: 'error',
+    }));
     console.error('Error updating product SEO meta:', error);
     return null;
   }
@@ -174,8 +180,11 @@ export const queryOpenAi = async (
   });
   let updatedPrompt = '';
   if (accessToken) {
-    const prompt: any = getAllSavedRulesFromCtObj(accessToken, CTP_CUSTOM_OBJ_SEO_CONTAINER_NAME,
-      CTP_CUSTOM_OBJ_SEO_CONTAINER_KEY,);
+    const prompt: any = getAllSavedRulesFromCtObj(
+      accessToken,
+      CTP_CUSTOM_OBJ_SEO_CONTAINER_NAME,
+      CTP_CUSTOM_OBJ_SEO_CONTAINER_KEY
+    );
     const allEmpty = prompt?.value?.every((p: string) => /^\s*$/.test(p));
 
     // If any prompt is non-empty, update updatedPrompt

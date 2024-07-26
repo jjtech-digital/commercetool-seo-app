@@ -1,6 +1,5 @@
 import LoadingSpinner from '@commercetools-uikit/loading-spinner';
-import styles from './Loader.module.css';
-
+import styles from './loader.module.css';
 
 export interface ILoaderProps {
   loadingMessage?: string;

@@ -3,7 +3,7 @@ import {
   CTP_API_URL,
   CTP_CUSTOM_OBJ_DESCRIPTION_CONTAINER_KEY,
   CTP_CUSTOM_OBJ_DESCRIPTION_CONTAINER_NAME,
-  CTP_CUSTOM_OBJ_KEYFEATURES_CONTAINER_KEY, 
+  CTP_CUSTOM_OBJ_KEYFEATURES_CONTAINER_KEY,
   CTP_CUSTOM_OBJ_KEYFEATURES_CONTAINER_NAME,
   CTP_PROJECT_KEY,
   LS_KEY,
@@ -46,16 +46,16 @@ export const generateProductMetaData = async (
   dataLocale: any,
   setState?: Function
 ) => {
-  console.log("dataLocale from generate", dataLocale)
+  console.log('dataLocale from generate', dataLocale);
   const accessToken = localStorage.getItem(LS_KEY.CT_OBJ_TOKEN);
   const openAiKey = localStorage.getItem(LS_KEY.OPEN_AI_KEY);
   if (!openAiKey) {
-      setState?.((prev: any) => ({
-        ...prev,
-        notificationMessage:
-          'OpenAI key is missing. Please set it in the settings.',
-        notificationMessageType: 'error',
-      }));
+    setState?.((prev: any) => ({
+      ...prev,
+      notificationMessage:
+        'OpenAI key is missing. Please set it in the settings.',
+      notificationMessageType: 'error',
+    }));
     return null;
   }
   try {
@@ -75,23 +75,26 @@ export const generateProductMetaData = async (
       openAiKey
     );
     if (data?.status && data?.status == 401) {
-
-        setState?.((prev: any) => ({
-          ...prev,
-          notificationMessage: data?.error?.message,
-          notificationMessageType: 'error',
-        }));
+      setState?.((prev: any) => ({
+        ...prev,
+        notificationMessage: data?.error?.message,
+        notificationMessageType: 'error',
+      }));
       return;
     }
 
     return { ...data, productId: productId };
   } catch (error) {
-    console.error('Error generating product description and key features:', error);
-      setState?.((prev: any) => ({
-        ...prev,
-        notificationMessage: 'Error generating product description and key features',
-        notificationMessageType: 'error',
-      }));
+    console.error(
+      'Error generating product description and key features:',
+      error
+    );
+    setState?.((prev: any) => ({
+      ...prev,
+      notificationMessage:
+        'Error generating product description and key features',
+      notificationMessageType: 'error',
+    }));
     return null;
   }
 };
@@ -104,7 +107,7 @@ export const updateProductMeta = async (
   dataLocale: any,
   setState?: Function
 ) => {
-  console.log("dataLocale from update", dataLocale)
+  console.log('dataLocale from update', dataLocale);
   const accessToken = localStorage.getItem(LS_KEY.CT_OBJ_TOKEN);
 
   const productResponse = await getProductById(productId);
@@ -119,23 +122,25 @@ export const updateProductMeta = async (
     }
   }
   descriptionObj[dataLocale] = description;
-  
+
   let keyFeaturesObj: any = {};
   let existingFeatures =
     productResponse?.masterData?.current?.masterVariant.attributesRaw.find(
       (item: any) => item.name === 'features'
     );
-    if (existingFeatures?.value?.[0]) {
-        existingFeatures.value[0][dataLocale] = keyFeatures || " ";
-    }
-    if(!existingFeatures){
-      existingFeatures = { name : "features", value : [{ [dataLocale] : ""}]}
-      const features = {name : "features", value : [{ [dataLocale] : ""}]}
-      productResponse?.masterData?.current?.masterVariant.attributesRaw.push(features);
-      existingFeatures.value[0][dataLocale] = keyFeatures || " ";
-    }
+  if (existingFeatures?.value?.[0]) {
+    existingFeatures.value[0][dataLocale] = keyFeatures || ' ';
+  }
+  if (!existingFeatures) {
+    existingFeatures = { name: 'features', value: [{ [dataLocale]: '' }] };
+    const features = { name: 'features', value: [{ [dataLocale]: '' }] };
+    productResponse?.masterData?.current?.masterVariant.attributesRaw.push(
+      features
+    );
+    existingFeatures.value[0][dataLocale] = keyFeatures || ' ';
+  }
 
-  keyFeaturesObj = existingFeatures.value[0]
+  keyFeaturesObj = existingFeatures.value[0];
   const apiUrl = `${CTP_API_URL}/${CTP_PROJECT_KEY}/products/${productId}`;
   const headers = {
     Authorization: `Bearer ${accessToken}`,
@@ -163,19 +168,21 @@ export const updateProductMeta = async (
   try {
     const response = await axios.post(apiUrl, payload, { headers });
 
-      setState?.((prev: any) => ({
-        ...prev,
-        notificationMessage:
-          keyFeatures ? 'Description and key features updated successfully.' : 'Description updated successfully.',
-        notificationMessageType: 'success',
-      }));
+    setState?.((prev: any) => ({
+      ...prev,
+      notificationMessage: keyFeatures
+        ? 'Description and key features updated successfully.'
+        : 'Description updated successfully.',
+      notificationMessageType: 'success',
+    }));
     return response.data;
   } catch (error) {
-      setState?.((prev: any) => ({
-        ...prev,
-        notificationMessage: 'Error updating product description and key features.',
-        notificationMessageType: 'error',
-      }));
+    setState?.((prev: any) => ({
+      ...prev,
+      notificationMessage:
+        'Error updating product description and key features.',
+      notificationMessageType: 'error',
+    }));
     console.error(
       'Error updating product description and key features:',
       error
@@ -206,8 +213,12 @@ export const queryOpenAi = async (
       CTP_CUSTOM_OBJ_KEYFEATURES_CONTAINER_NAME,
       CTP_CUSTOM_OBJ_KEYFEATURES_CONTAINER_KEY
     );
-    const allEmptyDescriptionrules = promptDescription?.value?.every((p: string) => /^\s*$/.test(p));
-    const allEmptyKeyFeaturesrules = promptKeyFeatures?.value?.every((p: string) => /^\s*$/.test(p));
+    const allEmptyDescriptionrules = promptDescription?.value?.every(
+      (p: string) => /^\s*$/.test(p)
+    );
+    const allEmptyKeyFeaturesrules = promptKeyFeatures?.value?.every(
+      (p: string) => /^\s*$/.test(p)
+    );
 
     if (!allEmptyDescriptionrules && !allEmptyKeyFeaturesrules) {
       updatedPromptDescription = promptDescription?.value?.join(' ');

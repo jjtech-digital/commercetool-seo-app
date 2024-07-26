@@ -9,10 +9,7 @@ export const createCtObjToken = async () => {
     ).toString('base64');
     const requestBody = new URLSearchParams();
     requestBody.append('grant_type', 'client_credentials'); // Use the appropriate grant type
-    requestBody.append(
-      'scope',
-      CTP_SCOPES
-    );
+    requestBody.append('scope', CTP_SCOPES);
     const response = await axios.post(accessTokenUrl, requestBody, {
       headers: {
         Authorization: `Basic ${basicAuth}`,

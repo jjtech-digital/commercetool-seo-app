@@ -7,12 +7,12 @@ import {
 } from 'react-hook-form';
 import IconButton from '@commercetools-uikit/icon-button';
 import { PlusBoldIcon, CloseBoldIcon } from '@commercetools-uikit/icons';
-import styles from './Settings.module.css';
+import styles from './settings.module.css';
 import PrimaryButton from '@commercetools-uikit/primary-button';
 import SecondaryButton from '@commercetools-uikit/secondary-button';
 import { useAppContext } from '../../context/AppContext';
 import LoadingSpinner from '@commercetools-uikit/loading-spinner';
-import Loader from '../Loader/Loader';
+import Loader from '../loader/loader';
 import {
   LS_KEY,
   CTP_CUSTOM_OBJ_SEO_CONTAINER_NAME,
@@ -37,7 +37,11 @@ export interface SubmitEvent {
   preventDefault: () => void;
 }
 const SettingsRulesData = () => {
-  const [currentIndex, setCurrentIndex] = useState({ seo: 0, description: 0, keyFeatures: 0 });
+  const [currentIndex, setCurrentIndex] = useState({
+    seo: 0,
+    description: 0,
+    keyFeatures: 0,
+  });
   const { state, setState } = useAppContext();
 
   const {
@@ -64,22 +68,38 @@ const SettingsRulesData = () => {
     reset: resetKeyFeatures,
   } = useForm();
 
-  const { fields: fieldsSEO, append: appendSEO, remove: removeSEO } = useFieldArray({
+  const {
+    fields: fieldsSEO,
+    append: appendSEO,
+    remove: removeSEO,
+  } = useFieldArray({
     control: controlSEO,
     name: 'rulesContent',
   });
 
-  const { fields: fieldsDescription, append: appendDescription, remove: removeDescription } = useFieldArray({
+  const {
+    fields: fieldsDescription,
+    append: appendDescription,
+    remove: removeDescription,
+  } = useFieldArray({
     control: controlDescription,
     name: 'rulesContent',
   });
 
-  const { fields: fieldsKeyFeatures, append: appendKeyFeatures, remove: removeKeyFeatures } = useFieldArray({
+  const {
+    fields: fieldsKeyFeatures,
+    append: appendKeyFeatures,
+    remove: removeKeyFeatures,
+  } = useFieldArray({
     control: controlKeyFeatures,
     name: 'rulesContent',
   });
 
-  const isInitialized = useRef({ seo: false, description: false, keyFeatures: false });
+  const isInitialized = useRef({
+    seo: false,
+    description: false,
+    keyFeatures: false,
+  });
 
   useEffect(() => {
     if (!isInitialized.current.seo && fieldsSEO.length === 0) {
@@ -95,7 +115,10 @@ const SettingsRulesData = () => {
       appendDescription({ rulesInput: '', deletable: false });
       isInitialized.current.description = true;
     } else {
-      setCurrentIndex((prev) => ({ ...prev, description: fieldsDescription.length - 1 }));
+      setCurrentIndex((prev) => ({
+        ...prev,
+        description: fieldsDescription.length - 1,
+      }));
     }
   }, [fieldsDescription, appendDescription]);
 
@@ -104,7 +127,10 @@ const SettingsRulesData = () => {
       appendKeyFeatures({ rulesInput: '', deletable: false });
       isInitialized.current.keyFeatures = true;
     } else {
-      setCurrentIndex((prev) => ({ ...prev, keyFeatures: fieldsKeyFeatures.length - 1 }));
+      setCurrentIndex((prev) => ({
+        ...prev,
+        keyFeatures: fieldsKeyFeatures.length - 1,
+      }));
     }
   }, [fieldsKeyFeatures, appendKeyFeatures]);
 
@@ -175,29 +201,41 @@ const SettingsRulesData = () => {
     fetchSavedKeyFeatureRules();
   }, []);
 
-  const handleAddField = (type : string) => {
+  const handleAddField = (type: string) => {
     if (type === 'seo') {
       appendSEO({ rulesInput: '', deletable: false });
       setCurrentIndex((prev) => ({ ...prev, seo: fieldsSEO.length }));
     } else if (type === 'description') {
       appendDescription({ rulesInput: '', deletable: false });
-      setCurrentIndex((prev) => ({ ...prev, description: fieldsDescription.length }));
+      setCurrentIndex((prev) => ({
+        ...prev,
+        description: fieldsDescription.length,
+      }));
     } else if (type === 'keyFeatures') {
       appendKeyFeatures({ rulesInput: '', deletable: false });
-      setCurrentIndex((prev) => ({ ...prev, keyFeatures: fieldsKeyFeatures.length }));
+      setCurrentIndex((prev) => ({
+        ...prev,
+        keyFeatures: fieldsKeyFeatures.length,
+      }));
     }
   };
 
-  const handleRemoveField = (type : string, index : number) => {
+  const handleRemoveField = (type: string, index: number) => {
     if (type === 'seo') {
       removeSEO(index);
       setCurrentIndex((prev) => ({ ...prev, seo: fieldsSEO.length - 2 }));
     } else if (type === 'description') {
       removeDescription(index);
-      setCurrentIndex((prev) => ({ ...prev, description: fieldsDescription.length - 2 }));
+      setCurrentIndex((prev) => ({
+        ...prev,
+        description: fieldsDescription.length - 2,
+      }));
     } else if (type === 'keyFeatures') {
       removeKeyFeatures(index);
-      setCurrentIndex((prev) => ({ ...prev, keyFeatures: fieldsKeyFeatures.length - 2 }));
+      setCurrentIndex((prev) => ({
+        ...prev,
+        keyFeatures: fieldsKeyFeatures.length - 2,
+      }));
     }
   };
 
@@ -223,7 +261,7 @@ const SettingsRulesData = () => {
       setState((prev: any) => ({ ...prev, isApiFetchingSEO: false }));
     }
   };
-  
+
   const onSubmitDescription: SubmitHandler<FieldValues> = async (
     data,
     event
@@ -249,7 +287,7 @@ const SettingsRulesData = () => {
       setState((prev: any) => ({ ...prev, isApiFetchingDescription: false }));
     }
   };
-  
+
   const onSubmitKeyFeatures: SubmitHandler<FieldValues> = async (
     data,
     event
@@ -275,7 +313,6 @@ const SettingsRulesData = () => {
       setState((prev: any) => ({ ...prev, isApiFetchingKeyFeatures: false }));
     }
   };
-  
 
   const ruleComponents = [
     {
@@ -285,7 +322,7 @@ const SettingsRulesData = () => {
       register: registerSEO,
       errors: errorsSEO,
       handleAddField: () => handleAddField('seo'),
-      handleRemoveField: (index : number) => handleRemoveField('seo', index),
+      handleRemoveField: (index: number) => handleRemoveField('seo', index),
       currentIndex: currentIndex.seo,
       handleSubmit: handleSubmitSEO,
     },
@@ -296,7 +333,8 @@ const SettingsRulesData = () => {
       register: registerDescription,
       errors: errorsDescription,
       handleAddField: () => handleAddField('description'),
-      handleRemoveField: (index : number) => handleRemoveField('description', index),
+      handleRemoveField: (index: number) =>
+        handleRemoveField('description', index),
       currentIndex: currentIndex.description,
       handleSubmit: handleSubmitDescription,
     },
@@ -307,19 +345,22 @@ const SettingsRulesData = () => {
       register: registerKeyFeatures,
       errors: errorsKeyFeatures,
       handleAddField: () => handleAddField('keyFeatures'),
-      handleRemoveField: (index : number) => handleRemoveField('keyFeatures', index),
+      handleRemoveField: (index: number) =>
+        handleRemoveField('keyFeatures', index),
       currentIndex: currentIndex.keyFeatures,
       handleSubmit: handleSubmitKeyFeatures,
     },
   ];
-  
+
   return !state.pageLoading ? (
     <div>
       {ruleComponents?.map((component) => {
-         const isApiFetching = 
-         component.heading === 'Seo Rules' ? state.isApiFetchingSEO :
-         component.heading === 'Description Rules' ? state.isApiFetchingDescription :
-         state.isApiFetchingKeyFeatures;
+        const isApiFetching =
+          component.heading === 'Seo Rules'
+            ? state.isApiFetchingSEO
+            : component.heading === 'Description Rules'
+            ? state.isApiFetchingDescription
+            : state.isApiFetchingKeyFeatures;
         return (
           <div key={component?.heading}>
             <span className={`${styles.ruleHeading}`}>
@@ -335,18 +376,24 @@ const SettingsRulesData = () => {
                     <div className={`${styles.gridRuleInputContainer}`}>
                       <input
                         className={`${styles.gridRuleInputStyle}`}
-                        {...component.register(`rulesContent.${index}.rulesInput`, {
-                          required: 'Rules Content is required',
-                        })}
+                        {...component.register(
+                          `rulesContent.${index}.rulesInput`,
+                          {
+                            required: 'Rules Content is required',
+                          }
+                        )}
                         placeholder="Generate good content"
                       />
                       {component?.errors?.rulesContent?.[index]?.rulesInput && (
-                          <div style={{ color: 'red', marginTop: '4px' }}>
-                            {component.errors.rulesContent[index]?.rulesInput?.message}
-                          </div>
-                        )}
+                        <div style={{ color: 'red', marginTop: '4px' }}>
+                          {
+                            component.errors.rulesContent[index]?.rulesInput
+                              ?.message
+                          }
+                        </div>
+                      )}
                     </div>
-  
+
                     {index === component.currentIndex ? (
                       <IconButton
                         icon={<PlusBoldIcon />}
@@ -383,7 +430,6 @@ const SettingsRulesData = () => {
   ) : (
     <Loader shoudLoaderSpinnerShow={true} loadingMessage={'Loading...'} />
   );
-  
 };
 
 export default SettingsRulesData;

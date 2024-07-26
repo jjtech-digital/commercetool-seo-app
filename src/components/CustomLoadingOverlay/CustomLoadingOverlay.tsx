@@ -1,5 +1,5 @@
 import { CustomLoadingOverlayProps } from 'ag-grid-react';
-import styles from './CustomLoadingOverlay.module.css';
+import styles from './customLoadingOverlay.module.css';
 
 const CustomLoadingOverlay = (props: CustomLoadingOverlayProps) => {
   return (

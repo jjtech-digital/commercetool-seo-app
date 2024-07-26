@@ -8,5 +8,5 @@ export const settingsNavMock = [
     title: 'Open AI',
     isDefaultSelected: false,
     name: 'openai',
-  }
+  },
 ];

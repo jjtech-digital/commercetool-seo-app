@@ -3,11 +3,11 @@ import FlatButton from '@commercetools-uikit/flat-button';
 import { BackIcon } from '@commercetools-uikit/icons';
 import Text from '@commercetools-uikit/text';
 import { Link as RouterLink } from 'react-router-dom';
-import SettingsHeader from '../SettingsHeader/SettingsHeader';
-import SettingsData from '../SettingsData/SettingsData';
+import SettingsHeader from '../settingsHeader/settingsHeader';
+import SettingsData from '../settingsData/settingsData';
 import { useState } from 'react';
-import { settingsNavMock } from '../SettingsData/Settings.mock';
-import { ISelectedPageProps } from '../SettingsData/Settings.types';
+import { settingsNavMock } from '../settingsData/settings.mock';
+import { ISelectedPageProps } from '../settingsData/settings.types';
 
 const Settings = (props: { linkToProducts: any }) => {
   const [selectedPage, setSelectedPage] =
@@ -22,7 +22,7 @@ const Settings = (props: { linkToProducts: any }) => {
           label={'Back to Products'}
           icon={<BackIcon />}
         />
-        <Text.Headline as="h2" >{'Settings'}</Text.Headline>
+        <Text.Headline as="h2">{'Settings'}</Text.Headline>
       </Spacings.Stack>
       <SettingsHeader
         defaultPage={defaultPage}
