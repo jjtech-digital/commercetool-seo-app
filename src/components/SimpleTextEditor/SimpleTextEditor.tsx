@@ -1,8 +1,7 @@
 import { forwardRef, useEffect, useRef } from 'react';
 import styles from './SimpleTextEditor.module.css';
 import IconButton from '@commercetools-uikit/icon-button';
-import { CloseBoldIcon } from '@commercetools-uikit/icons';
-import { CheckBoldIcon } from '@commercetools-uikit/icons';
+import { CheckBoldIcon, CloseBoldIcon } from '@commercetools-uikit/icons';
 interface SimpleTextEditorProps {
   value: string;
   onValueChange: (value: string | null) => void;

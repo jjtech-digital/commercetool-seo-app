@@ -14,7 +14,7 @@ export const createRulesInCtCustomObj = async (
   );
   const accessToken = localStorage.getItem(LS_KEY.CT_OBJ_TOKEN);
   try {
-    setState((prev: any) => ({ ...prev, isApiFetching: true }));
+    setState?.((prev: any) => ({ ...prev, isApiFetching: true }));
     const baseUrl = `${CTP_API_URL}/${CTP_PROJECT_KEY}/custom-objects`;
 
     const requestBody = {
@@ -29,10 +29,10 @@ export const createRulesInCtCustomObj = async (
         'Content-Type': 'application/json',
       },
     });
-    setState((prev: any) => ({ ...prev, isApiFetching: false }));
+    setState?.((prev: any) => ({ ...prev, isApiFetching: false }));
     return response?.data;
   } catch (error) {
-    setState((prev: any) => ({ ...prev, isApiFetching: false }));
+    setState?.((prev: any) => ({ ...prev, isApiFetching: false }));
     console.error('Error creating rule', error);
     return error;
   }
@@ -44,17 +44,17 @@ export const getAllSavedRulesFromCtObj = async (
   setState?: Function
 ) => {
   try {
-    setState && setState((prev: any) => ({ ...prev, pageLoading: true }));
+     setState?.((prev: any) => ({ ...prev, pageLoading: true }));
     const baseUrl = `${CTP_API_URL}/${CTP_PROJECT_KEY}/custom-objects/${name}/${key}`;
     const response = await axios.get(baseUrl, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    setState &&setState((prev: any) => ({ ...prev, pageLoading: false }));
+    setState?.((prev: any) => ({ ...prev, pageLoading: false }));
     return response?.data;
   } catch (error) {
-    setState && setState((prev: any) => ({ ...prev, pageLoading: false }));
+    setState?.((prev: any) => ({ ...prev, pageLoading: false }));
     console.error('Error fetching all rules:', error);
     return error;
   }

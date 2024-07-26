@@ -71,7 +71,7 @@ const SettingsOpenAiData = () => {
               })}
               placeholder="Enter OpenAI key"
             />
-            {errors && errors?.openAi && (
+            {errors?.openAi && (
               <div style={{ color: 'red', marginTop: '4px' }}>
                 {errors.openAi.message}
               </div>
@@ -79,7 +79,7 @@ const SettingsOpenAiData = () => {
           </div>
         </div>
         <div className={`${styles.ruleFormSubmitButton}`}>
-          {state?.isApiFetching ? (
+          {state?.isApiFetchingSEO ? (
             <SecondaryButton
               iconLeft={<LoadingSpinner />}
               label="Submitting"

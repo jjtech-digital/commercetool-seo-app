@@ -4,17 +4,18 @@ import { entryPointUriPathToPermissionKeys } from '@commercetools-frontend/appli
 export const entryPointUriPath = 'custom-seo';
 
 export const PERMISSIONS = entryPointUriPathToPermissionKeys(entryPointUriPath);
-
 export const apiBaseUrl = 'https://ct-custom-seo-be.vercel.app';
 
 export const titlePattern = /(SEO Title:|Title:)\s*(.+)/;
 export const descriptionPattern = /(SEO Description:|Description:)\s*(.+)/;
 
+export const normalDescPattern = /\*Description\*:\s*([^*]+)\s*\*Key Features\*:/s;
+export const featuresPattern =  /\*Key Features\*:\s*(.+)/s;
+
 export const LS_KEY = {
   CT_OBJ_TOKEN: 'token',
   OPEN_AI_KEY: 'openAIKey',
 };
-
 
 export const CTP_CUSTOM_OBJ_SEO_CONTAINER_NAME="ct-seo-container"
 export const CTP_CUSTOM_OBJ_SEO_CONTAINER_KEY="ct-seo-key"

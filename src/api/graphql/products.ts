@@ -14,9 +14,20 @@ export const getProducts = (): string => {
                 locale
                 value
               }
+              masterVariant {
+                attributesRaw {
+                  name
+                  value
+                }
+              }
               categories {
                 name(locale: $Locale)
                 slug(locale: $Locale)
+              }
+              description(locale : $Locale)
+              descriptionAllLocales {
+                locale
+                value
               }
               metaTitle(locale: $Locale)
               metaDescription(locale: $Locale)

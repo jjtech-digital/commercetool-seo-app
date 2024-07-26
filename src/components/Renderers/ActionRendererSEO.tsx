@@ -41,8 +41,6 @@ export default (props: any) => {
       props?.gridRef?.current!?.api?.getDisplayedRowAtIndex(rowIndex)?.data;
 
     if (
-      updatedRowData &&
-      updatedRowData?.masterData &&
       updatedRowData?.masterData?.current
     ) {
       const { metaTitle, metaDescription } = updatedRowData.masterData.current;
@@ -89,7 +87,6 @@ export default (props: any) => {
   };
 
   return (
-    <>
       <div style={{ display: 'flex' }}>
         <div>
           <PrimaryButton
@@ -108,6 +105,5 @@ export default (props: any) => {
           />
         </div>
       </div>
-    </>
   );
 };

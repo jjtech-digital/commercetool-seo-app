@@ -7,6 +7,7 @@ export interface CategoriesType {
   slug: string | null;
 }
 export interface MasterDataCurrentType {
+  masterVariant?: any;
   name?: string;
   nameAllLocales?: LocaleType[];
   title?: string | null;
@@ -14,6 +15,7 @@ export interface MasterDataCurrentType {
   categories?: CategoriesType[];
   metaTitle?: string | null;
   metaDescription?: string | null;
+  keyFeatures?: string | null;
 }
 export interface MasterDataType {
   current: MasterDataCurrentType;
@@ -35,9 +37,10 @@ export interface IFetchrawData {
 
 export interface IResponseFromAi {
   id: string | null | undefined;
-  title: string | null | undefined;
+  title?: string | null;
   description: string | null | undefined;
   version: number | null | undefined;
+  keyFeatures?: string | null;
 }
 
 export enum NavItems {

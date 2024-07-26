@@ -1,5 +1,13 @@
 import axios from 'axios';
-import { CTP_API_URL, CTP_CUSTOM_OBJ_SEO_CONTAINER_KEY, CTP_CUSTOM_OBJ_SEO_CONTAINER_NAME, CTP_PROJECT_KEY, LS_KEY } from '../../constants';
+import {
+  CTP_API_URL,
+  CTP_CUSTOM_OBJ_DESCRIPTION_CONTAINER_KEY,
+  CTP_CUSTOM_OBJ_DESCRIPTION_CONTAINER_NAME,
+  CTP_CUSTOM_OBJ_KEYFEATURES_CONTAINER_KEY, 
+  CTP_CUSTOM_OBJ_KEYFEATURES_CONTAINER_NAME,
+  CTP_PROJECT_KEY,
+  LS_KEY,
+} from '../../constants';
 import { getProductDetails } from '../graphql/productDetails';
 import apiRoot from '../apiRoot';
 import OpenAI from 'openai';
@@ -32,11 +40,13 @@ export const getProductById = async (productId: string, locale?: string) => {
     return 'Failed to retrieve product details';
   }
 };
-export const generateSeoMetaData = async (
+
+export const generateProductMetaData = async (
   productId: string,
   dataLocale: any,
   setState?: Function
 ) => {
+  console.log("dataLocale from generate", dataLocale)
   const accessToken = localStorage.getItem(LS_KEY.CT_OBJ_TOKEN);
   const openAiKey = localStorage.getItem(LS_KEY.OPEN_AI_KEY);
   if (!openAiKey) {
@@ -50,7 +60,6 @@ export const generateSeoMetaData = async (
   }
   try {
     const productResponse = await getProductById(productId, dataLocale);
-
     const productName = productResponse?.masterData?.current?.name;
     const categories = productResponse?.masterData?.current?.categories;
 
@@ -66,6 +75,7 @@ export const generateSeoMetaData = async (
       openAiKey
     );
     if (data?.status && data?.status == 401) {
+
         setState?.((prev: any) => ({
           ...prev,
           notificationMessage: data?.error?.message,
@@ -76,69 +86,76 @@ export const generateSeoMetaData = async (
 
     return { ...data, productId: productId };
   } catch (error) {
-    console.error('Error generating SEO metadata:', error);
-
+    console.error('Error generating product description and key features:', error);
       setState?.((prev: any) => ({
         ...prev,
-        notificationMessage: 'Error generating SEO metadata.',
+        notificationMessage: 'Error generating product description and key features',
         notificationMessageType: 'error',
       }));
     return null;
   }
 };
 
-export const updateProductSeoMeta = async (
+export const updateProductMeta = async (
   productId: string,
-  metaTitle: string,
-  metaDescription: string,
+  keyFeatures: string,
+  description: string,
   version: number,
   dataLocale: any,
   setState?: Function
 ) => {
+  console.log("dataLocale from update", dataLocale)
   const accessToken = localStorage.getItem(LS_KEY.CT_OBJ_TOKEN);
 
   const productResponse = await getProductById(productId);
 
-  const existingMetaTitles =
-    productResponse?.masterData?.current?.metaTitleAllLocales || [];
-  const existingMetaDescriptions =
-    productResponse?.masterData?.current?.metaDescriptionAllLocales || [];
+  const existingDescriptions =
+    productResponse?.masterData?.current?.descriptionAllLocales || [];
 
-  const metaTitleObj: any = {};
-  for (const item of existingMetaTitles) {
+  const descriptionObj: any = {};
+  for (const item of existingDescriptions) {
     if (item.locale !== dataLocale) {
-      metaTitleObj[item.locale] = item.value;
+      descriptionObj[item.locale] = item.value;
     }
   }
-  // Add the new metaTitle for dataLocale
-  metaTitleObj[dataLocale] = metaTitle;
-
-  const metaDescriptionObj: any = {};
-  for (const item of existingMetaDescriptions) {
-    if (item.locale !== dataLocale) {
-      metaDescriptionObj[item.locale] = item.value;
+  descriptionObj[dataLocale] = description;
+  
+  let keyFeaturesObj: any = {};
+  let existingFeatures =
+    productResponse?.masterData?.current?.masterVariant.attributesRaw.find(
+      (item: any) => item.name === 'features'
+    );
+    if (existingFeatures?.value?.[0]) {
+        existingFeatures.value[0][dataLocale] = keyFeatures || " ";
     }
-  }
-  // Add the new metaDescription for dataLocale
-  metaDescriptionObj[dataLocale] = metaDescription;
+    if(!existingFeatures){
+      existingFeatures = { name : "features", value : [{ [dataLocale] : ""}]}
+      const features = {name : "features", value : [{ [dataLocale] : ""}]}
+      productResponse?.masterData?.current?.masterVariant.attributesRaw.push(features);
+      existingFeatures.value[0][dataLocale] = keyFeatures || " ";
+    }
 
+  keyFeaturesObj = existingFeatures.value[0]
   const apiUrl = `${CTP_API_URL}/${CTP_PROJECT_KEY}/products/${productId}`;
   const headers = {
     Authorization: `Bearer ${accessToken}`,
     'Content-Type': 'application/json',
   };
 
+  const x = [keyFeaturesObj];
+
   const payload = {
     version: version,
     actions: [
       {
-        action: 'setMetaTitle',
-        metaTitle: metaTitleObj,
+        action: 'setDescription',
+        description: descriptionObj,
         staged: false,
       },
       {
-        action: 'setMetaDescription',
-        metaDescription: metaDescriptionObj,
+        action: 'setAttributeInAllVariants',
+        name: 'features',
+        value: x,
         staged: false,
       },
     ],
@@ -148,17 +165,21 @@ export const updateProductSeoMeta = async (
 
       setState?.((prev: any) => ({
         ...prev,
-        notificationMessage: 'SEO title and description updated successfully.',
+        notificationMessage:
+          keyFeatures ? 'Description and key features updated successfully.' : 'Description updated successfully.',
         notificationMessageType: 'success',
       }));
     return response.data;
   } catch (error) {
       setState?.((prev: any) => ({
         ...prev,
-        notificationMessage: 'Error updating SEO title and description.',
+        notificationMessage: 'Error updating product description and key features.',
         notificationMessageType: 'error',
       }));
-    console.error('Error updating product SEO meta:', error);
+    console.error(
+      'Error updating product description and key features:',
+      error
+    );
     return null;
   }
 };
@@ -172,26 +193,36 @@ export const queryOpenAi = async (
     apiKey: openAiKey,
     dangerouslyAllowBrowser: true,
   });
-  let updatedPrompt = '';
+  let updatedPromptDescription = '';
+  let updatedPromptKeyfeatures = '';
   if (accessToken) {
-    const prompt: any = getAllSavedRulesFromCtObj(accessToken, CTP_CUSTOM_OBJ_SEO_CONTAINER_NAME,
-      CTP_CUSTOM_OBJ_SEO_CONTAINER_KEY,);
-    const allEmpty = prompt?.value?.every((p: string) => /^\s*$/.test(p));
+    const promptDescription: any = await getAllSavedRulesFromCtObj(
+      accessToken,
+      CTP_CUSTOM_OBJ_DESCRIPTION_CONTAINER_NAME,
+      CTP_CUSTOM_OBJ_DESCRIPTION_CONTAINER_KEY
+    );
+    const promptKeyFeatures: any = await getAllSavedRulesFromCtObj(
+      accessToken,
+      CTP_CUSTOM_OBJ_KEYFEATURES_CONTAINER_NAME,
+      CTP_CUSTOM_OBJ_KEYFEATURES_CONTAINER_KEY
+    );
+    const allEmptyDescriptionrules = promptDescription?.value?.every((p: string) => /^\s*$/.test(p));
+    const allEmptyKeyFeaturesrules = promptKeyFeatures?.value?.every((p: string) => /^\s*$/.test(p));
 
-    // If any prompt is non-empty, update updatedPrompt
-    if (!allEmpty) {
-      updatedPrompt = prompt?.value?.join(' ');
+    if (!allEmptyDescriptionrules && !allEmptyKeyFeaturesrules) {
+      updatedPromptDescription = promptDescription?.value?.join(' ');
+      updatedPromptKeyfeatures = promptKeyFeatures?.value?.join(' ');
     }
   }
 
-  let contentString = `Find the SEO title and description for product with ${query}`;
+  let contentString = `Find some key features and a precise description for a product with ${query}. The format for the output should be like this - *Description*:abc and *Key Features*:abc"`;
 
   // Append rules to the content string if updatedPrompt is not empty
-  if (updatedPrompt) {
-    contentString += ` and Rules: ${updatedPrompt}`;
+  if (updatedPromptDescription && updatedPromptKeyfeatures) {
+    contentString += ` and Rules for description: ${updatedPromptDescription} and rules for key features: ${updatedPromptKeyfeatures}`;
   } else {
     // Add fallback rules
-    contentString += ` and Rules: Include the main keyword in both the title and description. Keep the title concise (50-60 characters) while making it compelling for clicks. Clearly communicate product benefits in the description to engage users and spark curiosity. Limit the description to under 150-160 characters for full visibility in search results.`;
+    contentString += ` and Rules: Include the main keyword in both the title and description. Seperate all the key features ith comma. Give a user engaging description which would be able to put forward the proper explaination about the product and spark curiosity in incoming traffic. Limit the description to under 150-160 characters for full visibility in search results. Give atleast 5 key features, you can give more`;
   }
   try {
     const response = await openAi.chat.completions.create({
@@ -210,6 +241,7 @@ export const queryOpenAi = async (
     });
     return response;
   } catch (error) {
-    return error;
+    console.error('Error querying OpenAI:', error);
+    return null;
   }
 };
