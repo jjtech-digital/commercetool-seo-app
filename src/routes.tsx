@@ -9,6 +9,7 @@ import TableDataContainer from './components/tableContainer/tableDataContainer';
 type ApplicationRoutesProps = {
   children?: ReactNode;
 };
+
 const ApplicationRoutes = (_props: ApplicationRoutesProps) => {
   const match = useRouteMatch();
   const { state, setState } = useAppContext();
