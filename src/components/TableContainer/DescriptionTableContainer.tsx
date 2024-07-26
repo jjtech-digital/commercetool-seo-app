@@ -25,7 +25,10 @@ import ActionRendererProductInformation from '../Renderers/ActionRendererProduct
 import CustomLoadingOverlay from '../CustomLoadingOverlay/CustomLoadingOverlay';
 import apiRoot from '../../api/apiRoot';
 import { getProducts } from '../../api/graphql/products';
-import { applyBulkProductMeta, bulkGenerateProductMetaData } from '../../api/fetchersFunction/bulkProductMetaDataFetchers';
+import {
+  applyBulkProductMeta,
+  bulkGenerateProductMetaData,
+} from '../../api/fetchersFunction/bulkProductMetaDataFetchers';
 import { featuresPattern, normalDescPattern } from '../../constants';
 const DescriptionTableContainer = () => {
   const [gridApi, setGridApi] = useState(null);
@@ -99,7 +102,8 @@ const DescriptionTableContainer = () => {
         return p.value;
       },
       valueGetter: (params: any) => {
-        const LS_DataLocale = localStorage.getItem("selectedDataLocale") || "en";
+        const LS_DataLocale =
+          localStorage.getItem('selectedDataLocale') || 'en';
         const features =
           params.data.masterData.current.masterVariant.attributesRaw.find(
             (item: any) => item.name === 'features'
@@ -178,7 +182,6 @@ const DescriptionTableContainer = () => {
   }, [offSet, perPage?.value]);
 
   const handleBulkGenerateClick = async () => {
-
     context.loadingOverlayMessage =
       'Generating description and key features for selected products. This may take some time';
     gridRef.current!.api.showLoadingOverlay();
@@ -199,7 +202,7 @@ const DescriptionTableContainer = () => {
       const keyFeatures = featuresMatch ? featuresMatch[1].trim() : null;
 
       const descriptionMatch = metaData?.match(normalDescPattern);
-      const description = descriptionMatch ? descriptionMatch[1].trim() : null
+      const description = descriptionMatch ? descriptionMatch[1].trim() : null;
 
       const cleanedKeyFeatures = removeDoubleQuotes(keyFeatures);
       const cleanedDescription = removeDoubleQuotes(description);
@@ -208,18 +211,20 @@ const DescriptionTableContainer = () => {
         (item) => item.id === response?.productId
       );
       if (index !== -1) {
-        const attributesRaw = updatedTableData[index].masterData.current?.masterVariant?.attributesRaw;
+        const attributesRaw =
+          updatedTableData[index].masterData.current?.masterVariant
+            ?.attributesRaw;
         let features = attributesRaw.find(
           (item: any) => item.name === 'features'
         );
-        let featureDatalocale = dataLocale || "en";
+        let featureDatalocale = dataLocale || 'en';
         if (!features) {
           features = { name: 'features', value: [{ [featureDatalocale]: '' }] };
           attributesRaw.push(features);
         }
-       if (features?.value[0]) {
-        features.value[0][featureDatalocale] = cleanedKeyFeatures;
-      }
+        if (features?.value[0]) {
+          features.value[0][featureDatalocale] = cleanedKeyFeatures;
+        }
         updatedTableData[index].masterData.current.description =
           cleanedDescription;
       }
@@ -231,10 +236,9 @@ const DescriptionTableContainer = () => {
     context.loadingOverlayMessage = 'Loading';
   };
   const handleBulkApplyClick = async () => {
-    const featuredDataLocale = dataLocale || "en"
+    const featuredDataLocale = dataLocale || 'en';
     const hasEmptyMeta = selectedRows?.some(
-      (product) =>
-        !product.masterData.current.description
+      (product) => !product.masterData.current.description
     );
     if (hasEmptyMeta) {
       setState((prev: any) => ({
@@ -246,7 +250,10 @@ const DescriptionTableContainer = () => {
     } else {
       const bulkSelectedProductsData: any = selectedRows?.map((product) => ({
         productId: product?.id,
-        keyFeatures: product?.masterData?.current?.masterVariant.attributesRaw.find((item : any)=> item.name === "features").value[0][featuredDataLocale],
+        keyFeatures:
+          product?.masterData?.current?.masterVariant.attributesRaw.find(
+            (item: any) => item.name === 'features'
+          ).value[0][featuredDataLocale],
         description: product?.masterData?.current?.description,
         version: product?.version,
       }));
@@ -307,9 +314,11 @@ const DescriptionTableContainer = () => {
         .execute();
       setState((prev: any) => ({ ...prev, pageLoading: false }));
       const filteredData = data?.body?.results?.map((product: any) => {
-        const keyFeatures = product.masterVariant.attributes.find((item : any) => item.name === "features")
-        const features = keyFeatures?.value[0][dataLocale] || ""
-        const description = product?.description || ""
+        const keyFeatures = product.masterVariant.attributes.find(
+          (item: any) => item.name === 'features'
+        );
+        const features = keyFeatures?.value[0][dataLocale] || '';
+        const description = product?.description || '';
         const nameInCurrentLocale = product?.name?.[dataLocale];
 
         return {
@@ -320,11 +329,11 @@ const DescriptionTableContainer = () => {
             current: {
               name: nameInCurrentLocale,
               description: description?.[dataLocale],
-              masterVariant : {
-                attributesRaw : [
-                  { name : "features", value : [ { [dataLocale] : features}]}
-                ]
-              }
+              masterVariant: {
+                attributesRaw: [
+                  { name: 'features', value: [{ [dataLocale]: features }] },
+                ],
+              },
             },
           },
         };
@@ -388,7 +397,7 @@ const DescriptionTableContainer = () => {
       responseFromAi?.description &&
       responseFromAi?.version
     ) {
-      let keyFeats = responseFromAi?.keyFeatures || " "
+      let keyFeats = responseFromAi?.keyFeatures || ' ';
       const updatedTableData = [...tableData];
       const index = updatedTableData.findIndex(
         (item) => item.id === responseFromAi.id
@@ -398,16 +407,18 @@ const DescriptionTableContainer = () => {
         const cleanedDescription = removeDoubleQuotes(
           responseFromAi.description
         );
-        const attributesRaw = updatedTableData[index].masterData.current.masterVariant.attributesRaw;
+        const attributesRaw =
+          updatedTableData[index].masterData.current.masterVariant
+            .attributesRaw;
         let features = attributesRaw.find(
           (item: any) => item.name === 'features'
         );
-        let featureDatalocale = dataLocale || "en";
+        let featureDatalocale = dataLocale || 'en';
         if (!features) {
           features = { name: 'features', value: [{ [featureDatalocale]: '' }] };
           attributesRaw.push(features);
         }
-        if (features?.value?.[0] ) { 
+        if (features?.value?.[0]) {
           features.value[0][featureDatalocale] = cleanedFeatures;
         }
 
@@ -418,7 +429,6 @@ const DescriptionTableContainer = () => {
       }
     }
   }, [responseFromAi, dataLocale]);
-
 
   return (
     <div className={`${styles.tableContainer}`}>

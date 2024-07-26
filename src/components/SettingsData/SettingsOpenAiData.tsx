@@ -29,7 +29,7 @@ const SettingsOpenAiData = () => {
 
       setState((prev: any) => ({
         ...prev,
-        notificationMessage: response?.message || "Key saved successfully.",
+        notificationMessage: response?.message || 'Key saved successfully.',
         notificationMessageType: 'success',
       }));
     } catch (error) {

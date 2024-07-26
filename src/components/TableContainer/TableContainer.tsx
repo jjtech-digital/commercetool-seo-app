@@ -378,7 +378,6 @@ const TableContainer = () => {
     }
   };
 
-  
   return (
     <div className={`${styles.tableContainer}`}>
       <div className={`${styles.tableSearchSection}`}>
@@ -465,7 +464,9 @@ const TableContainer = () => {
               shoudLoaderSpinnerShow={true}
               loadingMessage={'Loading...'}
             />
-          ) : isSearchPerformed(searchPerformed)}
+          ) : (
+            isSearchPerformed(searchPerformed)
+          )}
         </div>
       )}
     </div>

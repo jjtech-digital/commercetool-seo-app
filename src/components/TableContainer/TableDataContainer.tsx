@@ -16,9 +16,7 @@ const TableDataContainer = () => {
   const match = useRouteMatch();
   return (
     <div className={`${styles.tableContainer}`}>
-      <Text.Headline as="h2">
-        {'Generate Product information'}
-      </Text.Headline>
+      <Text.Headline as="h2">{'Generate Product information'}</Text.Headline>
       <div className={`${styles.navContainer}`}>
         <TableNavHeader
           defaultPage={defaultPage}
