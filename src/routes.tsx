@@ -1,10 +1,10 @@
 import type { ReactNode } from 'react';
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
 import Spacings from '@commercetools-uikit/spacings';
-import Settings from './components/settings/settings';
+import Settings from './components/settings/Settings';
 import { useAppContext } from './context/AppContext';
-import Notification from './components/notification/notification';
-import TableDataContainer from './components/tableContainer/tableDataContainer';
+import Notification from './components/notification/Notification';
+import TableDataContainer from './components/tableContainer/TableDataContainer';
 
 type ApplicationRoutesProps = {
   children?: ReactNode;

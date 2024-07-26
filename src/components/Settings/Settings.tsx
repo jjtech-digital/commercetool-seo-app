@@ -3,11 +3,11 @@ import FlatButton from '@commercetools-uikit/flat-button';
 import { BackIcon } from '@commercetools-uikit/icons';
 import Text from '@commercetools-uikit/text';
 import { Link as RouterLink } from 'react-router-dom';
-import SettingsHeader from '../settingsHeader/settingsHeader';
-import SettingsData from '../settingsData/settingsData';
+import SettingsHeader from '../settingsHeader/SettingsHeader';
+import SettingsData from '../settingsData/SettingsData';
 import { useState } from 'react';
-import { settingsNavMock } from '../settingsData/settings.mock';
-import { ISelectedPageProps } from '../settingsData/settings.types';
+import { settingsNavMock } from '../settingsData/Settings.mock';
+import { ISelectedPageProps } from '../settingsData/Settings.types';
 
 const Settings = (props: { linkToProducts: any }) => {
   const [selectedPage, setSelectedPage] =

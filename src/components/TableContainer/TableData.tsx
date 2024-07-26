@@ -1,6 +1,6 @@
-import { ISelectedPageProps, NavItems } from './tableContainer.types';
-import TableContainer from './tableContainer';
-import DescriptionTableContainer from './descriptionTableContainer';
+import { ISelectedPageProps, NavItems } from './TableContainer.types';
+import TableContainer from './TableContainer';
+import DescriptionTableContainer from './DescriptionTableContainer';
 
 export interface ITableDataProps {
   defaultPage: ISelectedPageProps | undefined;

@@ -1,5 +1,5 @@
 import ViewSwitcher from '@commercetools-uikit/view-switcher';
-import { ISelectedPageProps } from '../settingsData/settings.types';
+import { ISelectedPageProps } from '../settingsData/Settings.types';
 interface ISettingsHeaderProps {
   defaultPage: ISelectedPageProps | undefined;
   selectedPage: ISelectedPageProps[];

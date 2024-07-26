@@ -1,6 +1,6 @@
-import { ISelectedPageProps, NavItems } from './settings.types';
-import SettingsRulesData from './settingsRulesData';
-import SettingsOpenAiData from './settingsOpenAiData';
+import { ISelectedPageProps, NavItems } from './Settings.types';
+import SettingsRulesData from './SettingsRulesData';
+import SettingsOpenAiData from './SettingsOpenAiData';
 export interface ISetingDataProps {
   defaultPage: ISelectedPageProps | undefined;
 }

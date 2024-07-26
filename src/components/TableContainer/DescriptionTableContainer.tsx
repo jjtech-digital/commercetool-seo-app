@@ -12,17 +12,17 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-quartz.css';
 import { PrimaryButton, SearchTextInput } from '@commercetools-frontend/ui-kit';
 import Text from '@commercetools-uikit/text';
-import CustomTooltip from '../customTooltip/customTooltip';
-import { SimpleTextEditor } from '../simpleTextEditor/simpleTextEditor';
+import CustomTooltip from '../customTooltip/CustomTooltip';
+import { SimpleTextEditor } from '../simpleTextEditor/SimpleTextEditor';
 import { useApplicationContext } from '@commercetools-frontend/application-shell-connectors';
 import { Pagination } from '@commercetools-uikit/pagination';
 import { usePaginationState } from '@commercetools-uikit/hooks';
-import { IProduct, IResponseFromAi } from './tableContainer.types';
+import { IProduct, IResponseFromAi } from './TableContainer.types';
 import styles from './tableContainer.module.css';
 import { useAppContext } from '../../context/AppContext';
-import Loader from '../loader/loader';
-import actionRendererProductInformation from '../renderers/actionRendererProductInformation';
-import CustomLoadingOverlay from '../customLoadingOverlay/customLoadingOverlay';
+import Loader from '../loader/Loader';
+import ActionRendererProductInformation from '../renderers/ActionRendererProductInformation';
+import CustomLoadingOverlay from '../customLoadingOverlay/CustomLoadingOverlay';
 import apiRoot from '../../api/apiRoot';
 import { getProducts } from '../../api/graphql/products';
 import {
@@ -144,7 +144,7 @@ const DescriptionTableContainer = () => {
 
   const components = useMemo(
     () => ({
-      actionRenderer: actionRendererProductInformation,
+      actionRenderer: ActionRendererProductInformation,
     }),
     []
   );

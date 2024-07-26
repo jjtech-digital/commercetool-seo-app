@@ -5,7 +5,7 @@ import { useForm, SubmitHandler, FieldValues } from 'react-hook-form';
 import { useAppContext } from '../../context/AppContext';
 import SecondaryButton from '@commercetools-uikit/secondary-button';
 import LoadingSpinner from '@commercetools-uikit/loading-spinner';
-import Loader from '../loader/loader';
+import Loader from '../loader/Loader';
 import { LS_KEY } from '../../constants';
 import {
   getSavedAiKeyFromCtCustomObj,

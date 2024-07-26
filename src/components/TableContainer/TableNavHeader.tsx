@@ -1,4 +1,4 @@
-import { ISelectedPageProps } from './tableContainer.types';
+import { ISelectedPageProps } from './TableContainer.types';
 import ViewSwitcher from '@commercetools-uikit/view-switcher';
 
 interface ITableHeaderProps {

@@ -12,7 +12,7 @@ import PrimaryButton from '@commercetools-uikit/primary-button';
 import SecondaryButton from '@commercetools-uikit/secondary-button';
 import { useAppContext } from '../../context/AppContext';
 import LoadingSpinner from '@commercetools-uikit/loading-spinner';
-import Loader from '../loader/loader';
+import Loader from '../loader/Loader';
 import {
   LS_KEY,
   CTP_CUSTOM_OBJ_SEO_CONTAINER_NAME,
