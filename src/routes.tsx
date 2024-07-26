@@ -3,8 +3,8 @@ import { Switch, Route, useRouteMatch } from 'react-router-dom';
 import Spacings from '@commercetools-uikit/spacings';
 import Settings from './components/Settings/Settings';
 import { useAppContext } from './context/AppContext';
-import Notification from './components/notification/Notification';
-import TableDataContainer from './components/tableContainer/TableDataContainer';
+import Notification from './components/Notification/Notification';
+import TableDataContainer from './components/TableContainer/TableDataContainer';
 
 type ApplicationRoutesProps = {
   children?: ReactNode;
