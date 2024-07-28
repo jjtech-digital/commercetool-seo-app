@@ -31,8 +31,6 @@ import {
 } from '../../api/fetchersFunction/bulkProductMetaDataFetchers';
 import { featuresPattern, normalDescPattern } from '../../constants';
 const DescriptionTableContainer = () => {
-  const [gridApi, setGridApi] = useState(null);
-  const [columnApi, setColumnApi] = useState(null);
   const [tableData, setTableData] = useState<IProduct[]>([]);
   const [totalProductCount, setTotalProductCount] = useState<number>();
   const [search, setSearch] = useState('');
@@ -44,6 +42,13 @@ const DescriptionTableContainer = () => {
     description: null,
     version: null,
   });
+  // we might need this later
+  // const [gridApi, setGridApi] = useState(null);
+  // const [columnApi, setColumnApi] = useState(null);
+  // const onGridReady = (params: any) => {
+  //   setGridApi(params.api)
+  //   setColumnApi(params.columnApi)
+  // };
   const gridRef = useRef<AgGridReact>(null);
   const gridStyle = useMemo(() => ({ width: '100%', height: '65vh' }), []);
 
@@ -55,7 +60,7 @@ const DescriptionTableContainer = () => {
   const { page, perPage } = usePaginationState();
   const { state, setState } = useAppContext();
   const offSet = (page?.value - 1) * perPage?.value;
-  let defaultColDefs = [
+  let defaultColumns = [
     {
       field: 'productKey',
       flex: 1,
@@ -140,7 +145,7 @@ const DescriptionTableContainer = () => {
       },
     },
   ];
-  const [colDefs, setColDefs] = useState(defaultColDefs);
+  const colDefs = defaultColumns;
 
   const components = useMemo(
     () => ({
@@ -148,14 +153,10 @@ const DescriptionTableContainer = () => {
     }),
     []
   );
-  const onGridReady = (params: any) => {
-    setGridApi(params.api);
-    setColumnApi(params.columnApi);
-  };
+
   const defaultColDef = useMemo(() => {
     return {
       flex: 1,
-      // editable: true,
       tooltipComponent: CustomTooltip,
     };
   }, []);
@@ -485,7 +486,7 @@ const DescriptionTableContainer = () => {
               rowData={tableData as any}
               columnDefs={colDefs as any}
               defaultColDef={defaultColDef}
-              onGridReady={onGridReady as any}
+              // onGridReady={onGridReady as any}
               components={components}
               rowSelection={'multiple'}
               suppressRowClickSelection={true}

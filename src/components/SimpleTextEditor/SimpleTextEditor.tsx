@@ -6,8 +6,6 @@ interface SimpleTextEditorProps {
   value: string;
   onValueChange: (value: string | null) => void;
   eventKey: string | null;
-  rowIndex?: number;
-  column?: string;
   initialValue: string;
   stopEditing: () => void;
 }

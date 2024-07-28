@@ -32,8 +32,6 @@ import {
 } from '../../api/fetchersFunction/bulkSeoMetaDataFetchers';
 
 const TableContainer = () => {
-  const [gridApi, setGridApi] = useState(null);
-  const [columnApi, setColumnApi] = useState(null);
   const [tableData, setTableData] = useState<IProduct[]>([]);
   const [totalProductCount, setTotalProductCount] = useState<number>();
   const [search, setSearch] = useState('');
@@ -45,6 +43,13 @@ const TableContainer = () => {
     description: null,
     version: null,
   });
+    // we might need this later
+  // const [gridApi, setGridApi] = useState(null);
+  // const [columnApi, setColumnApi] = useState(null);
+  // const onGridReady = (params: any) => {
+  //   setGridApi(params.api);
+  //   setColumnApi(params.columnApi);
+  // };
   const gridRef = useRef<AgGridReact>(null);
   const gridStyle = useMemo(() => ({ width: '100%', height: '65vh' }), []);
 
@@ -56,7 +61,7 @@ const TableContainer = () => {
   const { page, perPage } = usePaginationState();
   const { state, setState } = useAppContext();
   const offSet = (page?.value - 1) * perPage?.value;
-  let defaultColDefs = [
+  let defaultColumns = [
     {
       field: 'productKey',
       flex: 1,
@@ -124,7 +129,7 @@ const TableContainer = () => {
       },
     },
   ];
-  const [colDefs, setColDefs] = useState(defaultColDefs);
+  const colDefs = defaultColumns
 
   const components = useMemo(
     () => ({
@@ -132,10 +137,7 @@ const TableContainer = () => {
     }),
     []
   );
-  const onGridReady = (params: any) => {
-    setGridApi(params.api);
-    setColumnApi(params.columnApi);
-  };
+
   const defaultColDef = useMemo(() => {
     return {
       flex: 1,
@@ -433,7 +435,7 @@ const TableContainer = () => {
               rowData={tableData as any}
               columnDefs={colDefs as any}
               defaultColDef={defaultColDef}
-              onGridReady={onGridReady as any}
+              // onGridReady={onGridReady as any}
               components={components}
               rowSelection={'multiple'}
               suppressRowClickSelection={true}
