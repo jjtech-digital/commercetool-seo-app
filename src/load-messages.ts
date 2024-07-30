@@ -5,17 +5,16 @@ import {
 } from '@commercetools-frontend/i18n';
 
 const getChunkImport = (locale: string): Promise<TI18NImportData> => {
-  switch (locale) {
-    case 'de':
-      return import(
-        /* webpackChunkName: "app-i18n-de" */
-        './i18n/data/de.json'
-      );
-    default:
-      return import(
-        /* webpackChunkName: "app-i18n-en" */
-        './i18n/data/en.json'
-      );
+  if (locale === 'de') {
+    return import(
+      /* webpackChunkName: "app-i18n-de" */
+      './i18n/data/de.json'
+    );
+  } else {
+    return import(
+      /* webpackChunkName: "app-i18n-en" */
+      './i18n/data/en.json'
+    );
   }
 };
 

@@ -3,7 +3,7 @@ import styles from './CustomLoadingOverlay.module.css';
 
 const CustomLoadingOverlay = (props: CustomLoadingOverlayProps) => {
   return (
-    <div className="ag-overlay-loading-center" role="presentation">
+    <div className="ag-overlay-loading-center">
       <div
         aria-live="polite"
         aria-atomic="true"
