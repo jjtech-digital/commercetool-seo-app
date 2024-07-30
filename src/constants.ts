@@ -9,6 +9,7 @@ export const apiBaseUrl = 'https://ct-custom-seo-be.vercel.app';
 export const titlePattern = /(SEO Title:|Title:)\s*(.+)/;
 export const descriptionPattern = /(SEO Description:|Description:)\s*(.+)/;
 
+// tslint:disable-next-line:S5852
 export const normalDescPattern =
   /\*Description\*:\s*([^*]+)\s*\*Key Features\*:/s;
 export const featuresPattern = /\*Key Features\*:\s*(.+)/s;
