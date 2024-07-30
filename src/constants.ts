@@ -12,6 +12,7 @@ export const descriptionPattern = /(SEO Description:|Description:)\s*(.+)/;
 // tslint:disable-next-line:S5852
 export const normalDescPattern =
   /\*Description\*:\s*([^*]+)\s*\*Key Features\*:/s;
+  
 export const featuresPattern = /\*Key Features\*:\s*(.+)/s;
 
 export const LS_KEY = {
