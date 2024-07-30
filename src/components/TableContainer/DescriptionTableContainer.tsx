@@ -30,6 +30,7 @@ import {
   bulkGenerateProductMetaData,
 } from '../../api/fetchersFunction/bulkProductMetaDataFetchers';
 import { featuresPattern, normalDescPattern } from '../../constants';
+import { commonColumns } from './utils';
 const DescriptionTableContainer = () => {
   const [tableData, setTableData] = useState<IProduct[]>([]);
   const [totalProductCount, setTotalProductCount] = useState<number>();
@@ -61,25 +62,7 @@ const DescriptionTableContainer = () => {
   const { state, setState } = useAppContext();
   const offSet = (page?.value - 1) * perPage?.value;
   let defaultColumns = [
-    {
-      field: 'productKey',
-      flex: 1,
-      minWidth: 140,
-      editable: false,
-      headerCheckboxSelection: true,
-      checkboxSelection: true,
-      valueGetter: (p: any) => {
-        return p?.data?.key;
-      },
-    },
-    {
-      field: 'name',
-      flex: 3.5,
-      editable: false,
-      valueGetter: (params: any) => {
-        return params.data?.masterData?.current?.name;
-      },
-    },
+    ...commonColumns,
     {
       field: 'Description',
       headerName: 'Description',
