@@ -392,6 +392,18 @@ const DescriptionTableContainer = () => {
     }
   }, [dataLocale, offSet, perPage?.value]);
 
+  const isSearchPerformed = (searchPerformed: boolean) => {
+    if (searchPerformed) {
+      return (
+        <Text.Body>
+          {'No products found matching your search criteria.'}
+        </Text.Body>
+      );
+    } else {
+      return <Text.Body>{'No products available.'}</Text.Body>;
+    }
+  };
+
   useEffect(() => {
     if (
       responseFromAi?.id &&
@@ -517,12 +529,8 @@ const DescriptionTableContainer = () => {
               shoudLoaderSpinnerShow={true}
               loadingMessage={'Loading...'}
             />
-          ) : searchPerformed ? (
-            <Text.Body>
-              {'No products found matching your search criteria.'}
-            </Text.Body>
           ) : (
-            <Text.Body>{'No products available.'}</Text.Body>
+            isSearchPerformed(searchPerformed)
           )}
         </div>
       )}
