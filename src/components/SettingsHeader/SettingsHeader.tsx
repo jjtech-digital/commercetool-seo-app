@@ -10,7 +10,6 @@ const SettingsHeader = ({
   selectedPage,
   setSelectedPage,
 }: ISettingsHeaderProps) => {
-  
   const menuToggleHandler = (pageName: string) => {
     const updatedActivePages = selectedPage.map(
       (navMenu: ISelectedPageProps) => {

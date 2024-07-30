@@ -9,10 +9,11 @@
   padding: var(--spacing-m);
   border-radius: var(--border-radius-6);
 }
+
 /* To make the grid/flex items with the same height. */
 .infoCard,
-.infoCard > div,
-.infoCard > div > div {
+.infoCard>div,
+.infoCard>div>div {
   height: 100%;
 }
 
@@ -20,6 +21,7 @@
   color: var(--color-primary);
   text-decoration: none;
 }
+
 .infoCardLink:hover {
   color: var(--color-primary-40);
 }

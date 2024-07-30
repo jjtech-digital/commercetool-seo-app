@@ -17,7 +17,7 @@ const Notification = ({
     setSuccessMessage((prev: any) => ({
       ...prev,
       notificationMessage: '',
-      notificationMessageType:""
+      notificationMessageType: '',
     }));
   };
 

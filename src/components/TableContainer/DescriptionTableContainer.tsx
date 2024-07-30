@@ -25,11 +25,12 @@ import ActionRendererProductInformation from '../Renderers/ActionRendererProduct
 import CustomLoadingOverlay from '../CustomLoadingOverlay/CustomLoadingOverlay';
 import apiRoot from '../../api/apiRoot';
 import { getProducts } from '../../api/graphql/products';
-import { applyBulkProductMeta, bulkGenerateProductMetaData } from '../../api/fetchersFunction/bulkProductMetaDataFetchers';
+import {
+  applyBulkProductMeta,
+  bulkGenerateProductMetaData,
+} from '../../api/fetchersFunction/bulkProductMetaDataFetchers';
 import { featuresPattern, normalDescPattern } from '../../constants';
 const DescriptionTableContainer = () => {
-  const [gridApi, setGridApi] = useState(null);
-  const [columnApi, setColumnApi] = useState(null);
   const [tableData, setTableData] = useState<IProduct[]>([]);
   const [totalProductCount, setTotalProductCount] = useState<number>();
   const [search, setSearch] = useState('');
@@ -41,6 +42,13 @@ const DescriptionTableContainer = () => {
     description: null,
     version: null,
   });
+  // we might need this later
+  // const [gridApi, setGridApi] = useState(null);
+  // const [columnApi, setColumnApi] = useState(null);
+  // const onGridReady = (params: any) => {
+  //   setGridApi(params.api)
+  //   setColumnApi(params.columnApi)
+  // };
   const gridRef = useRef<AgGridReact>(null);
   const gridStyle = useMemo(() => ({ width: '100%', height: '65vh' }), []);
 
@@ -52,7 +60,7 @@ const DescriptionTableContainer = () => {
   const { page, perPage } = usePaginationState();
   const { state, setState } = useAppContext();
   const offSet = (page?.value - 1) * perPage?.value;
-  let defaultColDefs = [
+  let defaultColumns = [
     {
       field: 'productKey',
       flex: 1,
@@ -99,7 +107,8 @@ const DescriptionTableContainer = () => {
         return p.value;
       },
       valueGetter: (params: any) => {
-        const LS_DataLocale = localStorage.getItem("selectedDataLocale") || "en";
+        const LS_DataLocale =
+          localStorage.getItem('selectedDataLocale') || 'en';
         const features =
           params.data.masterData.current.masterVariant.attributesRaw.find(
             (item: any) => item.name === 'features'
@@ -136,7 +145,7 @@ const DescriptionTableContainer = () => {
       },
     },
   ];
-  const [colDefs, setColDefs] = useState(defaultColDefs);
+  const colDefs = defaultColumns;
 
   const components = useMemo(
     () => ({
@@ -144,14 +153,10 @@ const DescriptionTableContainer = () => {
     }),
     []
   );
-  const onGridReady = (params: any) => {
-    setGridApi(params.api);
-    setColumnApi(params.columnApi);
-  };
+
   const defaultColDef = useMemo(() => {
     return {
       flex: 1,
-      // editable: true,
       tooltipComponent: CustomTooltip,
     };
   }, []);
@@ -178,7 +183,6 @@ const DescriptionTableContainer = () => {
   }, [offSet, perPage?.value]);
 
   const handleBulkGenerateClick = async () => {
-
     context.loadingOverlayMessage =
       'Generating description and key features for selected products. This may take some time';
     gridRef.current!.api.showLoadingOverlay();
@@ -199,7 +203,7 @@ const DescriptionTableContainer = () => {
       const keyFeatures = featuresMatch ? featuresMatch[1].trim() : null;
 
       const descriptionMatch = metaData?.match(normalDescPattern);
-      const description = descriptionMatch ? descriptionMatch[1].trim() : null
+      const description = descriptionMatch ? descriptionMatch[1].trim() : null;
 
       const cleanedKeyFeatures = removeDoubleQuotes(keyFeatures);
       const cleanedDescription = removeDoubleQuotes(description);
@@ -208,18 +212,20 @@ const DescriptionTableContainer = () => {
         (item) => item.id === response?.productId
       );
       if (index !== -1) {
-        const attributesRaw = updatedTableData[index].masterData.current?.masterVariant?.attributesRaw;
+        const attributesRaw =
+          updatedTableData[index].masterData.current?.masterVariant
+            ?.attributesRaw;
         let features = attributesRaw.find(
           (item: any) => item.name === 'features'
         );
-        let featureDatalocale = dataLocale || "en";
+        let featureDatalocale = dataLocale || 'en';
         if (!features) {
           features = { name: 'features', value: [{ [featureDatalocale]: '' }] };
           attributesRaw.push(features);
         }
-       if (features?.value[0]) {
-        features.value[0][featureDatalocale] = cleanedKeyFeatures;
-      }
+        if (features?.value[0]) {
+          features.value[0][featureDatalocale] = cleanedKeyFeatures;
+        }
         updatedTableData[index].masterData.current.description =
           cleanedDescription;
       }
@@ -231,10 +237,9 @@ const DescriptionTableContainer = () => {
     context.loadingOverlayMessage = 'Loading';
   };
   const handleBulkApplyClick = async () => {
-    const featuredDataLocale = dataLocale || "en"
+    const featuredDataLocale = dataLocale || 'en';
     const hasEmptyMeta = selectedRows?.some(
-      (product) =>
-        !product.masterData.current.description
+      (product) => !product.masterData.current.description
     );
     if (hasEmptyMeta) {
       setState((prev: any) => ({
@@ -246,7 +251,10 @@ const DescriptionTableContainer = () => {
     } else {
       const bulkSelectedProductsData: any = selectedRows?.map((product) => ({
         productId: product?.id,
-        keyFeatures: product?.masterData?.current?.masterVariant.attributesRaw.find((item : any)=> item.name === "features").value[0][featuredDataLocale],
+        keyFeatures:
+          product?.masterData?.current?.masterVariant.attributesRaw.find(
+            (item: any) => item.name === 'features'
+          ).value[0][featuredDataLocale],
         description: product?.masterData?.current?.description,
         version: product?.version,
       }));
@@ -307,9 +315,11 @@ const DescriptionTableContainer = () => {
         .execute();
       setState((prev: any) => ({ ...prev, pageLoading: false }));
       const filteredData = data?.body?.results?.map((product: any) => {
-        const keyFeatures = product.masterVariant.attributes.find((item : any) => item.name === "features")
-        const features = keyFeatures?.value[0][dataLocale] || ""
-        const description = product?.description || ""
+        const keyFeatures = product.masterVariant.attributes.find(
+          (item: any) => item.name === 'features'
+        );
+        const features = keyFeatures?.value[0][dataLocale] || '';
+        const description = product?.description || '';
         const nameInCurrentLocale = product?.name?.[dataLocale];
 
         return {
@@ -320,11 +330,11 @@ const DescriptionTableContainer = () => {
             current: {
               name: nameInCurrentLocale,
               description: description?.[dataLocale],
-              masterVariant : {
-                attributesRaw : [
-                  { name : "features", value : [ { [dataLocale] : features}]}
-                ]
-              }
+              masterVariant: {
+                attributesRaw: [
+                  { name: 'features', value: [{ [dataLocale]: features }] },
+                ],
+              },
             },
           },
         };
@@ -382,13 +392,25 @@ const DescriptionTableContainer = () => {
     }
   }, [dataLocale, offSet, perPage?.value]);
 
+  const isSearchPerformed = (searchPerformed: boolean) => {
+    if (searchPerformed) {
+      return (
+        <Text.Body>
+          {'No products found matching your search criteria.'}
+        </Text.Body>
+      );
+    } else {
+      return <Text.Body>{'No products available.'}</Text.Body>;
+    }
+  };
+
   useEffect(() => {
     if (
       responseFromAi?.id &&
       responseFromAi?.description &&
       responseFromAi?.version
     ) {
-      let keyFeats = responseFromAi?.keyFeatures || " "
+      let keyFeats = responseFromAi?.keyFeatures || ' ';
       const updatedTableData = [...tableData];
       const index = updatedTableData.findIndex(
         (item) => item.id === responseFromAi.id
@@ -398,16 +420,18 @@ const DescriptionTableContainer = () => {
         const cleanedDescription = removeDoubleQuotes(
           responseFromAi.description
         );
-        const attributesRaw = updatedTableData[index].masterData.current.masterVariant.attributesRaw;
+        const attributesRaw =
+          updatedTableData[index].masterData.current.masterVariant
+            .attributesRaw;
         let features = attributesRaw.find(
           (item: any) => item.name === 'features'
         );
-        let featureDatalocale = dataLocale || "en";
+        let featureDatalocale = dataLocale || 'en';
         if (!features) {
           features = { name: 'features', value: [{ [featureDatalocale]: '' }] };
           attributesRaw.push(features);
         }
-        if (features?.value?.[0] ) { 
+        if (features?.value?.[0]) {
           features.value[0][featureDatalocale] = cleanedFeatures;
         }
 
@@ -418,7 +442,6 @@ const DescriptionTableContainer = () => {
       }
     }
   }, [responseFromAi, dataLocale]);
-
 
   return (
     <div className={`${styles.tableContainer}`}>
@@ -475,7 +498,7 @@ const DescriptionTableContainer = () => {
               rowData={tableData as any}
               columnDefs={colDefs as any}
               defaultColDef={defaultColDef}
-              onGridReady={onGridReady as any}
+              // onGridReady={onGridReady as any}
               components={components}
               rowSelection={'multiple'}
               suppressRowClickSelection={true}
@@ -506,12 +529,8 @@ const DescriptionTableContainer = () => {
               shoudLoaderSpinnerShow={true}
               loadingMessage={'Loading...'}
             />
-          ) : searchPerformed ? (
-            <Text.Body>
-              {'No products found matching your search criteria.'}
-            </Text.Body>
           ) : (
-            <Text.Body>{'No products available.'}</Text.Body>
+            isSearchPerformed(searchPerformed)
           )}
         </div>
       )}

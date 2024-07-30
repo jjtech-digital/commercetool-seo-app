@@ -22,7 +22,7 @@ const Settings = (props: { linkToProducts: any }) => {
           label={'Back to Products'}
           icon={<BackIcon />}
         />
-        <Text.Headline as="h2" >{'Settings'}</Text.Headline>
+        <Text.Headline as="h2">{'Settings'}</Text.Headline>
       </Spacings.Stack>
       <SettingsHeader
         defaultPage={defaultPage}
