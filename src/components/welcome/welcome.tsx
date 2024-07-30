@@ -27,6 +27,32 @@ type TInfoCardProps = {
   isExternal?: boolean;
 };
 
+type TChildWrapperProps = {
+  isExternal?: boolean;
+  linkTo: string;
+  children: ReactNode;
+};
+const ChildWrapper = ({ isExternal, linkTo, children }: TChildWrapperProps) => {
+  if (isExternal) {
+    return (
+      <a
+        className={styles.infoCardLink}
+        href={linkTo}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {children}
+      </a>
+    );
+  } else {
+    return (
+      <RouterLink className={styles.infoCardLink} to={linkTo}>
+        {children}
+      </RouterLink>
+    );
+  }
+};
+
 const InfoCard = (props: TInfoCardProps) => (
   <Grid.Item>
     <div className={styles.infoCard}>
@@ -34,22 +60,11 @@ const InfoCard = (props: TInfoCardProps) => (
         <Text.Headline as="h3">
           <WrapWith
             condition={true}
-            wrapper={(children) =>
-              props.isExternal ? (
-                <a
-                  className={styles.infoCardLink}
-                  href={props.linkTo}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {children}
-                </a>
-              ) : (
-                <RouterLink className={styles.infoCardLink} to={props.linkTo}>
-                  {children}
-                </RouterLink>
-              )
-            }
+            wrapper={(children) => (
+              <ChildWrapper isExternal={props.isExternal} linkTo={props.linkTo}>
+                {children}
+              </ChildWrapper>
+            )}
           >
             <Spacings.Inline scale="s" alignItems="center">
               <span>{props.title}</span>

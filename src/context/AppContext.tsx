@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useMemo, useState } from 'react';
 interface Props {
   children: React.ReactNode;
   [key: string]: any;
@@ -31,8 +31,9 @@ export const AppContextProvider = ({ children }: Props) => {
     ...initialState,
   });
 
+  const value = useMemo(() => ({ state, setState }), [state, setState]);
   return (
-    <AppContext.Provider value={{ state, setState }}>
+    <AppContext.Provider value={value}>
       {children}
     </AppContext.Provider>
   );
