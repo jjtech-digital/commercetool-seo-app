@@ -53,6 +53,14 @@ const ChildWrapper = ({ isExternal, linkTo, children }: TChildWrapperProps) => {
   }
 };
 
+const createWrapper =
+  (linkTo: string, isExternal?: boolean) => (children: ReactNode) =>
+    (
+      <ChildWrapper isExternal={isExternal} linkTo={linkTo}>
+        {children}
+      </ChildWrapper>
+    );
+
 const InfoCard = (props: TInfoCardProps) => (
   <Grid.Item>
     <div className={styles.infoCard}>
@@ -60,11 +68,7 @@ const InfoCard = (props: TInfoCardProps) => (
         <Text.Headline as="h3">
           <WrapWith
             condition={true}
-            wrapper={(children) => (
-              <ChildWrapper isExternal={props.isExternal} linkTo={props.linkTo}>
-                {children}
-              </ChildWrapper>
-            )}
+            wrapper={createWrapper(props.linkTo, props.isExternal)}
           >
             <Spacings.Inline scale="s" alignItems="center">
               <span>{props.title}</span>
