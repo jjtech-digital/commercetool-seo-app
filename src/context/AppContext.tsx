@@ -3,7 +3,7 @@ interface Props {
   children: React.ReactNode;
   [key: string]: any;
 }
-interface IAppContext {
+export interface IAppContext {
   isApiFetchingSEO: boolean;
   isApiFetchingDescription: boolean;
   isApiFetchingKeyFeatures: boolean;
