@@ -10,8 +10,7 @@ import {
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-quartz.css';
-import { PrimaryButton, SearchTextInput } from '@commercetools-frontend/ui-kit';
-import Text from '@commercetools-uikit/text';
+import { SearchTextInput } from '@commercetools-frontend/ui-kit';
 import CustomTooltip from '../CustomTooltip/CustomTooltip';
 import { SimpleTextEditor } from '../SimpleTextEditor/SimpleTextEditor';
 import { useApplicationContext } from '@commercetools-frontend/application-shell-connectors';
@@ -24,13 +23,14 @@ import Loader from '../Loader/Loader';
 import ActionRendererProductInformation from '../Renderers/ActionRendererProductInformation';
 import CustomLoadingOverlay from '../CustomLoadingOverlay/CustomLoadingOverlay';
 import apiRoot from '../../api/apiRoot';
-import { getProducts } from '../../api/graphql/products';
 import {
   applyBulkProductMeta,
   bulkGenerateProductMetaData,
 } from '../../api/fetchersFunction/bulkProductMetaDataFetchers';
 import { featuresPattern, normalDescPattern } from '../../constants';
-import { commonColumns } from './utils';
+import { commonColumns, fetchProductData, performSearch } from './utils';
+import SearchPerformed from './SearchPerformed';
+import BulkUpdateButtonSection from './BulkUpdateButtonSection';
 const DescriptionTableContainer = () => {
   const [tableData, setTableData] = useState<IProduct[]>([]);
   const [totalProductCount, setTotalProductCount] = useState<number>();
@@ -270,101 +270,61 @@ const DescriptionTableContainer = () => {
       context.loadingOverlayMessage = 'Loading';
     }
   };
-  const handleSearch = async () => {
-    setSearchPerformed(true);
-    try {
-      if (!search) {
-        setState((prev: any) => ({
-          ...prev,
-          notificationMessage: 'Search field cannot be empty.',
-          notificationMessageType: 'error',
-        }));
-        return;
-      }
-      if (!dataLocale) {
-        throw new Error('Locale is not defined');
-      }
-      setState((prev: any) => ({ ...prev, pageLoading: true }));
-      const data = await apiRoot
-        .productProjections()
-        .search()
-        .get({
-          queryArgs: {
-            [`text.${dataLocale}`]: search,
-            limit: perPage?.value,
-            offset: offSet,
-          },
-        })
-        .execute();
-      setState((prev: any) => ({ ...prev, pageLoading: false }));
-      const filteredData = data?.body?.results?.map((product: any) => {
-        const keyFeatures = product.masterVariant.attributes.find(
-          (item: any) => item.name === 'features'
-        );
-        const features = keyFeatures?.value[0][dataLocale] || '';
-        const description = product?.description || '';
-        const nameInCurrentLocale = product?.name?.[dataLocale];
 
-        return {
-          id: product.id,
-          version: product.version,
-          key: product.key,
-          masterData: {
-            current: {
-              name: nameInCurrentLocale,
-              description: description?.[dataLocale],
-              masterVariant: {
-                attributesRaw: [
-                  { name: 'features', value: [{ [dataLocale]: features }] },
-                ],
-              },
+const handleSearch = async () => {
+  const data = await performSearch(
+    apiRoot,
+    dataLocale,
+    search,
+    perPage,
+    offSet,
+    setState,
+    setTableData,
+    setTotalProductCount,
+    setSearchPerformed
+  );
+  if (data) {
+    const filteredData = data.body.results.map((product: any) => {
+      const keyFeatures = product.masterVariant.attributes.find(
+        (item: any) => item.name === 'features'
+      );
+      const features = keyFeatures?.value[0][dataLocale || "en"] || '';
+      const description = product.description || '';
+      const nameInCurrentLocale = product.name?.[dataLocale || "en"];
+
+      return {
+        id: product.id,
+        version: product.version,
+        key: product.key,
+        masterData: {
+          current: {
+            name: nameInCurrentLocale,
+            description: description?.[dataLocale || "en"],
+            masterVariant: {
+              attributesRaw: [
+                { name: 'features', value: [{ [dataLocale || "en"]: features }] },
+              ],
             },
           },
-        };
-      });
-      setTableData(filteredData);
-      setTotalProductCount(data?.body?.total);
-    } catch (error) {
-      console.error('Search failed:', error);
-      setState((prev: any) => ({
-        ...prev,
-        pageLoading: false,
-        notificationMessage: 'Search failed. Please try again later.',
-        notificationMessageType: 'error',
-      }));
-    }
-  };
+        },
+      };
+    });
+    setTableData(filteredData);
+    setTotalProductCount(data.body.total);
+  }
+};
 
   const fetchData = async () => {
-    setSearchPerformed(false);
-    try {
-      setState((prev: any) => ({ ...prev, pageLoading: true }));
-      const productsData = await apiRoot
-        .graphql()
-        .post({
-          body: {
-            query: getProducts(),
-            variables: {
-              limit: Number(perPage?.value),
-              offset: Number(offSet),
-              Locale: dataLocale,
-            },
-          },
-        })
-        .execute();
-      setState((prev: any) => ({ ...prev, pageLoading: false }));
-      setTotalProductCount(productsData?.body?.data?.products?.total);
-      setTableData(productsData?.body?.data?.products?.results);
-    } catch (error) {
-      console.error('Error fetching product data:', error);
-      setState((state: any) => ({
-        ...state,
-        pageLoading: false,
-        notificationMessage:
-          'Error fetching product data. Please try again later.',
-        notificationMessageType: 'error',
-      }));
-    }
+    await fetchProductData(
+      apiRoot,
+      dataLocale,
+      perPage,
+      offSet,
+      setState,
+      setTotalProductCount,
+      setTableData,
+      setSearchPerformed
+    );
   };
 
   useEffect(() => {
@@ -374,18 +334,6 @@ const DescriptionTableContainer = () => {
       fetchData();
     }
   }, [dataLocale, offSet, perPage?.value]);
-
-  const isSearchPerformed = (searchPerformed: boolean) => {
-    if (searchPerformed) {
-      return (
-        <Text.Body>
-          {'No products found matching your search criteria.'}
-        </Text.Body>
-      );
-    } else {
-      return <Text.Body>{'No products available.'}</Text.Body>;
-    }
-  };
 
   useEffect(() => {
     if (
@@ -444,30 +392,7 @@ const DescriptionTableContainer = () => {
             // isClearable={false}
           />
         </div>
-        <div className={`${styles.actionContainer}`}>
-          {selectedRows && selectedRows.length > 0 && (
-            <div className={`${styles.actionButons}`}>
-              <PrimaryButton
-                size="medium"
-                label="Generate"
-                onClick={handleBulkGenerateClick}
-                isDisabled={false}
-              />
-              <PrimaryButton
-                size="medium"
-                label="Cancel"
-                onClick={() => gridRef?.current?.api?.stopEditing(true)}
-                isDisabled={false}
-              />
-              <PrimaryButton
-                size="medium"
-                label="Apply"
-                onClick={handleBulkApplyClick}
-                isDisabled={false}
-              />
-            </div>
-          )}
-        </div>
+        <BulkUpdateButtonSection selectedRows={selectedRows} handleGenerate={handleBulkGenerateClick} handleApply={handleBulkApplyClick} gridRef={gridRef} />
       </div>
       {!state.pageLoading && !!tableData?.length ? (
         <div
@@ -513,7 +438,7 @@ const DescriptionTableContainer = () => {
               loadingMessage={'Loading...'}
             />
           ) : (
-            isSearchPerformed(searchPerformed)
+            <SearchPerformed searchPerformed={searchPerformed} />
           )}
         </div>
       )}
