@@ -1,10 +1,19 @@
 import  styles from "./TableContainer.module.css"
 import { PrimaryButton } from '@commercetools-frontend/ui-kit'
+import { IProduct } from "./TableContainer.types";
+import { RefObject } from "react";
+import { AgGridReact } from "ag-grid-react";
 
-const BulkUpdateButtonSection = ({selectedRows, handleGenerate, handleApply, gridRef}) => {
+interface BulkUpdateButtonSectionProps {
+selectedRows: IProduct[] | null;
+  handleGenerate: () => void;
+  handleApply: () => void;
+  gridRef: RefObject<AgGridReact<any>>;
+}
+const BulkUpdateButtonSection = ({selectedRows, handleGenerate, handleApply, gridRef} : BulkUpdateButtonSectionProps) => {
   return (
     <div className={`${styles.actionContainer}`}>
-    {selectedRows && selectedRows.length > 0 && (
+    {(selectedRows!==null) && selectedRows?.length > 0 && (
       <div className={`${styles.actionButons}`}>
         <PrimaryButton
           size="medium"

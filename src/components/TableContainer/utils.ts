@@ -1,5 +1,4 @@
 import { getProducts } from "../../api/graphql/products";
-import Text from '@commercetools-uikit/text';
 
 export const commonColumns = [
     {
@@ -113,4 +112,11 @@ export const fetchProductData = async (
       notificationMessageType: 'error',
     }));
   }
+};
+
+export const removeDoubleQuotes = (text: string) => {
+  if (text?.startsWith('"') && text?.endsWith('"')) {
+    return text?.slice(1, -1);
+  }
+  return text;
 };

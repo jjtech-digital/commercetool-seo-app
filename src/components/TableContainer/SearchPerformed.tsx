@@ -1,20 +1,18 @@
 import Text from '@commercetools-uikit/text';
 
 type SearchPerformedProps = {
-    searchPerformed: boolean
-}
+  searchPerformed: boolean;
+};
 
-const SearchPerformed = (props : SearchPerformedProps) => {
-    const { searchPerformed } = props;
-    if (searchPerformed) {
-        return (
-          <Text.Body>
-            {'No products found matching your search criteria.'}
-          </Text.Body>
-        );
-      } else {
-        return <Text.Body>{'No products available.'}</Text.Body>;
-      }
-}
+const SearchPerformed = (props: SearchPerformedProps) => {
+  const { searchPerformed } = props;
+  return (
+    <Text.Body>
+      {searchPerformed
+        ? 'No products found matching your search criteria.'
+        : 'No products available.'}
+    </Text.Body>
+  );
+};
 
-export default SearchPerformed
+export default SearchPerformed;

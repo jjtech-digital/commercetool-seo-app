@@ -90,7 +90,7 @@ export const applyBulkProductMeta = async (
 
       setState((prev: any) => ({
         ...prev,
-        notificationMessage: 'SEO meta applied successfully.',
+        notificationMessage: 'Product meta applied successfully.',
         notificationMessageType: 'success',
       }));
 
