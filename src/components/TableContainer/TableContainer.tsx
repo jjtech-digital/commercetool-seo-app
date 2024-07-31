@@ -13,12 +13,12 @@ import { defaultSeoColumns } from './ColumnsData';
 import { handleSeoBulkGenerateClick, handleSeoBulkApplyClick } from '../../api/fetchersFunction/bulkMetaDataFetchers';
 
 const TableContainer = () => {
-  const [tableData, setTableData] = useState<IProduct[]>([]);
-  const [totalProductCount, setTotalProductCount] = useState<number>();
-  const [search, setSearch] = useState('');
-  const [searchPerformed, setSearchPerformed] = useState(false);
-  const [selectedRows, setSelectedRows] = useState<IProduct[] | null>([]);
-  const [responseFromAi, setResponseFromAi] = useState<IResponseFromAi>({
+  const [seoTableData, setSeoTableData] = useState<IProduct[]>([]);
+  const [totalProductsCount, setTotalProductsCount] = useState<number>();
+  const [seoSearch, setSeoSearch] = useState('');
+  const [isSearchPerformed, setIsSearchPerformed] = useState(false);
+  const [seoSelectedRows, setSeoSelectedRows] = useState<IProduct[] | null>([]);
+  const [seoResponseFromAi, setSeoResponseFromAi] = useState<IResponseFromAi>({
     id: null,
     title: null,
     description: null,
@@ -31,7 +31,7 @@ const TableContainer = () => {
   //   setGridApi(params.api);
   //   setColumnApi(params.columnApi);
   // };
-  const gridRef = useRef<AgGridReact>(null);
+  const seoGridRef = useRef<AgGridReact>(null);
 
   const { dataLocale } = useApplicationContext((context) => ({
     dataLocale: context.dataLocale,
@@ -53,8 +53,8 @@ const TableContainer = () => {
       sortable: false,
       cellRenderer: 'actionRenderer',
       cellRendererParams: {
-        setResponseFromAi: setResponseFromAi,
-        gridRef: gridRef,
+        setResponseFromAi: setSeoResponseFromAi,
+        gridRef: seoGridRef,
       },
     },
   ];
@@ -66,21 +66,21 @@ const TableContainer = () => {
   }, []);
 
   const onSelectionChanged = useCallback(() => {
-    let getSelectedRows = gridRef.current!.api.getSelectedRows();
-    setSelectedRows(getSelectedRows);
+    let getSelectedRows = seoGridRef.current!.api.getSelectedRows();
+    setSeoSelectedRows(getSelectedRows);
   }, [offSet, perPage?.value]);
 
-  const handleSearch = async () => {
+  const handleSeoSearch = async () => {
     const data = await performSearch(
       apiRoot,
       dataLocale,
-      search,
+      seoSearch,
       perPage,
       offSet,
       setState,
-      setTableData,
-      setTotalProductCount,
-      setSearchPerformed
+      setSeoTableData,
+      setTotalProductsCount,
+      setIsSearchPerformed
     );
     if (data) {
       const filteredData = data.body.results.map((product: any) => {
@@ -103,71 +103,71 @@ const TableContainer = () => {
           },
         };
       });
-      setTableData(filteredData);
-      setTotalProductCount(data.body.total);
+      setSeoTableData(filteredData);
+      setTotalProductsCount(data.body.total);
     }
   };
 
-  const fetchData = async () => {
+  const fetchSeoData = async () => {
     await fetchProductData(
       apiRoot,
       dataLocale,
       perPage,
       offSet,
       setState,
-      setTotalProductCount,
-      setTableData,
-      setSearchPerformed
+      setTotalProductsCount,
+      setSeoTableData,
+      setIsSearchPerformed
     );
   };
 
   useEffect(() => {
     if (
-      responseFromAi?.id &&
-      responseFromAi?.title &&
-      responseFromAi?.description &&
-      responseFromAi?.version
+      seoResponseFromAi?.id &&
+      seoResponseFromAi?.title &&
+      seoResponseFromAi?.description &&
+      seoResponseFromAi?.version
     ) {
-      const updatedTableData = [...tableData];
+      const updatedTableData = [...seoTableData];
       const index = updatedTableData.findIndex(
-        (item) => item.id === responseFromAi.id
+        (item) => item.id === seoResponseFromAi.id
       );
       if (index !== -1) {
-        const cleanedTitle = removeDoubleQuotes(responseFromAi.title);
+        const cleanedTitle = removeDoubleQuotes(seoResponseFromAi.title);
         const cleanedDescription = removeDoubleQuotes(
-          responseFromAi.description
+          seoResponseFromAi.description
         );
         updatedTableData[index].masterData.current.metaTitle = cleanedTitle;
         updatedTableData[index].masterData.current.metaDescription =
           cleanedDescription;
-        updatedTableData[index].version = responseFromAi.version;
-        setTableData(updatedTableData);
+        updatedTableData[index].version = seoResponseFromAi.version;
+        setSeoTableData(updatedTableData);
       }
     }
-  }, [responseFromAi]);
+  }, [seoResponseFromAi]);
 
   const searchBoxText =
     'Search by Product key, Name, Seo title or Seo description';
 
   return (
     <GridContainer
-      search={search}
-      setSearch={setSearch}
-      handleSearch={handleSearch}
-      fetchData={fetchData}
-      selectedRows={selectedRows}
-      handleBulkGenerateClick={()=>handleSeoBulkGenerateClick(context,gridRef,selectedRows, dataLocale, setState, tableData, setTableData)}
-      handleBulkApplyClick={()=>handleSeoBulkApplyClick(selectedRows, context, gridRef, dataLocale, setState,tableData, setTableData)}
-      gridRef={gridRef}
+      search={seoSearch}
+      setSearch={setSeoSearch}
+      handleSearch={handleSeoSearch}
+      fetchData={fetchSeoData}
+      selectedRows={seoSelectedRows}
+      handleBulkGenerateClick={()=>handleSeoBulkGenerateClick(context,seoGridRef,seoSelectedRows, dataLocale, setState, seoTableData, setSeoTableData)}
+      handleBulkApplyClick={()=>handleSeoBulkApplyClick(seoSelectedRows, context, seoGridRef, dataLocale, setState,seoTableData, setSeoTableData)}
+      gridRef={seoGridRef}
       state={state}
-      tableData={tableData}
+      tableData={seoTableData}
       colDefs={colDefs}
       onSelectionChanged={onSelectionChanged}
       context={context}
-      totalProductCount={totalProductCount}
+      totalProductCount={totalProductsCount}
       page={page}
       perPage={perPage}
-      searchPerformed={searchPerformed}
+      searchPerformed={isSearchPerformed}
       searchboxPlaceholder={searchBoxText}
     />
   );
