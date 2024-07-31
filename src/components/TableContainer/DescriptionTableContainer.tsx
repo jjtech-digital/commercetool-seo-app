@@ -12,6 +12,7 @@ import { fetchProductData, performSearch, removeDoubleQuotes } from './utils';
 import GridContainer from './GridContainer';
 import { defaultDescColumns } from './ColumnsData';
 import { handleDescBulkApplyClick, handleDescBulkGenerateClick } from '../../api/fetchersFunction/bulkMetaDataFetchers';
+import ActionRendererProductInformation from '../Renderers/ActionRendererProductInformation';
 const DescriptionTableContainer = () => {
   const [tableData, setTableData] = useState<IProduct[]>([]);
   const [totalProductCount, setTotalProductCount] = useState<number>();
@@ -37,6 +38,13 @@ const DescriptionTableContainer = () => {
     dataLocale: context.dataLocale,
     projectLanguages: context.project?.languages,
   }));
+
+  const components = useMemo(
+    () => ({
+      actionRenderer: ActionRendererProductInformation,
+    }),
+    []
+  );
 
 
   const { page, perPage } = usePaginationState();
@@ -116,7 +124,7 @@ const DescriptionTableContainer = () => {
     }
   };
 
-  const fetchData = async () => {
+  const fetchData = async (): Promise<void> => {
     await fetchProductData(
       apiRoot,
       dataLocale,
@@ -190,6 +198,7 @@ const DescriptionTableContainer = () => {
       perPage={perPage}
       searchPerformed={searchPerformed}
       searchboxPlaceholder={searchBoxText}
+      components={components}
     />
   );
 };

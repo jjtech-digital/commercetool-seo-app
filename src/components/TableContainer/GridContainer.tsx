@@ -4,14 +4,39 @@ import { Pagination } from '@commercetools-uikit/pagination';
 import Loader from '../Loader/Loader';
 import SearchPerformed from './SearchPerformed';
 import BulkUpdateButtonSection from './BulkUpdateButtonSection';
-import { SetStateAction, useEffect, useMemo } from 'react';
+import { SetStateAction, useEffect, useMemo, FC } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import { useApplicationContext } from '@commercetools-frontend/application-shell-connectors';
 import CustomLoadingOverlay from '../CustomLoadingOverlay/CustomLoadingOverlay';
 import CustomTooltip from '../CustomTooltip/CustomTooltip';
 import ActionRendererSEO from '../Renderers/ActionRendererSEO';
+import { IAppContext } from '../../context/AppContext';
+import { IProduct } from './TableContainer.types';
+import { TState } from '@commercetools-uikit/hooks';
 
-const GridContainer = ({
+interface GridContainerProps {
+  search: string;
+  setSearch: (value: string) => void;
+  handleSearch: () => void;
+  fetchData: () => void;
+  selectedRows: IProduct[] | null;
+  handleBulkGenerateClick: () => void;
+  handleBulkApplyClick: () => void;
+  gridRef: any;
+  state: IAppContext;
+  tableData: IProduct[];
+  colDefs: any[];
+  context: any;
+  onSelectionChanged: () => void;
+  totalProductCount?: number;
+  page: TState;
+  perPage: TState;
+  searchPerformed: boolean;
+  searchboxPlaceholder: string;
+  components: any;
+}
+
+const GridContainer: FC<GridContainerProps> = ({
   search,
   setSearch,
   handleSearch,
@@ -30,6 +55,7 @@ const GridContainer = ({
   perPage,
   searchPerformed,
   searchboxPlaceholder,
+  components
 }) => {
   const gridStyle = useMemo(() => ({ width: '100%', height: '65vh' }), []);
   const offSet = (page?.value - 1) * perPage?.value;
@@ -37,14 +63,6 @@ const GridContainer = ({
     dataLocale: context.dataLocale,
     projectLanguages: context.project?.languages,
   }));
-  
-
-  const components = useMemo(
-    () => ({
-      actionRenderer: ActionRendererSEO,
-    }),
-    []
-  );
 
   const defaultColDef = useMemo(() => {
     return {
@@ -72,7 +90,7 @@ const GridContainer = ({
             placeholder={searchboxPlaceholder}
             value={search}
             onChange={(event: { target: { value: SetStateAction<string> } }) =>
-              setSearch(event.target.value)
+              setSearch(String(event.target.value))
             }
             onSubmit={handleSearch}
             onReset={() => {

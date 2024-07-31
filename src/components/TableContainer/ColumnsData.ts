@@ -1,6 +1,7 @@
 import { SimpleTextEditor } from '../SimpleTextEditor/SimpleTextEditor';
 import { commonColumns } from './utils';
 
+
 export const defaultDescColumns = [
   ...commonColumns,
   {

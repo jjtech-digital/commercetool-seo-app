@@ -11,6 +11,7 @@ import { fetchProductData, performSearch, removeDoubleQuotes } from './utils';
 import GridContainer from './GridContainer';
 import { defaultSeoColumns } from './ColumnsData';
 import { handleSeoBulkGenerateClick, handleSeoBulkApplyClick } from '../../api/fetchersFunction/bulkMetaDataFetchers';
+import ActionRendererSEO from '../Renderers/ActionRendererSEO';
 
 const TableContainer = () => {
   const [seoTableData, setSeoTableData] = useState<IProduct[]>([]);
@@ -37,6 +38,14 @@ const TableContainer = () => {
     dataLocale: context.dataLocale,
     projectLanguages: context.project?.languages,
   }));
+
+
+  const components = useMemo(
+    () => ({
+      actionRenderer: ActionRendererSEO,
+    }),
+    []
+  );
 
   const { page, perPage } = usePaginationState();
   const { state, setState } = useAppContext();
@@ -108,7 +117,7 @@ const TableContainer = () => {
     }
   };
 
-  const fetchSeoData = async () => {
+  const fetchSeoData = async (): Promise<void> => {
     await fetchProductData(
       apiRoot,
       dataLocale,
@@ -169,6 +178,7 @@ const TableContainer = () => {
       perPage={perPage}
       searchPerformed={isSearchPerformed}
       searchboxPlaceholder={searchBoxText}
+      components={components}
     />
   );
 };
