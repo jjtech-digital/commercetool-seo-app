@@ -21,16 +21,8 @@ import {
   getAllSavedRulesFromCtObj,
 } from '../../api/fetchersFunction/ruleFetchers';
 import SettingsRuleDataRender from './SettingsRuleDataRender';
-export interface RuleContentItem {
-  rulesInput: string;
-  deletable: boolean;
-}
-export interface FormData {
-  rulesContent: RuleContentItem[];
-}
-export interface SubmitEvent {
-  preventDefault: () => void;
-}
+import { FormData } from './Settings.types';
+
 const SettingsRulesData = () => {
   const [currentIndex, setCurrentIndex] = useState({
     seo: 0,
