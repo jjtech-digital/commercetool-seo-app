@@ -1,11 +1,11 @@
 import PrimaryButton from '@commercetools-uikit/primary-button';
-import { descriptionPattern, titlePattern } from '../../constants';
 import { useAppContext } from '../../context/AppContext';
 import { useApplicationContext } from '@commercetools-frontend/application-shell-connectors';
 import {
   generateSeoMetaData,
   updateProductSeoMeta,
 } from '../../api/fetchersFunction/seoMetaDataFetchers';
+import { seoMatchData } from '../../api/fetchersFunction/utils';
 
 export default (props: any) => {
   const { setState } = useAppContext();
@@ -17,22 +17,14 @@ export default (props: any) => {
 
   const handleGenerateClick = async (params: any) => {
     props.context.loadingOverlayMessage = 'Generating meta data';
-
     props.gridRef.current!.api.showLoadingOverlay();
     const aiResponse = await generateSeoMetaData(
       params?.data?.id,
       dataLocale,
       setState
     );
-
-    let metaData = aiResponse?.choices?.[0]?.message?.content;
-
-    const titleMatch = metaData?.match(titlePattern);
-    const title = titleMatch ? titleMatch[2].trim() : null;
-
-    const descriptionMatch = metaData?.match(descriptionPattern);
-    const description = descriptionMatch ? descriptionMatch[2].trim() : null;
-
+    const responseData = seoMatchData(aiResponse)
+    const { title, description } = responseData;
     props.setResponseFromAi({
       id: params.data.id,
       title: title,

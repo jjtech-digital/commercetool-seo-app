@@ -43,3 +43,14 @@ export interface RuleFormProps {
   component: RuleComponent;
   isApiFetching: boolean;
 }
+
+export interface RuleContentItem {
+  rulesInput: string;
+  deletable: boolean;
+}
+export interface FormData {
+  rulesContent: RuleContentItem[];
+}
+export interface SubmitEvent {
+  preventDefault: () => void;
+}

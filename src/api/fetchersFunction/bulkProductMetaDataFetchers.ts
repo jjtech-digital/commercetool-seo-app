@@ -1,56 +1,34 @@
-import { LS_KEY } from '../../constants';
-import { generateProductMetaData, updateProductMeta } from './productMetaDataFetchers';
+import {
+  generateProductMetaData,
+  updateProductMeta,
+} from './productMetaDataFetchers';
+import { batchSize, openAiKey, processBatches, setNotification } from './utils';
 export const bulkGenerateProductMetaData = async (
   productIds: string[],
   dataLocale: any,
   setState: Function
 ) => {
-  const openAiKey = localStorage.getItem(LS_KEY.OPEN_AI_KEY);
   if (!openAiKey) {
-    setState((prev: any) => ({
-      ...prev,
-      notificationMessage:
-        'OpenAI key is missing. Please set it in the settings.',
-      notificationMessageType: 'error',
-    }));
+    setNotification(
+      setState,
+      'OpenAI key is missing. Please set it in the settings tab.',
+      'error'
+    );
     return null;
   }
-  const batchSize = 20;
-  const totalBatches = Math.ceil(productIds?.length / batchSize);
   let productMetaDataResponses: any[] = [];
 
-  for (let i = 0; i < totalBatches; i++) {
-    const start = i * batchSize;
-    const end = Math.min((i + 1) * batchSize, productIds.length);
-    const batchIds = productIds.slice(start, end);
-
-    try {
-      const response: any = batchIds.map(async (id) => {
-        return await generateProductMetaData(id, dataLocale);
-      });
-
-      const data = await Promise.all(response);
-
-      const has401Error = data?.some((res: any) => res?.data?.status === 401);
-      if (has401Error) {
-        setState((prev: any) => ({
-          ...prev,
-          notificationMessage: 'Incorrect API key provided',
-          notificationMessageType: 'error',
-        }));
-        return null;
-      }
-
+    await processBatches(
+    productIds,
+    batchSize,
+    dataLocale,
+    generateProductMetaData,
+    setState,
+    (data) => {
       productMetaDataResponses = [...productMetaDataResponses, ...data];
-    } catch (error) {
-      setState((prev: any) => ({
-        ...prev,
-        notificationMessage: 'Error generating product description and key features in batch.',
-        notificationMessageType: 'error',
-      }));
-      console.error('Error generating product description and key features in batch:', error);
-    }
-  }
+    },
+    'Error generating product description and key features in batch.',
+  );
 
   return productMetaDataResponses;
 };
@@ -90,7 +68,7 @@ export const applyBulkProductMeta = async (
 
       setState((prev: any) => ({
         ...prev,
-        notificationMessage: 'SEO meta applied successfully.',
+        notificationMessage: 'Product meta applied successfully.',
         notificationMessageType: 'success',
       }));
 

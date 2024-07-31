@@ -1,59 +1,35 @@
-import { LS_KEY } from '../../constants';
 import {
   generateSeoMetaData,
   updateProductSeoMeta,
 } from './seoMetaDataFetchers';
+import { batchSize,  openAiKey, processBatches, setNotification } from './utils';
 export const bulkGenerateSeoMetaData = async (
   productIds: string[],
   dataLocale: any,
   setState: Function
 ) => {
-  const openAiKey = localStorage.getItem(LS_KEY.OPEN_AI_KEY);
+
   if (!openAiKey) {
-    setState((prev: any) => ({
-      ...prev,
-      notificationMessage:
-        'OpenAI key is missing. Please set it in the settings.',
-      notificationMessageType: 'error',
-    }));
+    setNotification(
+      setState,
+      'OpenAI key is missing. Please set it in the settings.',
+      'error'
+    );
     return null;
   }
-  const batchSize = 20;
-  const totalBatches = Math.ceil(productIds?.length / batchSize);
   let metaDataResponses: any[] = [];
 
-  for (let i = 0; i < totalBatches; i++) {
-    const start = i * batchSize;
-    const end = Math.min((i + 1) * batchSize, productIds.length);
-    const batchIds = productIds.slice(start, end);
-
-    try {
-      const response: any = batchIds.map(async (id) => {
-        return await generateSeoMetaData(id, dataLocale);
-      });
-
-      const data = await Promise.all(response);
-
-      const has401Error = data?.some((res: any) => res?.data?.status === 401);
-      if (has401Error) {
-        setState((prev: any) => ({
-          ...prev,
-          notificationMessage: 'Incorrect API key provided',
-          notificationMessageType: 'error',
-        }));
-        return null;
-      }
-
+  await processBatches(
+    productIds,
+    batchSize,
+    dataLocale,
+    generateSeoMetaData,
+    setState,
+    (data) => {
       metaDataResponses = [...metaDataResponses, ...data];
-    } catch (error) {
-      setState((prev: any) => ({
-        ...prev,
-        notificationMessage: 'Error generating SEO metadata in batch.',
-        notificationMessageType: 'error',
-      }));
-      console.error('Error generating SEO metadata in batch:', error);
-    }
-  }
+    },
+    'Error generating SEO metadata in batch.'
+  );
 
   return metaDataResponses;
 };

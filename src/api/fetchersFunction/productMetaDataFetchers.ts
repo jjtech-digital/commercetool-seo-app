@@ -46,7 +46,6 @@ export const generateProductMetaData = async (
   dataLocale: any,
   setState?: Function
 ) => {
-  console.log("dataLocale from generate", dataLocale)
   const accessToken = localStorage.getItem(LS_KEY.CT_OBJ_TOKEN);
   const openAiKey = localStorage.getItem(LS_KEY.OPEN_AI_KEY);
   if (!openAiKey) {
@@ -104,7 +103,6 @@ export const updateProductMeta = async (
   dataLocale: any,
   setState?: Function
 ) => {
-  console.log("dataLocale from update", dataLocale)
   const accessToken = localStorage.getItem(LS_KEY.CT_OBJ_TOKEN);
 
   const productResponse = await getProductById(productId);
