@@ -22,7 +22,6 @@ export const commonColumns = [
     },
   ];
 
-
 export const performSearch = async (
     apiRoot,
     dataLocale,
