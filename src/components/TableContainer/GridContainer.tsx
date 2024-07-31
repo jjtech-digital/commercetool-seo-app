@@ -8,8 +8,8 @@ import { SetStateAction, useEffect, useMemo } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import { useApplicationContext } from '@commercetools-frontend/application-shell-connectors';
 import CustomLoadingOverlay from '../CustomLoadingOverlay/CustomLoadingOverlay';
-import ActionRendererProductInformation from '../Renderers/ActionRendererProductInformation';
 import CustomTooltip from '../CustomTooltip/CustomTooltip';
+import ActionRendererSEO from '../Renderers/ActionRendererSEO';
 
 const GridContainer = ({
   search,
@@ -41,7 +41,7 @@ const GridContainer = ({
 
   const components = useMemo(
     () => ({
-      actionRenderer: ActionRendererProductInformation,
+      actionRenderer: ActionRendererSEO,
     }),
     []
   );

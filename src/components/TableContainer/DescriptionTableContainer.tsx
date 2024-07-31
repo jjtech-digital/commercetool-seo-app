@@ -38,6 +38,7 @@ const DescriptionTableContainer = () => {
     projectLanguages: context.project?.languages,
   }));
 
+
   const { page, perPage } = usePaginationState();
   const { state, setState } = useAppContext();
   const offSet = (page?.value - 1) * perPage?.value;
@@ -86,9 +87,9 @@ const DescriptionTableContainer = () => {
         const keyFeatures = product.masterVariant.attributes.find(
           (item: any) => item.name === 'features'
         );
-        const features = keyFeatures?.value[0][dataLocale || 'en'] || '';
+        const features = keyFeatures?.value[0][dataLocale] || '';
         const description = product.description || '';
-        const nameInCurrentLocale = product.name?.[dataLocale || 'en'];
+        const nameInCurrentLocale = product.name?.[dataLocale];
 
         return {
           id: product.id,
@@ -97,12 +98,12 @@ const DescriptionTableContainer = () => {
           masterData: {
             current: {
               name: nameInCurrentLocale,
-              description: description?.[dataLocale || 'en'],
+              description: description?.[dataLocale],
               masterVariant: {
                 attributesRaw: [
                   {
                     name: 'features',
-                    value: [{ [dataLocale || 'en']: features }],
+                    value: [{ [dataLocale]: features }],
                   },
                 ],
               },
@@ -150,7 +151,7 @@ const DescriptionTableContainer = () => {
         let features = attributesRaw.find(
           (item: any) => item.name === 'features'
         );
-        let featureDatalocale = dataLocale || 'en';
+        let featureDatalocale = dataLocale ;
         if (!features) {
           features = { name: 'features', value: [{ [featureDatalocale]: '' }] };
           attributesRaw.push(features);

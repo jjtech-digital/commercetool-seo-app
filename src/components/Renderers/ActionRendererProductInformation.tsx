@@ -1,11 +1,12 @@
 import PrimaryButton from '@commercetools-uikit/primary-button';
-import { featuresPattern, normalDescPattern } from '../../constants';
 import { useAppContext } from '../../context/AppContext';
 import { useApplicationContext } from '@commercetools-frontend/application-shell-connectors';
 import {
   generateProductMetaData,
   updateProductMeta,
 } from '../../api/fetchersFunction/productMetaDataFetchers';
+import { matchData } from '../../api/fetchersFunction/utils';
+
 
 export default (props: any) => {
   const { setState } = useAppContext();
@@ -27,13 +28,8 @@ export default (props: any) => {
         setState
       );
 
-      let metaData = aiResponse?.choices?.[0]?.message?.content;
-
-      const featuresMatch = metaData?.match(featuresPattern);
-      const keyFeatures = featuresMatch ? featuresMatch[1].trim() : null;
-
-      const descriptionMatch = metaData?.match(normalDescPattern);
-      const description = descriptionMatch ? descriptionMatch[1].trim() : null;
+      const matchDataResponse = matchData(aiResponse) 
+      const { keyFeatures, description} = matchDataResponse
 
       props.setResponseFromAi({
         id: params.data.id,
@@ -54,9 +50,6 @@ export default (props: any) => {
       props?.gridRef?.current?.api?.getDisplayedRowAtIndex(rowIndex)?.data;
     if (updatedRowData?.masterData?.current) {
       const { description } = updatedRowData.masterData.current;
-      console.log(
-        updatedRowData?.masterData?.current?.masterVariant?.attributesRaw
-      );
       const featureDataLocale = dataLocale || 'en';
       const keyFeatures =
         updatedRowData.masterData.current.masterVariant.attributesRaw.find(
