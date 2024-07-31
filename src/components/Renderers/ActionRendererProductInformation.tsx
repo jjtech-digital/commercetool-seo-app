@@ -27,7 +27,6 @@ export default (props: any) => {
         dataLocale,
         setState
       );
-      console.log(aiResponse)
 
       const matchDataResponse = matchData(aiResponse) 
       const { keyFeatures, description} = matchDataResponse

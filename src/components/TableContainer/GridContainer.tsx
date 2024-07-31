@@ -116,8 +116,8 @@ const GridContainer: FC<GridContainerProps> = ({
             <AgGridReact
               ref={gridRef}
               // getRowId={getRowId}
-              rowData={tableData as any}
-              columnDefs={colDefs as any}
+              rowData={tableData}
+              columnDefs={colDefs}
               defaultColDef={defaultColDef}
               // onGridReady={onGridReady as any}
               components={components}

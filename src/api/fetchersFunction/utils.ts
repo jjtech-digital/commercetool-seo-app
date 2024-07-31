@@ -48,9 +48,7 @@ export const processBatches = async (
       });
 
       const data = await Promise.all(response);
-      console.log('data', data);
       const has401Error = data?.some((res: any) => res?.data?.status === 401);
-      console.log('has401Error', has401Error);
       if (has401Error) {
         setState((prev: any) => ({
           ...prev,

@@ -1,12 +1,6 @@
 import { IProduct } from '../../components/TableContainer/TableContainer.types';
 import { removeDoubleQuotes } from '../../components/TableContainer/utils';
 import {
-  descriptionPattern,
-  featuresPattern,
-  normalDescPattern,
-  titlePattern,
-} from '../../constants';
-import {
   applyBulkProductMeta,
   bulkGenerateProductMetaData,
 } from './bulkProductMetaDataFetchers';
