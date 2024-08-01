@@ -10,14 +10,15 @@ import {
 } from './bulkSeoMetaDataFetchers';
 import { matchData, seoMatchData } from './utils';
 
+
 export const handleDescBulkGenerateClick = async (
-  context,
-  gridRef,
-  selectedRows,
-  dataLocale,
-  setState,
-  tableData,
-  setTableData
+  context : any,
+  gridRef : any,
+  selectedRows : IProduct[] | null,
+  dataLocale : string | null,
+  setState : Function,
+  tableData : IProduct[],
+  setTableData : Function
 ) => {
   context.loadingOverlayMessage =
     'Generating description and key features for selected products. This may take some time';
@@ -70,13 +71,13 @@ export const handleDescBulkGenerateClick = async (
 };
 
 export const handleSeoBulkGenerateClick = async (
-  context,
-  gridRef,
-  selectedRows,
-  dataLocale,
-  setState,
-  tableData,
-  setTableData
+  context : any,
+  gridRef : any,
+  selectedRows : IProduct[] | null,
+  dataLocale : string | null,
+  setState : Function,
+  tableData : IProduct[],
+  setTableData : Function
 ) => {
   context.loadingOverlayMessage =
     'Generating SEO metadata for selected products. This may take some time';
@@ -116,11 +117,11 @@ export const handleSeoBulkGenerateClick = async (
 };
 
 export const dataApplication = (
-  response,
-  tableData,
-  setTableData,
-  gridRef,
-  context
+  response : any,
+  tableData : IProduct[],
+  setTableData : Function,
+  gridRef : any,
+  context : any
 ) => {
   if (response) {
     const updatedTableData = [...tableData];
@@ -141,13 +142,13 @@ export const dataApplication = (
   context.loadingOverlayMessage = 'Loading';
 };
 export const handleDescBulkApplyClick = async (
-  dataLocale,
-  selectedRows,
-  setState,
-  context,
-  gridRef,
-  tableData,
-  setTableData
+  dataLocale : string | null,
+  selectedRows : IProduct[] | null,
+  setState : Function,
+  context : any,
+  gridRef : any,
+  tableData : IProduct[],
+  setTableData : Function
 ) => {
   const featuredDataLocale = dataLocale || 'en';
   const hasEmptyMeta = selectedRows?.some(
@@ -186,13 +187,13 @@ export const handleDescBulkApplyClick = async (
 };
 
 export const handleSeoBulkApplyClick = async (
-  selectedRows,
-  context,
-  gridRef,
-  dataLocale,
-  setState,
-  tableData,
-  setTableData
+  selectedRows : IProduct[] | null,
+  context : any,
+  gridRef : any,
+  dataLocale : string | null,
+  setState : Function,
+  tableData : IProduct[],
+  setTableData  : Function
 ) => {
   const hasEmptyMeta = selectedRows?.some(
     (product: IProduct) =>

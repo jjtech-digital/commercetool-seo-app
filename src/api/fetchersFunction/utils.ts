@@ -77,7 +77,7 @@ export const processBatches = async (
   }
 };
 
-export const matchData = (response) => {
+export const matchData = (response : any) => {
   const metaData = response?.choices?.[0]?.message?.content;
 
   const featuresMatch = metaData?.match(featuresPattern);
@@ -91,7 +91,7 @@ export const matchData = (response) => {
   };
 };
 
-export const seoMatchData = (response) => {
+export const seoMatchData = (response : any) => {
   const message = response?.choices?.[0]?.message?.content;
   const titleMatch = message?.match(titlePattern);
   const title = titleMatch ? titleMatch[2]?.trim() : null;
