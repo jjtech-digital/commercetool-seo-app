@@ -37,10 +37,11 @@ Welcome to the AI-Driven Product Meta Generator for commercetools! This applicat
 
 - Go to the settings page and click on the Rules tab.
 - Define rules for generating SEO metadata, product description and key features to guide the AI.
-- [Video Reference](https://www.awesomescreenshot.com/video/30094998?key=f1c7b4f6f3be227266908aa27e5aa348)
+
+[![Watch the video](https://raw.githubusercontent.com/JiyaAgrawal20/jjtech-digital/commercetool-seo-app/main/assets/thumbnail_rules.png)](https://raw.githubusercontent.com/JiyaAgrawal20/jjtech-digital/commercetool-seo-app/main/assets/rules.mp4)
 
 ### 3. Generate SEO Metadata: 
-- [Video Reference](https://www.awesomescreenshot.com/video/30095136?key=dde2b93901922b095edbd45f5f104541)
+-[![Watch the video](https://raw.githubusercontent.com/JiyaAgrawal20/jjtech-digital/commercetool-seo-app/main/assets/thumbnail_SEO.png)](https://raw.githubusercontent.com/JiyaAgrawal20/jjtech-digital/commercetool-seo-app/main/assets/SEO.mp4)
 - Go the the SEO tab through the toggle button
   
   #### Generate SEO Metadata for a *Single Product*:**
@@ -64,7 +65,7 @@ Welcome to the AI-Driven Product Meta Generator for commercetools! This applicat
 
 
 ### 4. Generate Description and Key Features: 
-- [Video Reference](https://www.awesomescreenshot.com/video/30095429?key=50dd70bf0937dfd5e5a057648699c91f)
+- [![Watch the video](https://raw.githubusercontent.com/JiyaAgrawal20/jjtech-digital/commercetool-seo-app/main/assets/thumbnail_Description_and_KeyFeatures.png)](https://raw.githubusercontent.com/JiyaAgrawal20/jjtech-digital/commercetool-seo-app/main/assets/Description_and_KeyFeatures.mp4)
 - Go to the Description tab through the toggle button
   #### Generate Description and Key Features for a *Single Product*:
 
