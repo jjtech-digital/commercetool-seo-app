@@ -24,16 +24,15 @@ export const commonColumns = [
 
 export const performSearch = async (
     apiRoot,
-    dataLocale,
     search,
-    perPage,
-    offSet,
+    pageRelatedData,
     setState,
     setTableData,
     setTotalProductCount,
     setSearchPerformed
   ) => {
-    setSearchPerformed(true);
+    const { dataLocale, perPage, offSet } = pageRelatedData
+     setSearchPerformed(true);
     try {
       if (!search) {
         setState((prev: any) => ({

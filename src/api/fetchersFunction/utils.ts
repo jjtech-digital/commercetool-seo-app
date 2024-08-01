@@ -40,7 +40,6 @@ export const processBatches = async (
   queryOpenAi : Function,
   setState: Function,
   successHandler: (data: any[]) => void,
-
 ) => {
   const totalBatches = Math.ceil(productIds?.length / batchSize);
 
