@@ -1,6 +1,12 @@
 # AI-Driven Product MetaData Generator for commercetools
 
-Welcome to the AI-Driven Product Meta Generator for commercetools! This application uses OpenAI to effortlessly generate SEO titles, SEO descriptions, key features, and product descriptions for your products. With just a click of a button, you can create and update all your product metadata, saving you from manually typing long texts and ensuring better search engine rankings.
+[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-orange.svg)](https://sonarcloud.io/summary/new_code?id=jjtech-digital_commercetool-seo-app)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=jjtech-digital_commercetool-seo-app&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=jjtech-digital_commercetool-seo-app)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=jjtech-digital_commercetool-seo-app&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=jjtech-digital_commercetool-seo-app)
+[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=jjtech-digital_commercetool-seo-app)](https://sonarcloud.io/summary/new_code?id=jjtech-digital_commercetool-seo-app)
+
+
+*Welcome to the AI-Driven Product Meta Generator for commercetools! This application uses OpenAI to effortlessly generate SEO titles, SEO descriptions, key features, and product descriptions for your products. With just a click of a button, you can create and update all your product metadata, saving you from manually typing long texts and ensuring better search engine rankings.*
 
 ## Features
 
