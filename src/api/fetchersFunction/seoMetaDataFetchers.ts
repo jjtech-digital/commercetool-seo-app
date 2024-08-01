@@ -10,7 +10,6 @@ import OpenAI from 'openai';
 import { getAllSavedRulesFromCtObj } from './ruleFetchers';
 import { getProductById } from './utils';
 
-
 export const updateProductSeoMeta = async (
   productId: string,
   metaTitle: string,
