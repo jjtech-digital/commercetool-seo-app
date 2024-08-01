@@ -48,8 +48,3 @@ export enum NavItems {
   DESCRIPTION = 'Description',
 }
 
-export interface ISelectedPageProps {
-  title: string;
-  isDefaultSelected: boolean;
-  name: string;
-}

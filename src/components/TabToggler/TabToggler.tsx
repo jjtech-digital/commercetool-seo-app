@@ -1,16 +1,16 @@
-import { ISelectedPageProps } from './TableContainer.types';
 import ViewSwitcher from '@commercetools-uikit/view-switcher';
+import { ISelectedPageProps } from '../SettingsData/Settings.types';
 
-interface ITableHeaderProps {
+interface ITabHeaderProps {
   defaultPage: ISelectedPageProps | undefined;
   selectedPage: ISelectedPageProps[];
   setSelectedPage: Function;
 }
-const TableNavHeader = ({
+const TabToggler = ({
   defaultPage,
   selectedPage,
   setSelectedPage,
-}: ITableHeaderProps) => {
+}: ITabHeaderProps) => {
   const menuToggleHandler = (pageName: string) => {
     const updatedActivePages = selectedPage.map(
       (navMenu: ISelectedPageProps) => {
@@ -48,4 +48,4 @@ const TableNavHeader = ({
   );
 };
 
-export default TableNavHeader;
+export default TabToggler;
