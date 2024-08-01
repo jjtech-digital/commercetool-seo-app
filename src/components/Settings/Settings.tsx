@@ -3,11 +3,11 @@ import FlatButton from '@commercetools-uikit/flat-button';
 import { BackIcon } from '@commercetools-uikit/icons';
 import Text from '@commercetools-uikit/text';
 import { Link as RouterLink } from 'react-router-dom';
-import SettingsHeader from '../SettingsHeader/SettingsHeader';
 import SettingsData from '../SettingsData/SettingsData';
 import { useState } from 'react';
 import { settingsNavMock } from '../SettingsData/Settings.mock';
 import { ISelectedPageProps } from '../SettingsData/Settings.types';
+import TabToggler from '../TabToggler/TabToggler';
 
 const Settings = (props: { linkToProducts: any }) => {
   const [selectedPage, setSelectedPage] =
@@ -24,7 +24,7 @@ const Settings = (props: { linkToProducts: any }) => {
         />
         <Text.Headline as="h2">{'Settings'}</Text.Headline>
       </Spacings.Stack>
-      <SettingsHeader
+      <TabToggler
         defaultPage={defaultPage}
         selectedPage={selectedPage}
         setSelectedPage={setSelectedPage}

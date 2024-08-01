@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import Text from '@commercetools-uikit/text';
 import styles from './TableContainer.module.css';
-import { ISelectedPageProps } from './TableContainer.types';
 import { TableContainerNavMock } from './TableContainer.mock';
-import TableNavHeader from './TableNavHeader';
 import TableData from './TableData';
 import { Link, useRouteMatch } from 'react-router-dom';
 import { GearIcon } from '@commercetools-uikit/icons';
+import TabToggler from '../TabToggler/TabToggler';
+import { ISelectedPageProps } from '../SettingsData/Settings.types';
 
 const TableDataContainer = () => {
   const [selectedPage, setSelectedPage] = useState<ISelectedPageProps[]>(
@@ -18,7 +18,7 @@ const TableDataContainer = () => {
     <div className={`${styles.tableContainer}`}>
       <Text.Headline as="h2">{'Generate Product information'}</Text.Headline>
       <div className={`${styles.navContainer}`}>
-        <TableNavHeader
+        <TabToggler
           defaultPage={defaultPage}
           selectedPage={selectedPage}
           setSelectedPage={setSelectedPage}

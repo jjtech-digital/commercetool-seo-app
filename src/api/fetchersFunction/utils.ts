@@ -5,6 +5,8 @@ import {
   normalDescPattern,
   titlePattern,
 } from '../../constants';
+import apiRoot from '../apiRoot';
+import { getProductDetails } from '../graphql/productDetails';
 
 export const openAiKey = localStorage.getItem(LS_KEY.OPEN_AI_KEY);
 export const setNotification = (
@@ -96,4 +98,32 @@ export const seoMatchData = (response) => {
     title,
     description,
   };
+};
+
+export const getProductById = async (productId: string, locale?: string) => {
+  try {
+    const response = await apiRoot
+      .graphql()
+      .post({
+        body: {
+          query: getProductDetails(),
+          variables: {
+            id: productId,
+            Locale: locale,
+          },
+        },
+      })
+      .execute();
+
+    const product = response.body.data.product;
+
+    if (!product) {
+      return `Product with ID ${productId} not found.`;
+    }
+    return product;
+  } catch (error) {
+    console.error(`Error retrieving product by ID ${productId}:`, error);
+
+    return 'Failed to retrieve product details';
+  }
 };

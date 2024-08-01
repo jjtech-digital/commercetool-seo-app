@@ -57,7 +57,7 @@ export const applyBulkProductSeoMeta = async (
     }));
 
     try {
-      const applyBulkPromises = batchData?.map(async (product) => {
+      const applyBulkSeoPromises = batchData?.map(async (product) => {
         return await updateProductSeoMeta(
           product?.productId,
           product?.metaTitle,
@@ -66,11 +66,11 @@ export const applyBulkProductSeoMeta = async (
           product?.dataLocale
         );
       });
-      const data = await Promise.all(applyBulkPromises);
+      const data = await Promise.all(applyBulkSeoPromises);
 
       setState((prev: any) => ({
         ...prev,
-        notificationMessage: 'SEO meta applied successfully.',
+        notificationMessage: 'SEO metadata applied successfully.',
         notificationMessageType: 'success',
       }));
 
@@ -78,10 +78,10 @@ export const applyBulkProductSeoMeta = async (
     } catch (error) {
       setState((prev: any) => ({
         ...prev,
-        notificationMessage: 'Error applying SEO meta in batch.',
+        notificationMessage: 'Error applying SEO metadata in batch.',
         notificationMessageType: 'error',
       }));
-      console.error('Error applying SEO meta in batch:', error);
+      console.error('Error applying SEO metadata in batch:', error);
     }
   }
   return applyBulkResponses;

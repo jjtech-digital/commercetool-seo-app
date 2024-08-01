@@ -68,7 +68,7 @@ export const applyBulkProductMeta = async (
 
       setState((prev: any) => ({
         ...prev,
-        notificationMessage: 'Product meta applied successfully.',
+        notificationMessage: 'Product description and key features applied successfully.',
         notificationMessageType: 'success',
       }));
 
@@ -76,10 +76,10 @@ export const applyBulkProductMeta = async (
     } catch (error) {
       setState((prev: any) => ({
         ...prev,
-        notificationMessage: 'Error applying SEO meta in batch.',
+        notificationMessage: 'Error applying description and key features in batch.',
         notificationMessageType: 'error',
       }));
-      console.error('Error applying SEO meta in batch:', error);
+      console.error('Error applying description and key features in batch:', error);
     }
   }
   return applyBulkResponses;

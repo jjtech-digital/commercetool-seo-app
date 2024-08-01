@@ -1,4 +1,3 @@
-import PrimaryButton from '@commercetools-uikit/primary-button';
 import { useAppContext } from '../../context/AppContext';
 import { useApplicationContext } from '@commercetools-frontend/application-shell-connectors';
 import {
@@ -6,7 +5,7 @@ import {
   updateProductMeta,
 } from '../../api/fetchersFunction/productMetaDataFetchers';
 import { matchData } from '../../api/fetchersFunction/utils';
-
+import ActionRenderButtons from './ActionRenderButtons';
 
 export default (props: any) => {
   const { setState } = useAppContext();
@@ -28,8 +27,8 @@ export default (props: any) => {
         setState
       );
 
-      const matchDataResponse = matchData(aiResponse) 
-      const { keyFeatures, description} = matchDataResponse
+      const matchDataResponse = matchData(aiResponse);
+      const { keyFeatures, description } = matchDataResponse;
 
       props.setResponseFromAi({
         id: params.data.id,
@@ -105,23 +104,10 @@ export default (props: any) => {
   };
 
   return (
-    <div style={{ display: 'flex' }}>
-      <div>
-        <PrimaryButton
-          size="medium"
-          label="Generate"
-          onClick={() => handleGenerateClick(props)}
-          isDisabled={false}
-        />
-      </div>
-      <div style={{ marginInline: '6px' }}>
-        <PrimaryButton
-          size="medium"
-          label="Apply"
-          onClick={() => handleApplyClick(props.rowIndex)}
-          isDisabled={false}
-        />
-      </div>
-    </div>
+    <ActionRenderButtons
+      handleGenerate={handleGenerateClick}
+      handleApply={handleApplyClick}
+      allProps={props}
+    />
   );
 };
