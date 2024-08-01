@@ -37,12 +37,14 @@ Welcome to the AI-Driven Product Meta Generator for commercetools! This applicat
 
 - Go to the settings page and click on the Rules tab.
 - Define rules for generating SEO metadata, product description and key features to guide the AI.
-- [Video Reference](https://www.awesomescreenshot.com/video/30094998?key=f1c7b4f6f3be227266908aa27e5aa348)
+  
+https://github.com/user-attachments/assets/5b17963e-c034-44a9-8cf6-663c7f1b079e
+
 
 ### 3. Generate SEO Metadata: 
-- [Video Reference](https://www.awesomescreenshot.com/video/30095136?key=dde2b93901922b095edbd45f5f104541)
+https://github.com/user-attachments/assets/9cbb45db-4019-448e-80cc-f09c2db578cb
 - Go the the SEO tab through the toggle button
-  
+
   #### Generate SEO Metadata for a *Single Product*:**
 
   - Find the product in the table.
@@ -64,8 +66,9 @@ Welcome to the AI-Driven Product Meta Generator for commercetools! This applicat
 
 
 ### 4. Generate Description and Key Features: 
-- [Video Reference](https://www.awesomescreenshot.com/video/30095429?key=50dd70bf0937dfd5e5a057648699c91f)
+https://github.com/user-attachments/assets/95fbfeec-5175-4f25-967e-f88ccc57c17e
 - Go to the Description tab through the toggle button
+
   #### Generate Description and Key Features for a *Single Product*:
 
   - Find the product in the table.
