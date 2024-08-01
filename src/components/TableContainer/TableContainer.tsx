@@ -79,13 +79,17 @@ const TableContainer = () => {
     setSeoSelectedRows(getSelectedRows);
   }, [offSet, perPage?.value]);
 
+  const pageRelatedData = {
+    dataLocale : dataLocale, 
+    offSet : offSet,
+    perPage : perPage
+  }
+
   const handleSeoSearch = async () => {
     const data = await performSearch(
       apiRoot,
-      dataLocale,
       seoSearch,
-      perPage,
-      offSet,
+      pageRelatedData,
       setState,
       setSeoTableData,
       setTotalProductsCount,

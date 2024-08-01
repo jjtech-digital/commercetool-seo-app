@@ -19,17 +19,22 @@ export const bulkGenerateSeoMetaData = async (
   }
   let metaDataResponses: any[] = [];
 
+  const strings ={
+    dataLocale : dataLocale, 
+    errorMessage : 'Error generating SEO metadata in batch.'
+  }
+
   await processBatches(
     productIds,
     batchSize,
-    dataLocale,
+    strings,
     generateMetaData,
     queryOpenAi,
     setState,
     (data) => {
       metaDataResponses = [...metaDataResponses, ...data];
     },
-    'Error generating SEO metadata in batch.'
+    
   );
 
   return metaDataResponses;

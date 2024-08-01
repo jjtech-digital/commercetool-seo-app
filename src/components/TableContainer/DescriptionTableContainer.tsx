@@ -78,13 +78,17 @@ const DescriptionTableContainer = () => {
     setSelectedRows(getSelectedRows);
   }, [offSet, perPage?.value]);
 
+  const pageRelatedData = {
+    dataLocale : dataLocale, 
+    offSet : offSet,
+    perPage : perPage
+  }
+
   const handleSearch = async () => {
     const data = await performSearch(
       apiRoot,
-      dataLocale,
       search,
-      perPage,
-      offSet,
+      pageRelatedData,
       setState,
       setTableData,
       setTotalProductCount,
