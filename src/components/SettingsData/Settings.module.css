@@ -51,3 +51,11 @@
     text-decoration: underline;
     padding-left: 5px;
 }
+
+.actionButtonWrapper {
+    margin-inline: 6px;
+}
+
+.actionButtonsContainer {
+    display: flex;
+  }

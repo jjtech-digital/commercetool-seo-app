@@ -1,8 +1,16 @@
 import { PrimaryButton } from "@commercetools-frontend/ui-kit"
+import { FC } from "react"
+import styles from "./../SettingsData/Settings.module.css"
 
-const ActionRenderButtons = ({handleGenerate, handleApply, allProps}) => {
+interface ActionRenderButtonsProps {
+  handleGenerate : (props :any) => void;
+  handleApply: (rowIndex: number) => void;
+  allProps: any;
+}
+
+const ActionRenderButtons: FC<ActionRenderButtonsProps>  = ({handleGenerate, handleApply, allProps}) => {
   return (
-    <div style={{ display: 'flex' }}>
+    <div className={styles.actionButtonsContainer}>
     <div>
       <PrimaryButton
         size="medium"
@@ -11,7 +19,7 @@ const ActionRenderButtons = ({handleGenerate, handleApply, allProps}) => {
         isDisabled={false}
       />
     </div>
-    <div style={{ marginInline: '6px' }}>
+    <div className={styles.actionButtonWrapper}>
       <PrimaryButton
         size="medium"
         label="Apply"

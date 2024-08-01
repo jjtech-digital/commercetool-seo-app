@@ -4,7 +4,7 @@ import { ISelectedPageProps } from '../SettingsData/Settings.types';
 interface ITabHeaderProps {
   defaultPage: ISelectedPageProps | undefined;
   selectedPage: ISelectedPageProps[];
-  setSelectedPage: Function;
+  setSelectedPage: (pages: ISelectedPageProps[]) => void;
 }
 const TabToggler = ({
   defaultPage,
