@@ -1,37 +1,9 @@
 import axios from 'axios';
 import { CTP_API_URL, CTP_CUSTOM_OBJ_SEO_CONTAINER_KEY, CTP_CUSTOM_OBJ_SEO_CONTAINER_NAME, CTP_PROJECT_KEY, LS_KEY } from '../../constants';
-import { getProductDetails } from '../graphql/productDetails';
-import apiRoot from '../apiRoot';
 import OpenAI from 'openai';
 import { getAllSavedRulesFromCtObj } from './ruleFetchers';
+import { getProductById } from './utils';
 
-export const getProductById = async (productId: string, locale?: string) => {
-  try {
-    const response = await apiRoot
-      .graphql()
-      .post({
-        body: {
-          query: getProductDetails(),
-          variables: {
-            id: productId,
-            Locale: locale,
-          },
-        },
-      })
-      .execute();
-
-    const product = response.body.data.product;
-
-    if (!product) {
-      return `Product with ID ${productId} not found.`;
-    }
-    return product;
-  } catch (error) {
-    console.error(`Error retrieving product by ID ${productId}:`, error);
-
-    return 'Failed to retrieve product details';
-  }
-};
 export const generateSeoMetaData = async (
   productId: string,
   dataLocale: any,
