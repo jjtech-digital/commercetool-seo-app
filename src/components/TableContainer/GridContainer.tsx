@@ -9,7 +9,6 @@ import { AgGridReact } from 'ag-grid-react';
 import { useApplicationContext } from '@commercetools-frontend/application-shell-connectors';
 import CustomLoadingOverlay from '../CustomLoadingOverlay/CustomLoadingOverlay';
 import CustomTooltip from '../CustomTooltip/CustomTooltip';
-import ActionRendererSEO from '../Renderers/ActionRendererSEO';
 import { IAppContext } from '../../context/AppContext';
 import { IProduct } from './TableContainer.types';
 import { TState } from '@commercetools-uikit/hooks';
