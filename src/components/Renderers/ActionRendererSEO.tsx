@@ -1,10 +1,10 @@
 import { useAppContext } from '../../context/AppContext';
 import { useApplicationContext } from '@commercetools-frontend/application-shell-connectors';
 import {
-  generateSeoMetaData,
+  queryOpenAi,
   updateProductSeoMeta,
 } from '../../api/fetchersFunction/seoMetaDataFetchers';
-import { seoMatchData } from '../../api/fetchersFunction/utils';
+import { generateMetaData, seoMatchData } from '../../api/fetchersFunction/utils';
 import ActionRenderButtons from './ActionRenderButtons';
 
 export default (props: any) => {
@@ -18,9 +18,10 @@ export default (props: any) => {
   const handleGenerateClick = async (params: any) => {
     props.context.loadingOverlayMessage = 'Generating meta data';
     props.gridRef.current!.api.showLoadingOverlay();
-    const aiResponse = await generateSeoMetaData(
+    const aiResponse = await generateMetaData(
       params?.data?.id,
       dataLocale,
+      queryOpenAi,
       setState
     );
     const responseData = seoMatchData(aiResponse)
