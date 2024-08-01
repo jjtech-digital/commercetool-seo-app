@@ -18,17 +18,22 @@ export const bulkGenerateProductMetaData = async (
   }
   let productMetaDataResponses: any[] = [];
 
+  const strings = {
+    dataLocale: dataLocale, 
+    errorMessage : 'Error generating product description and key features in batch.',
+  }
+
     await processBatches(
     productIds,
     batchSize,
-    dataLocale,
+    strings,
     generateMetaData,
     queryProductOpenAi,
     setState,
     (data) => {
       productMetaDataResponses = [...productMetaDataResponses, ...data];
     },
-    'Error generating product description and key features in batch.',
+    
   );
 
   return productMetaDataResponses;

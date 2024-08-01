@@ -32,12 +32,15 @@ type GenerateMetaDataFunction = (
 export const processBatches = async (
   productIds: string[],
   batchSize: number,
-  dataLocale: string,
+  strings : {
+    dataLocale : string,
+    errorMessage : string
+  },
   generateMetaData: GenerateMetaDataFunction,
   queryOpenAi : Function,
   setState: Function,
   successHandler: (data: any[]) => void,
-  errorMessage: string
+
 ) => {
   const totalBatches = Math.ceil(productIds?.length / batchSize);
 
@@ -48,7 +51,7 @@ export const processBatches = async (
 
     try {
       const response = batchIds.map(async (id) => {
-        return await generateMetaData(id, dataLocale, queryOpenAi);
+        return await generateMetaData(id, strings?.dataLocale, queryOpenAi);
       });
 
       const data = await Promise.all(response);
@@ -67,10 +70,10 @@ export const processBatches = async (
     } catch (error) {
       setState((prev: any) => ({
         ...prev,
-        notificationMessage: errorMessage,
+        notificationMessage: strings.errorMessage,
         notificationMessageType: 'error',
       }));
-      console.error(errorMessage, error);
+      console.error(strings.errorMessage, error);
     }
   }
 };
