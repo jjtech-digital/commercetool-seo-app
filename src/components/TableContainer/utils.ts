@@ -74,13 +74,13 @@ export const performSearch = async (
 export const fetchProductData = async (
   apiRoot,
   dataLocale,
-  perPage,
-  offSet,
+  pageData,
   setState,
   setTotalProductCount,
   setTableData,
   setSearchPerformed
 ) => {
+  const { perPage, offSet } = pageData
   setSearchPerformed(false);
   try {
     setState((prev: any) => ({ ...prev, pageLoading: true }));

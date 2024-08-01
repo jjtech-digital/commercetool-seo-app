@@ -121,12 +121,16 @@ const TableContainer = () => {
     }
   };
 
+  const pageData = {
+    perPage, 
+    offSet
+  }
+
   const fetchSeoData = async (): Promise<void> => {
     await fetchProductData(
       apiRoot,
       dataLocale,
-      perPage,
-      offSet,
+      pageData,
       setState,
       setTotalProductsCount,
       setSeoTableData,
