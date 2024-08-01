@@ -128,12 +128,16 @@ const DescriptionTableContainer = () => {
     }
   };
 
+  const pageData = {
+    perPage, 
+    offSet
+  }
+
   const fetchData = async (): Promise<void> => {
     await fetchProductData(
       apiRoot,
       dataLocale,
-      perPage,
-      offSet,
+      pageData,
       setState,
       setTotalProductCount,
       setTableData,
