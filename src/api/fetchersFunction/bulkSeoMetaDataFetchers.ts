@@ -1,8 +1,8 @@
 import {
-  generateSeoMetaData,
+  queryOpenAi,
   updateProductSeoMeta,
 } from './seoMetaDataFetchers';
-import { batchSize,  openAiKey, processBatches, setNotification } from './utils';
+import { batchSize,  generateMetaData,  openAiKey, processBatches, setNotification } from './utils';
 export const bulkGenerateSeoMetaData = async (
   productIds: string[],
   dataLocale: any,
@@ -23,7 +23,8 @@ export const bulkGenerateSeoMetaData = async (
     productIds,
     batchSize,
     dataLocale,
-    generateSeoMetaData,
+    generateMetaData,
+    queryOpenAi,
     setState,
     (data) => {
       metaDataResponses = [...metaDataResponses, ...data];

@@ -1,8 +1,8 @@
 import {
-  generateProductMetaData,
+  queryProductOpenAi,
   updateProductMeta,
 } from './productMetaDataFetchers';
-import { batchSize, openAiKey, processBatches, setNotification } from './utils';
+import { batchSize, generateMetaData, openAiKey, processBatches, setNotification } from './utils';
 export const bulkGenerateProductMetaData = async (
   productIds: string[],
   dataLocale: any,
@@ -22,7 +22,8 @@ export const bulkGenerateProductMetaData = async (
     productIds,
     batchSize,
     dataLocale,
-    generateProductMetaData,
+    generateMetaData,
+    queryProductOpenAi,
     setState,
     (data) => {
       productMetaDataResponses = [...productMetaDataResponses, ...data];

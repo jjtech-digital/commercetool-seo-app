@@ -12,59 +12,58 @@ import OpenAI from 'openai';
 import { getAllSavedRulesFromCtObj } from './ruleFetchers';
 import { getProductById } from './utils';
 
-export const generateProductMetaData = async (
-  productId: string,
-  dataLocale: any,
-  setState?: Function
-) => {
-  const accessToken = localStorage.getItem(LS_KEY.CT_OBJ_TOKEN);
-  const openAiKey = localStorage.getItem(LS_KEY.OPEN_AI_KEY);
-  if (!openAiKey) {
-      setState?.((prev: any) => ({
-        ...prev,
-        notificationMessage:
-          'OpenAI key is missing. Please set it in the settings.',
-        notificationMessageType: 'error',
-      }));
-    return null;
-  }
-  try {
-    const productResponse = await getProductById(productId, dataLocale);
-    const productName = productResponse?.masterData?.current?.name;
-    const categories = productResponse?.masterData?.current?.categories;
+// export const generateProductMetaData = async (
+//   productId: string,
+//   dataLocale: any,
+//   setState?: Function
+// ) => {
+//   const accessToken = localStorage.getItem(LS_KEY.CT_OBJ_TOKEN);
+//   if (!openAiKey) {
+//       setState?.((prev: any) => ({
+//         ...prev,
+//         notificationMessage:
+//           'OpenAI key is missing. Please set it in the settings.',
+//         notificationMessageType: 'error',
+//       }));
+//     return null;
+//   }
+//   try {
+//     const productResponse = await getProductById(productId, dataLocale);
+//     const productName = productResponse?.masterData?.current?.name;
+//     const categories = productResponse?.masterData?.current?.categories;
 
-    const categoryNames = categories
-      ?.map((category: any) => category?.name)
-      ?.join(', ');
-    const query = `Product name: "${productName}", Categories: "${categoryNames}"`;
+//     const categoryNames = categories
+//       ?.map((category: any) => category?.name)
+//       ?.join(', ');
+//     const query = `Product name: "${productName}", Categories: "${categoryNames}"`;
 
-    const localeQuery = dataLocale ? `, Locale: "${dataLocale}"` : '';
-    const data: any = await queryOpenAi(
-      query + localeQuery,
-      accessToken,
-      openAiKey
-    );
-    if (data?.status && data?.status == 401) {
+//     const localeQuery = dataLocale ? `, Locale: "${dataLocale}"` : '';
+//     const data: any = await queryProductOpenAi(
+//       query + localeQuery,
+//       accessToken,
+//       openAiKey
+//     );
+//     if (data?.status && data?.status == 401) {
 
-        setState?.((prev: any) => ({
-          ...prev,
-          notificationMessage: data?.error?.message,
-          notificationMessageType: 'error',
-        }));
-      return;
-    }
+//         setState?.((prev: any) => ({
+//           ...prev,
+//           notificationMessage: data?.error?.message,
+//           notificationMessageType: 'error',
+//         }));
+//       return;
+//     }
 
-    return { ...data, productId: productId };
-  } catch (error) {
-    console.error('Error generating product description and key features:', error);
-      setState?.((prev: any) => ({
-        ...prev,
-        notificationMessage: 'Error generating product description and key features',
-        notificationMessageType: 'error',
-      }));
-    return null;
-  }
-};
+//     return { ...data, productId: productId };
+//   } catch (error) {
+//     console.error('Error generating product description and key features:', error);
+//       setState?.((prev: any) => ({
+//         ...prev,
+//         notificationMessage: 'Error generating product description and key features',
+//         notificationMessageType: 'error',
+//       }));
+//     return null;
+//   }
+// };
 
 export const updateProductMeta = async (
   productId: string,
@@ -153,7 +152,7 @@ export const updateProductMeta = async (
   }
 };
 
-export const queryOpenAi = async (
+export const queryProductOpenAi = async (
   query: string,
   accessToken?: string | null,
   openAiKey?: string

@@ -1,10 +1,10 @@
 import { useAppContext } from '../../context/AppContext';
 import { useApplicationContext } from '@commercetools-frontend/application-shell-connectors';
 import {
-  generateProductMetaData,
+  queryProductOpenAi,
   updateProductMeta,
 } from '../../api/fetchersFunction/productMetaDataFetchers';
-import { matchData } from '../../api/fetchersFunction/utils';
+import { generateMetaData, matchData } from '../../api/fetchersFunction/utils';
 import ActionRenderButtons from './ActionRenderButtons';
 
 export default (props: any) => {
@@ -21,9 +21,10 @@ export default (props: any) => {
 
     props.gridRef.current!.api.showLoadingOverlay();
     try {
-      const aiResponse = await generateProductMetaData(
+      const aiResponse = await generateMetaData(
         params?.data?.id,
         dataLocale,
+        queryProductOpenAi,
         setState
       );
 

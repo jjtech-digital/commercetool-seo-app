@@ -25,7 +25,8 @@ export const batchSize = 20;
 
 type GenerateMetaDataFunction = (
   id: string,
-  dataLocale: string
+  dataLocale: string,
+  openAiFunction : Function
 ) => Promise<any>;
 
 export const processBatches = async (
@@ -33,6 +34,7 @@ export const processBatches = async (
   batchSize: number,
   dataLocale: string,
   generateMetaData: GenerateMetaDataFunction,
+  queryOpenAi : Function,
   setState: Function,
   successHandler: (data: any[]) => void,
   errorMessage: string
@@ -46,7 +48,7 @@ export const processBatches = async (
 
     try {
       const response = batchIds.map(async (id) => {
-        return await generateMetaData(id, dataLocale);
+        return await generateMetaData(id, dataLocale, queryOpenAi);
       });
 
       const data = await Promise.all(response);
@@ -125,5 +127,60 @@ export const getProductById = async (productId: string, locale?: string) => {
     console.error(`Error retrieving product by ID ${productId}:`, error);
 
     return 'Failed to retrieve product details';
+  }
+};
+
+export const generateMetaData = async (
+  productId: string,
+  dataLocale: any,
+  openAiFunction : Function,
+  setState?: Function
+) => {
+  const accessToken = localStorage.getItem(LS_KEY.CT_OBJ_TOKEN);
+  if (!openAiKey) {
+    setState?.((prev: any) => ({
+      ...prev,
+      notificationMessage:
+        'OpenAI key is missing. Please set it in the settings.',
+      notificationMessageType: 'error',
+    }));
+    return null;
+  }
+  try {
+    const productResponse = await getProductById(productId, dataLocale);
+
+    const productName = productResponse?.masterData?.current?.name;
+    const categories = productResponse?.masterData?.current?.categories;
+
+    const categoryNames = categories
+      ?.map((category: any) => category?.name)
+      ?.join(', ');
+    const query = `Product name: "${productName}", Categories: "${categoryNames}"`;
+
+    const localeQuery = dataLocale ? `, Locale: "${dataLocale}"` : '';
+    const data: any = await openAiFunction(
+      query + localeQuery,
+      accessToken,
+      openAiKey
+    );
+    if (data?.status && data?.status == 401) {
+      setState?.((prev: any) => ({
+        ...prev,
+        notificationMessage: data?.error?.message,
+        notificationMessageType: 'error',
+      }));
+      return;
+    }
+
+    return { ...data, productId: productId };
+  } catch (error) {
+    console.error('Error generating metadata for productID:', productId, error);
+
+    setState?.((prev: any) => ({
+      ...prev,
+      notificationMessage: 'Error generating metadata.',
+      notificationMessageType: 'error',
+    }));
+    return null;
   }
 };
