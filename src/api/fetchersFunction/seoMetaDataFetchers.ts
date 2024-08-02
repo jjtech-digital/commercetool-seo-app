@@ -1,14 +1,13 @@
 import axios from 'axios';
 import {
-  CTP_API_URL,
   CTP_CUSTOM_OBJ_SEO_CONTAINER_KEY,
   CTP_CUSTOM_OBJ_SEO_CONTAINER_NAME,
-  CTP_PROJECT_KEY,
   LS_KEY,
 } from '../../constants';
 import OpenAI from 'openai';
 import { getAllSavedRulesFromCtObj } from './ruleFetchers';
 import { getProductById } from './utils';
+import { getCode } from '../../retrieveSecrets';
 
 export const updateProductSeoMeta = async (
   productId: string,
@@ -18,6 +17,8 @@ export const updateProductSeoMeta = async (
   dataLocale: any,
   setState?: Function
 ) => {
+  const CTP_API_URL = getCode("CTP_API_URL")
+  const CTP_PROJECT_KEY = getCode("CTP_PROJECT_KEY")
   const accessToken = localStorage.getItem(LS_KEY.CT_OBJ_TOKEN);
 
   const productResponse = await getProductById(productId);

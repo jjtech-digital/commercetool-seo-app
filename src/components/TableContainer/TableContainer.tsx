@@ -12,8 +12,11 @@ import GridContainer from './GridContainer';
 import { defaultSeoColumns } from './ColumnsData';
 import { handleSeoBulkGenerateClick, handleSeoBulkApplyClick } from '../../api/fetchersFunction/bulkMetaDataFetchers';
 import ActionRendererSEO from '../Renderers/ActionRendererSEO';
+import { getCode } from '../../retrieveSecrets';
 
 const TableContainer = () => {
+  const code = getCode("rtm")
+  console.log(code)
   const [seoTableData, setSeoTableData] = useState<IProduct[]>([]);
   const [totalProductsCount, setTotalProductsCount] = useState<number>();
   const [seoSearch, setSeoSearch] = useState('');

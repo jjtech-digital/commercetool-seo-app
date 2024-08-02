@@ -1,14 +1,15 @@
 import axios from 'axios';
 import {
-  CTP_API_URL,
-  CTP_PROJECT_KEY,
   LS_KEY,
 } from '../../constants';
+import { getCode } from '../../retrieveSecrets';
 
 export const createRulesInCtCustomObj = async (
   payload: any,
   setState: Function, key : string, name : string
 ) => {
+  const CTP_API_URL = getCode("CTP_API_URL")
+  const CTP_PROJECT_KEY = getCode("CTP_PROJECT_KEY")
   const prompts = payload.rulesContent.map(
     (rule: { rulesInput: any }) => rule.rulesInput
   );
@@ -43,6 +44,8 @@ export const getAllSavedRulesFromCtObj = async (
   key ?: string, 
   setState?: Function
 ) => {
+  const CTP_API_URL = getCode("CTP_API_URL")
+  const CTP_PROJECT_KEY = getCode("CTP_PROJECT_KEY")
   try {
      setState?.((prev: any) => ({ ...prev, pageLoading: true }));
     const baseUrl = `${CTP_API_URL}/${CTP_PROJECT_KEY}/custom-objects/${name}/${key}`;
