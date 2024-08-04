@@ -11,7 +11,19 @@ import {
   getSavedAiKeyFromCtCustomObj,
   saveAiKeyInCtCustomObj,
 } from '../../api/fetchersFunction/aiKeyFetchers';
+import { useApplicationContext } from '@commercetools-frontend/application-shell-connectors';
 const SettingsOpenAiData = () => {
+  const CTP_API_URL = useApplicationContext(
+    (context) => context.environment.CTP_API_URL
+  );
+  const CTP_PROJECT_KEY = useApplicationContext(
+    (context) => context.environment.CTP_PROJECT_KEY
+  );
+
+  const secrets = {
+    CTP_API_URL,
+    CTP_PROJECT_KEY,
+  };
   const { state, setState } = useAppContext();
   const {
     handleSubmit,
@@ -24,7 +36,11 @@ const SettingsOpenAiData = () => {
     event?.preventDefault();
 
     try {
-      const response = await saveAiKeyInCtCustomObj(data.openAi, setState);
+      const response = await saveAiKeyInCtCustomObj(
+        data.openAi,
+        setState,
+        secrets
+      );
       localStorage.setItem(LS_KEY.OPEN_AI_KEY, response?.value);
 
       setState((prev: any) => ({
@@ -42,7 +58,7 @@ const SettingsOpenAiData = () => {
   };
   const fetchKey = async () => {
     try {
-      const response = await getSavedAiKeyFromCtCustomObj(setState);
+      const response = await getSavedAiKeyFromCtCustomObj(setState, secrets);
       if (response.value) {
         localStorage.setItem(LS_KEY.OPEN_AI_KEY, response.value);
         setValue('openAi', response.value);

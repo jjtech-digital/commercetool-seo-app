@@ -10,15 +10,15 @@ import {
 } from './bulkSeoMetaDataFetchers';
 import { matchData, seoMatchData } from './utils';
 
-
 export const handleDescBulkGenerateClick = async (
-  context : any,
-  gridRef : any,
-  selectedRows : IProduct[] | null,
-  dataLocale : string | null,
-  setState : Function,
-  tableData : IProduct[],
-  setTableData : Function
+  secrets: any,
+  context: any,
+  gridRef: any,
+  selectedRows: IProduct[] | null,
+  dataLocale: string | null,
+  setState: Function,
+  tableData: IProduct[],
+  setTableData: Function
 ) => {
   context.loadingOverlayMessage =
     'Generating description and key features for selected products. This may take some time';
@@ -28,6 +28,7 @@ export const handleDescBulkGenerateClick = async (
     (products: IProduct) => products?.id
   );
   const aiBulkResponse = await bulkGenerateProductMetaData(
+    secrets,
     bulkProductIds,
     dataLocale,
     setState
@@ -71,13 +72,14 @@ export const handleDescBulkGenerateClick = async (
 };
 
 export const handleSeoBulkGenerateClick = async (
-  context : any,
-  gridRef : any,
-  selectedRows : IProduct[] | null,
-  dataLocale : string | null,
-  setState : Function,
-  tableData : IProduct[],
-  setTableData : Function
+  secrets: any,
+  context: any,
+  gridRef: any,
+  selectedRows: IProduct[] | null,
+  dataLocale: string | null,
+  setState: Function,
+  tableData: IProduct[],
+  setTableData: Function
 ) => {
   context.loadingOverlayMessage =
     'Generating SEO metadata for selected products. This may take some time';
@@ -87,6 +89,7 @@ export const handleSeoBulkGenerateClick = async (
     (products: IProduct) => products?.id
   );
   const aiBulkResponse = await bulkGenerateSeoMetaData(
+    secrets,
     bulkProductIds,
     dataLocale,
     setState
@@ -95,7 +98,7 @@ export const handleSeoBulkGenerateClick = async (
   const updatedTableData = [...tableData];
 
   aiBulkResponse?.forEach((response) => {
-    const responseData = seoMatchData(response)
+    const responseData = seoMatchData(response);
     const { title, description } = responseData;
     const cleanedTitle = removeDoubleQuotes(title);
     const cleanedDescription = removeDoubleQuotes(description);
@@ -117,11 +120,11 @@ export const handleSeoBulkGenerateClick = async (
 };
 
 export const dataApplication = (
-  response : any,
-  tableData : IProduct[],
-  setTableData : Function,
-  gridRef : any,
-  context : any
+  response: any,
+  tableData: IProduct[],
+  setTableData: Function,
+  gridRef: any,
+  context: any
 ) => {
   if (response) {
     const updatedTableData = [...tableData];
@@ -142,13 +145,14 @@ export const dataApplication = (
   context.loadingOverlayMessage = 'Loading';
 };
 export const handleDescBulkApplyClick = async (
-  dataLocale : string | null,
-  selectedRows : IProduct[] | null,
-  setState : Function,
-  context : any,
-  gridRef : any,
-  tableData : IProduct[],
-  setTableData : Function
+  dataLocale: string | null,
+  selectedRows: IProduct[] | null,
+  setState: Function,
+  context: any,
+  gridRef: any,
+  tableData: IProduct[],
+  setTableData: Function,
+  secrets: any
 ) => {
   const featuredDataLocale = dataLocale || 'en';
   const hasEmptyMeta = selectedRows?.some(
@@ -179,6 +183,7 @@ export const handleDescBulkApplyClick = async (
     const res: any = await applyBulkProductMeta(
       bulkSelectedProductsData,
       dataLocale,
+      secrets,
       setState
     );
 
@@ -187,13 +192,14 @@ export const handleDescBulkApplyClick = async (
 };
 
 export const handleSeoBulkApplyClick = async (
-  selectedRows : IProduct[] | null,
-  context : any,
-  gridRef : any,
-  dataLocale : string | null,
-  setState : Function,
-  tableData : IProduct[],
-  setTableData  : Function
+  secrets: any,
+  selectedRows: IProduct[] | null,
+  context: any,
+  gridRef: any,
+  dataLocale: string | null,
+  setState: Function,
+  tableData: IProduct[],
+  setTableData: Function
 ) => {
   const hasEmptyMeta = selectedRows?.some(
     (product: IProduct) =>
@@ -221,6 +227,7 @@ export const handleSeoBulkApplyClick = async (
     gridRef.current!.api.showLoadingOverlay();
 
     const res: any = await applyBulkProductSeoMeta(
+      secrets,
       bulkSelectedProductsData,
       dataLocale,
       setState

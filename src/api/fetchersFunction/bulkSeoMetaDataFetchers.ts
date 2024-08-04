@@ -1,14 +1,17 @@
+import { queryOpenAi, updateProductSeoMeta } from './seoMetaDataFetchers';
 import {
-  queryOpenAi,
-  updateProductSeoMeta,
-} from './seoMetaDataFetchers';
-import { batchSize,  generateMetaData,  openAiKey, processBatches, setNotification } from './utils';
+  batchSize,
+  generateMetaData,
+  openAiKey,
+  processBatches,
+  setNotification,
+} from './utils';
 export const bulkGenerateSeoMetaData = async (
+  secrets: any,
   productIds: string[],
   dataLocale: any,
   setState: Function
 ) => {
-
   if (!openAiKey) {
     setNotification(
       setState,
@@ -19,12 +22,13 @@ export const bulkGenerateSeoMetaData = async (
   }
   let metaDataResponses: any[] = [];
 
-  const strings ={
-    dataLocale : dataLocale, 
-    errorMessage : 'Error generating SEO metadata in batch.'
-  }
+  const strings = {
+    dataLocale: dataLocale,
+    errorMessage: 'Error generating SEO metadata in batch.',
+  };
 
   await processBatches(
+    secrets,
     productIds,
     batchSize,
     strings,
@@ -33,14 +37,14 @@ export const bulkGenerateSeoMetaData = async (
     setState,
     (data) => {
       metaDataResponses = [...metaDataResponses, ...data];
-    },
-    
+    }
   );
 
   return metaDataResponses;
 };
 
 export const applyBulkProductSeoMeta = async (
+  secrets: any,
   bulkSelectedProductsData: any[],
   dataLocale: any,
   setState: Function
@@ -65,6 +69,7 @@ export const applyBulkProductSeoMeta = async (
     try {
       const applyBulkSeoPromises = batchData?.map(async (product) => {
         return await updateProductSeoMeta(
+          secrets,
           product?.productId,
           product?.metaTitle,
           product?.metaDescription,

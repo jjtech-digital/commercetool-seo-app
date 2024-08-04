@@ -2,14 +2,13 @@ import axios from 'axios';
 import {
   CTP_CUSTOM_OBJ_DESCRIPTION_CONTAINER_KEY,
   CTP_CUSTOM_OBJ_DESCRIPTION_CONTAINER_NAME,
-  CTP_CUSTOM_OBJ_KEYFEATURES_CONTAINER_KEY, 
+  CTP_CUSTOM_OBJ_KEYFEATURES_CONTAINER_KEY,
   CTP_CUSTOM_OBJ_KEYFEATURES_CONTAINER_NAME,
   LS_KEY,
 } from '../../constants';
 import OpenAI from 'openai';
 import { getAllSavedRulesFromCtObj } from './ruleFetchers';
 import { getProductById } from './utils';
-import { getCode } from '../../retrieveSecrets';
 
 export const updateProductMeta = async (
   productId: string,
@@ -17,10 +16,10 @@ export const updateProductMeta = async (
   description: string,
   version: number,
   dataLocale: any,
+  secrets: any,
   setState?: Function
 ) => {
-  const CTP_API_URL = getCode("CTP_API_URL")
-  const CTP_PROJECT_KEY = getCode("CTP_PROJECT_KEY")
+  const { CTP_API_URL, CTP_PROJECT_KEY } = secrets;
   const accessToken = localStorage.getItem(LS_KEY.CT_OBJ_TOKEN);
 
   const productResponse = await getProductById(productId);
@@ -35,23 +34,25 @@ export const updateProductMeta = async (
     }
   }
   descriptionObj[dataLocale] = description;
-  
+
   let keyFeaturesObj: any = {};
   let existingFeatures =
     productResponse?.masterData?.current?.masterVariant.attributesRaw.find(
       (item: any) => item.name === 'features'
     );
-    if (existingFeatures?.value?.[0]) {
-        existingFeatures.value[0][dataLocale] = keyFeatures || " ";
-    }
-    if(!existingFeatures){
-      existingFeatures = { name : "features", value : [{ [dataLocale] : ""}]}
-      const features = {name : "features", value : [{ [dataLocale] : ""}]}
-      productResponse?.masterData?.current?.masterVariant.attributesRaw.push(features);
-      existingFeatures.value[0][dataLocale] = keyFeatures || " ";
-    }
+  if (existingFeatures?.value?.[0]) {
+    existingFeatures.value[0][dataLocale] = keyFeatures || ' ';
+  }
+  if (!existingFeatures) {
+    existingFeatures = { name: 'features', value: [{ [dataLocale]: '' }] };
+    const features = { name: 'features', value: [{ [dataLocale]: '' }] };
+    productResponse?.masterData?.current?.masterVariant.attributesRaw.push(
+      features
+    );
+    existingFeatures.value[0][dataLocale] = keyFeatures || ' ';
+  }
 
-  keyFeaturesObj = existingFeatures.value[0]
+  keyFeaturesObj = existingFeatures.value[0];
   const apiUrl = `${CTP_API_URL}/${CTP_PROJECT_KEY}/products/${productId}`;
   const headers = {
     Authorization: `Bearer ${accessToken}`,
@@ -79,19 +80,21 @@ export const updateProductMeta = async (
   try {
     const response = await axios.post(apiUrl, payload, { headers });
 
-      setState?.((prev: any) => ({
-        ...prev,
-        notificationMessage:
-          keyFeatures ? 'Description and key features updated successfully.' : 'Description updated successfully.',
-        notificationMessageType: 'success',
-      }));
+    setState?.((prev: any) => ({
+      ...prev,
+      notificationMessage: keyFeatures
+        ? 'Description and key features updated successfully.'
+        : 'Description updated successfully.',
+      notificationMessageType: 'success',
+    }));
     return response.data;
   } catch (error) {
-      setState?.((prev: any) => ({
-        ...prev,
-        notificationMessage: 'Error updating product description and key features.',
-        notificationMessageType: 'error',
-      }));
+    setState?.((prev: any) => ({
+      ...prev,
+      notificationMessage:
+        'Error updating product description and key features.',
+      notificationMessageType: 'error',
+    }));
     console.error(
       'Error updating product description and key features:',
       error
@@ -101,6 +104,7 @@ export const updateProductMeta = async (
 };
 
 export const queryProductOpenAi = async (
+  secrets: any,
   query: string,
   accessToken?: string | null,
   openAiKey?: string
@@ -114,16 +118,22 @@ export const queryProductOpenAi = async (
   if (accessToken) {
     const promptDescription: any = await getAllSavedRulesFromCtObj(
       accessToken,
+      secrets,
       CTP_CUSTOM_OBJ_DESCRIPTION_CONTAINER_NAME,
       CTP_CUSTOM_OBJ_DESCRIPTION_CONTAINER_KEY
     );
     const promptKeyFeatures: any = await getAllSavedRulesFromCtObj(
       accessToken,
+      secrets,
       CTP_CUSTOM_OBJ_KEYFEATURES_CONTAINER_NAME,
       CTP_CUSTOM_OBJ_KEYFEATURES_CONTAINER_KEY
     );
-    const allEmptyDescriptionrules = promptDescription?.value?.every((p: string) => /^\s*$/.test(p));
-    const allEmptyKeyFeaturesrules = promptKeyFeatures?.value?.every((p: string) => /^\s*$/.test(p));
+    const allEmptyDescriptionrules = promptDescription?.value?.every(
+      (p: string) => /^\s*$/.test(p)
+    );
+    const allEmptyKeyFeaturesrules = promptKeyFeatures?.value?.every(
+      (p: string) => /^\s*$/.test(p)
+    );
 
     if (!allEmptyDescriptionrules && !allEmptyKeyFeaturesrules) {
       updatedPromptDescription = promptDescription?.value?.join(' ');

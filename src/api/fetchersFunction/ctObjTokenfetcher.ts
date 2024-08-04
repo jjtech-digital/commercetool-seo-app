@@ -1,10 +1,7 @@
 import axios from 'axios';
-import { getCode } from '../../retrieveSecrets';
 
-export const createCtObjToken = async () => {
-  const CTP_AUTH_URL = getCode("CTP_AUTH_URL")
-  const CTP_CLIENT_ID = getCode("CTP_CLIENT_ID")
-  const CTP_SCOPES = getCode("CTP_SCOPES")
+export const createCtObjToken = async (secrets: any) => {
+  const { CTP_AUTH_URL, CTP_CLIENT_ID, CTP_SCOPES } = secrets;
 
   try {
     const accessTokenUrl = `${CTP_AUTH_URL}/oauth/token?grant_type=client_credentials`;
@@ -13,10 +10,7 @@ export const createCtObjToken = async () => {
     ).toString('base64');
     const requestBody = new URLSearchParams();
     requestBody.append('grant_type', 'client_credentials'); // Use the appropriate grant type
-    requestBody.append(
-      'scope',
-      CTP_SCOPES || ''
-    );
+    requestBody.append('scope', CTP_SCOPES || '');
     const response = await axios.post(accessTokenUrl, requestBody, {
       headers: {
         Authorization: `Basic ${basicAuth}`,

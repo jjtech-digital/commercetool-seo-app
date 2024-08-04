@@ -4,14 +4,13 @@ import {
   CTP_CUSTOM_OBJ_AI_CONTAINER_NAME,
   LS_KEY,
 } from '../../constants';
-import { getCode } from '../../retrieveSecrets';
 
 export const saveAiKeyInCtCustomObj = async (
   aiKey: string,
-  setState: Function
+  setState: Function,
+  secrets: any
 ) => {
-  const CTP_API_URL = getCode("CTP_API_URL")
-  const CTP_PROJECT_KEY = getCode("CTP_PROJECT_KEY")
+  const { CTP_API_URL, CTP_PROJECT_KEY } = secrets;
   const accessToken = localStorage.getItem(LS_KEY.CT_OBJ_TOKEN);
   try {
     setState((prev: any) => ({ ...prev, isApiFetching: true }));
@@ -37,9 +36,11 @@ export const saveAiKeyInCtCustomObj = async (
   }
 };
 
-export const getSavedAiKeyFromCtCustomObj = async (setState: Function) => {
-  const CTP_API_URL = getCode("CTP_API_URL")
-  const CTP_PROJECT_KEY = getCode("CTP_PROJECT_KEY")
+export const getSavedAiKeyFromCtCustomObj = async (
+  setState: Function,
+  secrets: any
+) => {
+  const { CTP_API_URL, CTP_PROJECT_KEY } = secrets;
   const accessToken = localStorage.getItem(LS_KEY.CT_OBJ_TOKEN);
   try {
     setState((prev: any) => ({ ...prev, pageLoading: true }));

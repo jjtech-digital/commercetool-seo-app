@@ -8,6 +8,16 @@ import { generateMetaData, matchData } from '../../api/fetchersFunction/utils';
 import ActionRenderButtons from './ActionRenderButtons';
 
 export default (props: any) => {
+  const CTP_API_URL = useApplicationContext(
+    (context) => context.environment.CTP_API_URL
+  );
+  const CTP_PROJECT_KEY = useApplicationContext(
+    (context) => context.environment.CTP_PROJECT_KEY
+  );
+  const secrets = {
+    CTP_API_URL,
+    CTP_PROJECT_KEY,
+  };
   const { setState } = useAppContext();
 
   const { dataLocale } = useApplicationContext((context) => ({
@@ -22,6 +32,7 @@ export default (props: any) => {
     props.gridRef.current!.api.showLoadingOverlay();
     try {
       const aiResponse = await generateMetaData(
+        secrets,
         params?.data?.id,
         dataLocale,
         queryProductOpenAi,
@@ -86,6 +97,7 @@ export default (props: any) => {
             description,
             updatedRowData.version,
             dataLocale,
+            secrets,
             setState
           );
 
