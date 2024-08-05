@@ -4,12 +4,24 @@ import {
   queryOpenAi,
   updateProductSeoMeta,
 } from '../../api/fetchersFunction/seoMetaDataFetchers';
-import { generateMetaData, seoMatchData } from '../../api/fetchersFunction/utils';
+import {
+  generateMetaData,
+  seoMatchData,
+} from '../../api/fetchersFunction/utils';
 import ActionRenderButtons from './ActionRenderButtons';
 
 export default (props: any) => {
   const { setState } = useAppContext();
-
+  const CTP_API_URL = useApplicationContext(
+    (context) => context.environment.CTP_API_URL
+  );
+  const CTP_PROJECT_KEY = useApplicationContext(
+    (context) => context.environment.CTP_PROJECT_KEY
+  );
+  const secrets = {
+    CTP_API_URL,
+    CTP_PROJECT_KEY,
+  };
   const { dataLocale } = useApplicationContext((context) => ({
     dataLocale: context.dataLocale,
     projectLanguages: context.project?.languages,
@@ -19,12 +31,13 @@ export default (props: any) => {
     props.context.loadingOverlayMessage = 'Generating meta data';
     props.gridRef.current!.api.showLoadingOverlay();
     const aiResponse = await generateMetaData(
+      secrets,
       params?.data?.id,
       dataLocale,
       queryOpenAi,
       setState
     );
-    const responseData = seoMatchData(aiResponse)
+    const responseData = seoMatchData(aiResponse);
     const { title, description } = responseData;
     props.setResponseFromAi({
       id: params.data.id,
@@ -65,6 +78,7 @@ export default (props: any) => {
         props.context.loadingOverlayMessage = 'Applying';
         props.gridRef.current!.api.showLoadingOverlay();
         const res = await updateProductSeoMeta(
+          secrets,
           updatedRowData.id,
           metaTitle,
           metaDescription,
@@ -86,9 +100,9 @@ export default (props: any) => {
 
   return (
     <ActionRenderButtons
-    handleGenerate={handleGenerateClick}
-    handleApply={handleApplyClick}
-    allProps={props}
-  />
+      handleGenerate={handleGenerateClick}
+      handleApply={handleApplyClick}
+      allProps={props}
+    />
   );
 };

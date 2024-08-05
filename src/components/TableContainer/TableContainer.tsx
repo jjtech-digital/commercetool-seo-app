@@ -10,7 +10,10 @@ import apiRoot from '../../api/apiRoot';
 import { fetchProductData, performSearch, removeDoubleQuotes } from './utils';
 import GridContainer from './GridContainer';
 import { defaultSeoColumns } from './ColumnsData';
-import { handleSeoBulkGenerateClick, handleSeoBulkApplyClick } from '../../api/fetchersFunction/bulkMetaDataFetchers';
+import {
+  handleSeoBulkGenerateClick,
+  handleSeoBulkApplyClick,
+} from '../../api/fetchersFunction/bulkMetaDataFetchers';
 import ActionRendererSEO from '../Renderers/ActionRendererSEO';
 
 const TableContainer = () => {
@@ -32,14 +35,23 @@ const TableContainer = () => {
   //   setGridApi(params.api);
   //   setColumnApi(params.columnApi);
   // };
+  
   const seoGridRef = useRef<AgGridReact>(null);
 
   const { dataLocale } = useApplicationContext((context) => ({
     dataLocale: context.dataLocale,
     projectLanguages: context.project?.languages,
   }));
-
-
+  const CTP_API_URL = useApplicationContext(
+    (context) => context.environment.CTP_API_URL
+  );
+  const CTP_PROJECT_KEY = useApplicationContext(
+    (context) => context.environment.CTP_PROJECT_KEY
+  );
+  const secrets = {
+    CTP_API_URL,
+    CTP_PROJECT_KEY,
+  };
   const components = useMemo(
     () => ({
       actionRenderer: ActionRendererSEO,
@@ -80,10 +92,10 @@ const TableContainer = () => {
   }, [offSet, perPage?.value]);
 
   const pageRelatedData = {
-    dataLocale : dataLocale, 
-    offSet : offSet,
-    perPage : perPage
-  }
+    dataLocale: dataLocale,
+    offSet: offSet,
+    perPage: perPage,
+  };
 
   const handleSeoSearch = async () => {
     const data = await performSearch(
@@ -122,9 +134,9 @@ const TableContainer = () => {
   };
 
   const pageData = {
-    perPage, 
-    offSet
-  }
+    perPage,
+    offSet,
+  };
 
   const fetchSeoData = async (): Promise<void> => {
     await fetchProductData(
@@ -166,6 +178,9 @@ const TableContainer = () => {
   const searchBoxText =
     'Search by Product key, Name, Seo title or Seo description';
 
+  const strings = {
+    dataLocale, secrets
+  }
   return (
     <GridContainer
       search={seoSearch}
@@ -173,8 +188,28 @@ const TableContainer = () => {
       handleSearch={handleSeoSearch}
       fetchData={fetchSeoData}
       selectedRows={seoSelectedRows}
-      handleBulkGenerateClick={()=>handleSeoBulkGenerateClick(context,seoGridRef,seoSelectedRows, dataLocale, setState, seoTableData, setSeoTableData)}
-      handleBulkApplyClick={()=>handleSeoBulkApplyClick(seoSelectedRows, context, seoGridRef, dataLocale, setState,seoTableData, setSeoTableData)}
+      handleBulkGenerateClick={() =>
+        handleSeoBulkGenerateClick(
+          strings,
+          context,
+          seoGridRef,
+          seoSelectedRows,
+          setState,
+          seoTableData,
+          setSeoTableData
+        )
+      }
+      handleBulkApplyClick={() =>
+        handleSeoBulkApplyClick(
+          strings,
+          seoSelectedRows,
+          context,
+          seoGridRef,
+          setState,
+          seoTableData,
+          setSeoTableData
+        )
+      }
       gridRef={seoGridRef}
       state={state}
       tableData={seoTableData}

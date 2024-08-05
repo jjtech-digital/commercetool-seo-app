@@ -1,13 +1,9 @@
 import { lazy, useEffect } from 'react';
-import {
-  ApplicationShell,
-  setupGlobalErrorListener,
-} from '@commercetools-frontend/application-shell';
+import { setupGlobalErrorListener } from '@commercetools-frontend/application-shell';
 import type { ApplicationWindow } from '@commercetools-frontend/constants';
-import loadMessages from '../../load-messages';
-import { AppContextProvider } from '../../context/AppContext';
 import { createCtObjToken } from '../../api/fetchersFunction/ctObjTokenfetcher';
 import { LS_KEY } from '../../constants';
+import { useApplicationContext } from '@commercetools-frontend/application-shell-connectors';
 
 declare let window: ApplicationWindow;
 
@@ -23,9 +19,23 @@ const AsyncApplicationRoutes = lazy(
 setupGlobalErrorListener();
 
 const EntryPoint = () => {
+  const CTP_SCOPES = useApplicationContext(
+    (context) => context.environment.CTP_SCOPES
+  );
+  const CTP_AUTH_URL = useApplicationContext(
+    (context) => context.environment.CTP_AUTH_URL
+  );
+  const CTP_CLIENT_ID = useApplicationContext(
+    (context) => context.environment.CTP_CLIENT_ID
+  );
+  const secrets = {
+    CTP_SCOPES,
+    CTP_AUTH_URL,
+    CTP_CLIENT_ID,
+  };
   const storeToken = async () => {
     try {
-      const token = await createCtObjToken();
+      const token = await createCtObjToken(secrets);
 
       if (token) {
         localStorage.setItem(LS_KEY.CT_OBJ_TOKEN, token);
@@ -39,17 +49,7 @@ const EntryPoint = () => {
     storeToken();
   }, []);
 
-  return (
-    <AppContextProvider>
-      <ApplicationShell
-        enableReactStrictMode
-        environment={window.app}
-        applicationMessages={loadMessages}
-      >
-        <AsyncApplicationRoutes />
-      </ApplicationShell>
-    </AppContextProvider>
-  );
+  return <AsyncApplicationRoutes />;
 };
 EntryPoint.displayName = 'EntryPoint';
 

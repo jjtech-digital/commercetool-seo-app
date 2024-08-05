@@ -2,8 +2,15 @@ import {
   queryProductOpenAi,
   updateProductMeta,
 } from './productMetaDataFetchers';
-import { batchSize, generateMetaData, openAiKey, processBatches, setNotification } from './utils';
+import {
+  batchSize,
+  generateMetaData,
+  openAiKey,
+  processBatches,
+  setNotification,
+} from './utils';
 export const bulkGenerateProductMetaData = async (
+  secrets: any,
   productIds: string[],
   dataLocale: any,
   setState: Function
@@ -19,11 +26,13 @@ export const bulkGenerateProductMetaData = async (
   let productMetaDataResponses: any[] = [];
 
   const strings = {
-    dataLocale: dataLocale, 
-    errorMessage : 'Error generating product description and key features in batch.',
-  }
+    dataLocale: dataLocale,
+    errorMessage:
+      'Error generating product description and key features in batch.',
+      secrets,
+  };
 
-    await processBatches(
+  await processBatches(
     productIds,
     batchSize,
     strings,
@@ -32,8 +41,7 @@ export const bulkGenerateProductMetaData = async (
     setState,
     (data) => {
       productMetaDataResponses = [...productMetaDataResponses, ...data];
-    },
-    
+    }
   );
 
   return productMetaDataResponses;
@@ -42,6 +50,7 @@ export const bulkGenerateProductMetaData = async (
 export const applyBulkProductMeta = async (
   bulkSelectedProductsData: any[],
   dataLocale: any,
+  secrets: any,
   setState: Function
 ) => {
   const batchSize = 20; // Define your batch size
@@ -67,14 +76,16 @@ export const applyBulkProductMeta = async (
           product?.keyFeatures,
           product?.description,
           product?.version,
-          product?.dataLocale
+          product?.dataLocale,
+          secrets,
         );
       });
       const data = await Promise.all(applyBulkPromises);
 
       setState((prev: any) => ({
         ...prev,
-        notificationMessage: 'Product description and key features applied successfully.',
+        notificationMessage:
+          'Product description and key features applied successfully.',
         notificationMessageType: 'success',
       }));
 
@@ -82,10 +93,14 @@ export const applyBulkProductMeta = async (
     } catch (error) {
       setState((prev: any) => ({
         ...prev,
-        notificationMessage: 'Error applying description and key features in batch.',
+        notificationMessage:
+          'Error applying description and key features in batch.',
         notificationMessageType: 'error',
       }));
-      console.error('Error applying description and key features in batch:', error);
+      console.error(
+        'Error applying description and key features in batch:',
+        error
+      );
     }
   }
   return applyBulkResponses;

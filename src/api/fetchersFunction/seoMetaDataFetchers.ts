@@ -1,9 +1,7 @@
 import axios from 'axios';
 import {
-  CTP_API_URL,
   CTP_CUSTOM_OBJ_SEO_CONTAINER_KEY,
   CTP_CUSTOM_OBJ_SEO_CONTAINER_NAME,
-  CTP_PROJECT_KEY,
   LS_KEY,
 } from '../../constants';
 import OpenAI from 'openai';
@@ -11,6 +9,7 @@ import { getAllSavedRulesFromCtObj } from './ruleFetchers';
 import { getProductById } from './utils';
 
 export const updateProductSeoMeta = async (
+  secrets: any,
   productId: string,
   metaTitle: string,
   metaDescription: string,
@@ -18,6 +17,7 @@ export const updateProductSeoMeta = async (
   dataLocale: any,
   setState?: Function
 ) => {
+  const { CTP_API_URL, CTP_PROJECT_KEY } = secrets;
   const accessToken = localStorage.getItem(LS_KEY.CT_OBJ_TOKEN);
 
   const productResponse = await getProductById(productId);
@@ -87,6 +87,7 @@ export const updateProductSeoMeta = async (
 };
 
 export const queryOpenAi = async (
+  secrets: any,
   query: string,
   accessToken?: string | null,
   openAiKey?: string
@@ -99,6 +100,7 @@ export const queryOpenAi = async (
   if (accessToken) {
     const prompt: any = getAllSavedRulesFromCtObj(
       accessToken,
+      secrets,
       CTP_CUSTOM_OBJ_SEO_CONTAINER_NAME,
       CTP_CUSTOM_OBJ_SEO_CONTAINER_KEY
     );

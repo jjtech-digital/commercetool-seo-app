@@ -11,9 +11,22 @@ import apiRoot from '../../api/apiRoot';
 import { fetchProductData, performSearch, removeDoubleQuotes } from './utils';
 import GridContainer from './GridContainer';
 import { defaultDescColumns } from './ColumnsData';
-import { handleDescBulkApplyClick, handleDescBulkGenerateClick } from '../../api/fetchersFunction/bulkMetaDataFetchers';
+import {
+  handleDescBulkApplyClick,
+  handleDescBulkGenerateClick,
+} from '../../api/fetchersFunction/bulkMetaDataFetchers';
 import ActionRendererProductInformation from '../Renderers/ActionRendererProductInformation';
 const DescriptionTableContainer = () => {
+  const CTP_API_URL = useApplicationContext(
+    (context) => context.environment.CTP_API_URL
+  );
+  const CTP_PROJECT_KEY = useApplicationContext(
+    (context) => context.environment.CTP_PROJECT_KEY
+  );
+  const secrets = {
+    CTP_API_URL,
+    CTP_PROJECT_KEY,
+  };
   const [tableData, setTableData] = useState<IProduct[]>([]);
   const [totalProductCount, setTotalProductCount] = useState<number>();
   const [search, setSearch] = useState('');
@@ -45,7 +58,6 @@ const DescriptionTableContainer = () => {
     }),
     []
   );
-
 
   const { page, perPage } = usePaginationState();
   const { state, setState } = useAppContext();
@@ -79,10 +91,10 @@ const DescriptionTableContainer = () => {
   }, [offSet, perPage?.value]);
 
   const pageRelatedData = {
-    dataLocale : dataLocale, 
-    offSet : offSet,
-    perPage : perPage
-  }
+    dataLocale: dataLocale,
+    offSet: offSet,
+    perPage: perPage,
+  };
 
   const handleSearch = async () => {
     const data = await performSearch(
@@ -129,9 +141,9 @@ const DescriptionTableContainer = () => {
   };
 
   const pageData = {
-    perPage, 
-    offSet
-  }
+    perPage,
+    offSet,
+  };
 
   const fetchData = async (): Promise<void> => {
     await fetchProductData(
@@ -167,7 +179,7 @@ const DescriptionTableContainer = () => {
         let features = attributesRaw.find(
           (item: any) => item.name === 'features'
         );
-        let featureDatalocale = dataLocale ;
+        let featureDatalocale = dataLocale;
         if (!features) {
           features = { name: 'features', value: [{ [featureDatalocale]: '' }] };
           attributesRaw.push(features);
@@ -186,6 +198,10 @@ const DescriptionTableContainer = () => {
 
   const searchBoxText = 'Search by Product key, Name, description';
 
+  const strings = { 
+    dataLocale, secrets
+  }
+
   return (
     <GridContainer
       search={search}
@@ -193,8 +209,29 @@ const DescriptionTableContainer = () => {
       handleSearch={handleSearch}
       fetchData={fetchData}
       selectedRows={selectedRows}
-      handleBulkGenerateClick={()=>handleDescBulkGenerateClick(context,gridRef, selectedRows, dataLocale, setState, tableData, setTableData)}
-      handleBulkApplyClick={()=>handleDescBulkApplyClick(dataLocale, selectedRows,setState, context,gridRef, tableData, setTableData)}
+      handleBulkGenerateClick={() =>
+        handleDescBulkGenerateClick(
+          strings,
+          context,
+          gridRef,
+          selectedRows,
+          setState,
+          tableData,
+          setTableData
+        )
+      }
+      handleBulkApplyClick={() =>
+        handleDescBulkApplyClick(
+          strings,
+          selectedRows,
+          setState,
+          context,
+          gridRef,
+          tableData,
+          setTableData,
+         
+        )
+      }
       gridRef={gridRef}
       state={state}
       tableData={tableData}

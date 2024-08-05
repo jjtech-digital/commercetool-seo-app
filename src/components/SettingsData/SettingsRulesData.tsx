@@ -22,8 +22,19 @@ import {
 } from '../../api/fetchersFunction/ruleFetchers';
 import SettingsRuleDataRender from './SettingsRuleDataRender';
 import { FormData } from './Settings.types';
+import { useApplicationContext } from '@commercetools-frontend/application-shell-connectors';
 
 const SettingsRulesData = () => {
+  const CTP_API_URL = useApplicationContext(
+    (context) => context.environment.CTP_API_URL
+  );
+  const CTP_PROJECT_KEY = useApplicationContext(
+    (context) => context.environment.CTP_PROJECT_KEY
+  );
+  const secrets = {
+    CTP_API_URL,
+    CTP_PROJECT_KEY,
+  };
   const [currentIndex, setCurrentIndex] = useState({
     seo: 0,
     description: 0,
@@ -125,6 +136,7 @@ const SettingsRulesData = () => {
         if (accessToken) {
           const response = await getAllSavedRulesFromCtObj(
             accessToken,
+            secrets,
             CTP_CUSTOM_OBJ_SEO_CONTAINER_NAME,
             CTP_CUSTOM_OBJ_SEO_CONTAINER_KEY,
             setState
@@ -146,6 +158,7 @@ const SettingsRulesData = () => {
         if (accessToken) {
           const response = await getAllSavedRulesFromCtObj(
             accessToken,
+            secrets,
             CTP_CUSTOM_OBJ_DESCRIPTION_CONTAINER_NAME,
             CTP_CUSTOM_OBJ_DESCRIPTION_CONTAINER_KEY,
             setState
@@ -167,6 +180,7 @@ const SettingsRulesData = () => {
         if (accessToken) {
           const response = await getAllSavedRulesFromCtObj(
             accessToken,
+            secrets,
             CTP_CUSTOM_OBJ_KEYFEATURES_CONTAINER_NAME,
             CTP_CUSTOM_OBJ_KEYFEATURES_CONTAINER_KEY,
             setState
@@ -232,7 +246,8 @@ const SettingsRulesData = () => {
         formData,
         setState,
         CTP_CUSTOM_OBJ_SEO_CONTAINER_NAME,
-        CTP_CUSTOM_OBJ_SEO_CONTAINER_KEY
+        CTP_CUSTOM_OBJ_SEO_CONTAINER_KEY,
+        secrets
       );
       setState((prev: any) => ({
         ...prev,
@@ -258,7 +273,8 @@ const SettingsRulesData = () => {
         formData,
         setState,
         CTP_CUSTOM_OBJ_DESCRIPTION_CONTAINER_NAME,
-        CTP_CUSTOM_OBJ_DESCRIPTION_CONTAINER_KEY
+        CTP_CUSTOM_OBJ_DESCRIPTION_CONTAINER_KEY,
+        secrets
       );
       setState((prev: any) => ({
         ...prev,
@@ -284,7 +300,8 @@ const SettingsRulesData = () => {
         formData,
         setState,
         CTP_CUSTOM_OBJ_KEYFEATURES_CONTAINER_NAME,
-        CTP_CUSTOM_OBJ_KEYFEATURES_CONTAINER_KEY
+        CTP_CUSTOM_OBJ_KEYFEATURES_CONTAINER_KEY,
+        secrets
       );
       setState((prev: any) => ({
         ...prev,

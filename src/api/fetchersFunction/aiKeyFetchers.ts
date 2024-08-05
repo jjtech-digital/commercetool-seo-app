@@ -1,16 +1,16 @@
 import axios from 'axios';
 import {
-  CTP_API_URL,
   CTP_CUSTOM_OBJ_AI_CONTAINER_KEY,
   CTP_CUSTOM_OBJ_AI_CONTAINER_NAME,
-  CTP_PROJECT_KEY,
   LS_KEY,
 } from '../../constants';
 
 export const saveAiKeyInCtCustomObj = async (
   aiKey: string,
-  setState: Function
+  setState: Function,
+  secrets: any
 ) => {
+  const { CTP_API_URL, CTP_PROJECT_KEY } = secrets;
   const accessToken = localStorage.getItem(LS_KEY.CT_OBJ_TOKEN);
   try {
     setState((prev: any) => ({ ...prev, isApiFetching: true }));
@@ -36,7 +36,11 @@ export const saveAiKeyInCtCustomObj = async (
   }
 };
 
-export const getSavedAiKeyFromCtCustomObj = async (setState: Function) => {
+export const getSavedAiKeyFromCtCustomObj = async (
+  setState: Function,
+  secrets: any
+) => {
+  const { CTP_API_URL, CTP_PROJECT_KEY } = secrets;
   const accessToken = localStorage.getItem(LS_KEY.CT_OBJ_TOKEN);
   try {
     setState((prev: any) => ({ ...prev, pageLoading: true }));

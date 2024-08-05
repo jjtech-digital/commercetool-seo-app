@@ -24,22 +24,24 @@ export const setNotification = (
 export const batchSize = 20;
 
 type GenerateMetaDataFunction = (
+  secrets: any,
   id: string,
   dataLocale: string,
-  openAiFunction : Function
+  openAiFunction: Function
 ) => Promise<any>;
 
 export const processBatches = async (
   productIds: string[],
   batchSize: number,
-  strings : {
-    dataLocale : string,
-    errorMessage : string
+  strings: {
+    dataLocale: string;
+    errorMessage: string;
+    secrets: any,
   },
   generateMetaData: GenerateMetaDataFunction,
-  queryOpenAi : Function,
+  queryOpenAi: Function,
   setState: Function,
-  successHandler: (data: any[]) => void,
+  successHandler: (data: any[]) => void
 ) => {
   const totalBatches = Math.ceil(productIds?.length / batchSize);
 
@@ -50,7 +52,12 @@ export const processBatches = async (
 
     try {
       const response = batchIds.map(async (id) => {
-        return await generateMetaData(id, strings?.dataLocale, queryOpenAi);
+        return await generateMetaData(
+          strings.secrets,
+          id,
+          strings?.dataLocale,
+          queryOpenAi
+        );
       });
 
       const data = await Promise.all(response);
@@ -77,7 +84,7 @@ export const processBatches = async (
   }
 };
 
-export const matchData = (response : any) => {
+export const matchData = (response: any) => {
   const metaData = response?.choices?.[0]?.message?.content;
 
   const featuresMatch = metaData?.match(featuresPattern);
@@ -91,7 +98,7 @@ export const matchData = (response : any) => {
   };
 };
 
-export const seoMatchData = (response : any) => {
+export const seoMatchData = (response: any) => {
   const message = response?.choices?.[0]?.message?.content;
   const titleMatch = message?.match(titlePattern);
   const title = titleMatch ? titleMatch[2]?.trim() : null;
@@ -133,11 +140,13 @@ export const getProductById = async (productId: string, locale?: string) => {
 };
 
 export const generateMetaData = async (
+  secrets: any,
   productId: string,
   dataLocale: any,
-  openAiFunction : Function,
+  openAiFunction: Function,
   setState?: Function
 ) => {
+  console.log('--------------', secrets);
   const accessToken = localStorage.getItem(LS_KEY.CT_OBJ_TOKEN);
   if (!openAiKey) {
     setState?.((prev: any) => ({
@@ -161,6 +170,7 @@ export const generateMetaData = async (
 
     const localeQuery = dataLocale ? `, Locale: "${dataLocale}"` : '';
     const data: any = await openAiFunction(
+      secrets,
       query + localeQuery,
       accessToken,
       openAiKey
