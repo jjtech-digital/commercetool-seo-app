@@ -9,7 +9,6 @@ import apiRoot from '../apiRoot';
 import { getProductDetails } from '../graphql/productDetails';
 
 export const openAiKey = localStorage.getItem(LS_KEY.OPEN_AI_KEY);
-console.log(openAiKey)
 export const setNotification = (
   setState: Function,
   message: string,
