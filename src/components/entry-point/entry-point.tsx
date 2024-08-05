@@ -18,6 +18,7 @@ const AsyncApplicationRoutes = lazy(
 // in order to catch possible errors on rendering/mounting.
 setupGlobalErrorListener();
 
+
 const EntryPoint = () => {
   const CTP_SCOPES = useApplicationContext(
     (context) => context.environment.CTP_SCOPES
