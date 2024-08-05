@@ -29,10 +29,10 @@ export const bulkGenerateProductMetaData = async (
     dataLocale: dataLocale,
     errorMessage:
       'Error generating product description and key features in batch.',
+      secrets,
   };
 
   await processBatches(
-    secrets,
     productIds,
     batchSize,
     strings,

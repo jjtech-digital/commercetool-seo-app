@@ -31,12 +31,12 @@ type GenerateMetaDataFunction = (
 ) => Promise<any>;
 
 export const processBatches = async (
-  secrets: any,
   productIds: string[],
   batchSize: number,
   strings: {
     dataLocale: string;
     errorMessage: string;
+    secrets: any,
   },
   generateMetaData: GenerateMetaDataFunction,
   queryOpenAi: Function,
@@ -53,7 +53,7 @@ export const processBatches = async (
     try {
       const response = batchIds.map(async (id) => {
         return await generateMetaData(
-          secrets,
+          strings.secrets,
           id,
           strings?.dataLocale,
           queryOpenAi

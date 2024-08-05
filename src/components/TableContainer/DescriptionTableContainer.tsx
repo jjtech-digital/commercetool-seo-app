@@ -198,6 +198,10 @@ const DescriptionTableContainer = () => {
 
   const searchBoxText = 'Search by Product key, Name, description';
 
+  const strings = { 
+    dataLocale, secrets
+  }
+
   return (
     <GridContainer
       search={search}
@@ -207,11 +211,10 @@ const DescriptionTableContainer = () => {
       selectedRows={selectedRows}
       handleBulkGenerateClick={() =>
         handleDescBulkGenerateClick(
-          secrets,
+          strings,
           context,
           gridRef,
           selectedRows,
-          dataLocale,
           setState,
           tableData,
           setTableData
@@ -219,14 +222,14 @@ const DescriptionTableContainer = () => {
       }
       handleBulkApplyClick={() =>
         handleDescBulkApplyClick(
-          dataLocale,
+          strings,
           selectedRows,
           setState,
           context,
           gridRef,
           tableData,
           setTableData,
-          secrets
+         
         )
       }
       gridRef={gridRef}

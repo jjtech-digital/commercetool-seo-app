@@ -11,15 +11,15 @@ import {
 import { matchData, seoMatchData } from './utils';
 
 export const handleDescBulkGenerateClick = async (
-  secrets: any,
+  strings: any,
   context: any,
   gridRef: any,
   selectedRows: IProduct[] | null,
-  dataLocale: string | null,
   setState: Function,
   tableData: IProduct[],
   setTableData: Function
 ) => {
+  const { dataLocale, secrets } = strings;
   const selectedNodes = gridRef.current!.api.getSelectedNodes();
   context.loadingOverlayMessage =
     'Generating description and key features for selected products. This may take some time';
@@ -69,7 +69,7 @@ export const handleDescBulkGenerateClick = async (
   setTableData(updatedTableData);
 
   setTimeout(() => {
-    selectedNodes.forEach((node : any) => {
+    selectedNodes.forEach((node: any) => {
       gridRef.current!.api.getRowNode(node.id)?.setSelected(true);
     });
   }, 0);
@@ -79,16 +79,15 @@ export const handleDescBulkGenerateClick = async (
 };
 
 export const handleSeoBulkGenerateClick = async (
-  secrets: any,
+  strings: any,
   context: any,
   gridRef: any,
   selectedRows: IProduct[] | null,
-  dataLocale: string | null,
   setState: Function,
   tableData: IProduct[],
   setTableData: Function
 ) => {
-
+  const { dataLocale, secrets } = strings
   const selectedNodes = gridRef.current!.api.getSelectedNodes();
   context.loadingOverlayMessage =
     'Generating SEO metadata for selected products. This may take some time';
@@ -125,7 +124,7 @@ export const handleSeoBulkGenerateClick = async (
   setTableData(updatedTableData);
 
   setTimeout(() => {
-    selectedNodes.forEach((node : any) => {
+    selectedNodes.forEach((node: any) => {
       gridRef.current!.api.getRowNode(node.id)?.setSelected(true);
     });
   }, 0);
@@ -160,15 +159,15 @@ export const dataApplication = (
   context.loadingOverlayMessage = 'Loading';
 };
 export const handleDescBulkApplyClick = async (
-  dataLocale: string | null,
+  strings: any,
   selectedRows: IProduct[] | null,
   setState: Function,
   context: any,
   gridRef: any,
   tableData: IProduct[],
-  setTableData: Function,
-  secrets: any
+  setTableData: Function
 ) => {
+  const { dataLocale, secrets } = strings;
   const featuredDataLocale = dataLocale || 'en';
   const hasEmptyMeta = selectedRows?.some(
     (product: IProduct) => !product.masterData.current.description
@@ -207,15 +206,16 @@ export const handleDescBulkApplyClick = async (
 };
 
 export const handleSeoBulkApplyClick = async (
-  secrets: any,
+  strings: any,
   selectedRows: IProduct[] | null,
   context: any,
   gridRef: any,
-  dataLocale: string | null,
+  
   setState: Function,
   tableData: IProduct[],
   setTableData: Function
 ) => {
+  const { dataLocale, secrets } = strings
   const hasEmptyMeta = selectedRows?.some(
     (product: IProduct) =>
       !product.masterData.current.metaTitle ||

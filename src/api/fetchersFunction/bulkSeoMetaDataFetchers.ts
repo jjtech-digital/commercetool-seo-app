@@ -25,10 +25,10 @@ export const bulkGenerateSeoMetaData = async (
   const strings = {
     dataLocale: dataLocale,
     errorMessage: 'Error generating SEO metadata in batch.',
+    secrets,
   };
 
   await processBatches(
-    secrets,
     productIds,
     batchSize,
     strings,

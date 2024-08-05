@@ -177,6 +177,9 @@ const TableContainer = () => {
   const searchBoxText =
     'Search by Product key, Name, Seo title or Seo description';
 
+  const strings = {
+    dataLocale, secrets
+  }
   return (
     <GridContainer
       search={seoSearch}
@@ -186,11 +189,10 @@ const TableContainer = () => {
       selectedRows={seoSelectedRows}
       handleBulkGenerateClick={() =>
         handleSeoBulkGenerateClick(
-          secrets,
+          strings,
           context,
           seoGridRef,
           seoSelectedRows,
-          dataLocale,
           setState,
           seoTableData,
           setSeoTableData
@@ -198,11 +200,10 @@ const TableContainer = () => {
       }
       handleBulkApplyClick={() =>
         handleSeoBulkApplyClick(
-          secrets,
+          strings,
           seoSelectedRows,
           context,
           seoGridRef,
-          dataLocale,
           setState,
           seoTableData,
           setSeoTableData
