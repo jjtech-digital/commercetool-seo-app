@@ -109,6 +109,7 @@ export const queryProductOpenAi = async (
   accessToken?: string | null,
   openAiKey?: string
 ) => {
+  console.log("final",openAiKey)
   const openAi = new OpenAI({
     apiKey: openAiKey,
     dangerouslyAllowBrowser: true,

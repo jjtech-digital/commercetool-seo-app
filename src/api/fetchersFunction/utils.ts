@@ -9,6 +9,7 @@ import apiRoot from '../apiRoot';
 import { getProductDetails } from '../graphql/productDetails';
 
 export const openAiKey = localStorage.getItem(LS_KEY.OPEN_AI_KEY);
+console.log(openAiKey)
 export const setNotification = (
   setState: Function,
   message: string,
@@ -146,7 +147,6 @@ export const generateMetaData = async (
   openAiFunction: Function,
   setState?: Function
 ) => {
-  console.log('--------------', secrets);
   const accessToken = localStorage.getItem(LS_KEY.CT_OBJ_TOKEN);
   if (!openAiKey) {
     setState?.((prev: any) => ({
