@@ -76,8 +76,8 @@ export const applyBulkProductMeta = async (
           product?.keyFeatures,
           product?.description,
           product?.version,
+          product?.dataLocale,
           secrets,
-          product?.dataLocale
         );
       });
       const data = await Promise.all(applyBulkPromises);

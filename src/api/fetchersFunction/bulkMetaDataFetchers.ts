@@ -20,6 +20,7 @@ export const handleDescBulkGenerateClick = async (
   tableData: IProduct[],
   setTableData: Function
 ) => {
+  const selectedNodes = gridRef.current!.api.getSelectedNodes();
   context.loadingOverlayMessage =
     'Generating description and key features for selected products. This may take some time';
   gridRef.current!.api.showLoadingOverlay();
@@ -67,6 +68,12 @@ export const handleDescBulkGenerateClick = async (
 
   setTableData(updatedTableData);
 
+  setTimeout(() => {
+    selectedNodes.forEach((node : any) => {
+      gridRef.current!.api.getRowNode(node.id)?.setSelected(true);
+    });
+  }, 0);
+
   gridRef.current!.api.hideOverlay();
   context.loadingOverlayMessage = 'Loading';
 };
@@ -81,6 +88,8 @@ export const handleSeoBulkGenerateClick = async (
   tableData: IProduct[],
   setTableData: Function
 ) => {
+
+  const selectedNodes = gridRef.current!.api.getSelectedNodes();
   context.loadingOverlayMessage =
     'Generating SEO metadata for selected products. This may take some time';
   gridRef.current!.api.showLoadingOverlay();
@@ -114,6 +123,12 @@ export const handleSeoBulkGenerateClick = async (
   });
 
   setTableData(updatedTableData);
+
+  setTimeout(() => {
+    selectedNodes.forEach((node : any) => {
+      gridRef.current!.api.getRowNode(node.id)?.setSelected(true);
+    });
+  }, 0);
 
   gridRef.current!.api.hideOverlay();
   context.loadingOverlayMessage = 'Loading';
