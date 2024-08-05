@@ -38,7 +38,6 @@ const config = {
       url: '${env:APP_URL}',
     },
   },
-
   additionalEnv: {
     APPLICATION_ID: '${env:APPLICATION_ID}',
     APP_URL: '${env:APP_URL}',
@@ -49,6 +48,7 @@ const config = {
     CTP_CLIENT_ID: '${env:CTP_CLIENT_ID}',
     CTP_SCOPES: '${env:CTP_SCOPES}',
   },
+ 
   oAuthScopes: {
     view: ['view_products'],
     manage: ['manage_products'],
