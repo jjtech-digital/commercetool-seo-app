@@ -113,7 +113,6 @@ export const queryProductOpenAi = async (
     apiKey: openAiKey,
     dangerouslyAllowBrowser: true,
   });
-  console.log(openAi)
   let updatedPromptDescription = '';
   let updatedPromptKeyfeatures = '';
   if (accessToken) {
