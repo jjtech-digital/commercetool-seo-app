@@ -35,6 +35,7 @@ const TableContainer = () => {
   //   setGridApi(params.api);
   //   setColumnApi(params.columnApi);
   // };
+  
   const seoGridRef = useRef<AgGridReact>(null);
 
   const { dataLocale } = useApplicationContext((context) => ({
