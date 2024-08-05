@@ -28,10 +28,14 @@ const EntryPoint = () => {
   const CTP_CLIENT_ID = useApplicationContext(
     (context) => context.environment.CTP_CLIENT_ID
   );
+  const CTP_CLIENT_SECRET = useApplicationContext(
+    (context) => context.environment.CTP_CLIENT_SECRET
+  );
   const secrets = {
     CTP_SCOPES,
     CTP_AUTH_URL,
     CTP_CLIENT_ID,
+    CTP_CLIENT_SECRET
   };
   const storeToken = async () => {
     try {
