@@ -74,12 +74,8 @@ https://github.com/user-attachments/assets/2340fa0e-8666-44ef-b4c2-17eb62c2019e
 
 
 ### 4. Generate Description and Key Features: 
-- Go to the Description tab through the toggle button
-  
-
-
 https://github.com/user-attachments/assets/be88188c-7a20-4e3d-bb80-c3187cc81f9d
-
+ - Go to the Description tab through the toggle button
 
   #### Generate Description and Key Features for a *Single Product*:
 
@@ -99,6 +95,28 @@ https://github.com/user-attachments/assets/be88188c-7a20-4e3d-bb80-c3187cc81f9d
   #### Update Metadata to commercetools:
 
   - Click the "Apply" button in the product row to update the metadata in commercetools.
+
+
+## Installing A Custom Application
+- Click the profile icon and select Manage Organizations & Teams.
+
+- Select the Organization for which you wish to install a Custom Application.
+
+- Click the Custom Applications tab.
+
+- Click Manage project access. 
+
+- Choose a Custom Application from the Ready for installation section.
+
+- Review the permissions listed in the Requested permissions section. A user must have at least View permission to access the Custom Application in the Merchant Center.
+
+- In the Projects access section, grant Projects access by selecting one of the following options:
+
+     - Install for all projects of this organization: grants access to all projects of an Organization.
+     - Install for selected projects only: grants access only to selected projects of an Organization. To do so, select the Projects from the Select projects drop-down list.
+- Click Save.
+
+You can now access the Custom Application within the respective Merchant Center Projects.
 
 
 ## Thank you for using the AI-Driven Product MetaData Generator for commercetools!
