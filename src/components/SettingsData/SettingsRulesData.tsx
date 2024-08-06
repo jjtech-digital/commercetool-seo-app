@@ -26,10 +26,10 @@ import { useApplicationContext } from '@commercetools-frontend/application-shell
 
 const SettingsRulesData = () => {
   const CTP_API_URL = useApplicationContext(
-    (context) => context.environment.CTP_API_URL
+    (context) => context.environment.apiUrl
   );
   const CTP_PROJECT_KEY = useApplicationContext(
-    (context) => context.environment.CTP_PROJECT_KEY
+    (context) => context.environment.projectKey
   );
   const secrets = {
     CTP_API_URL,

@@ -21,16 +21,16 @@ setupGlobalErrorListener();
 
 const EntryPoint = () => {
   const CTP_SCOPES = useApplicationContext(
-    (context) => context.environment.CTP_SCOPES
+    (context) => context.environment.scopes
   );
   const CTP_AUTH_URL = useApplicationContext(
-    (context) => context.environment.CTP_AUTH_URL
+    (context) => context.environment.authUrl
   );
   const CTP_CLIENT_ID = useApplicationContext(
-    (context) => context.environment.CTP_CLIENT_ID
+    (context) => context.environment.clientId
   );
   const CTP_CLIENT_SECRET = useApplicationContext(
-    (context) => context.environment.CTP_CLIENT_SECRET
+    (context) => context.environment.clientSecret
   );
   const secrets = {
     CTP_SCOPES,

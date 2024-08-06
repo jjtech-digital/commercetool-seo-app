@@ -43,10 +43,10 @@ const TableContainer = () => {
     projectLanguages: context.project?.languages,
   }));
   const CTP_API_URL = useApplicationContext(
-    (context) => context.environment.CTP_API_URL
+    (context) => context.environment.apiUrl
   );
   const CTP_PROJECT_KEY = useApplicationContext(
-    (context) => context.environment.CTP_PROJECT_KEY
+    (context) => context.environment.projectKey
   );
   const secrets = {
     CTP_API_URL,
