@@ -34,8 +34,16 @@ const config = {
       initialProjectKey: 'jj-custom-app',
     },
     production: {
-      applicationId: '${env:APPLICATION_ID}',
-      url: '${env:APP_URL}',
+      // applicationId: '${env:APPLICATION_ID}',
+      // url: '${env:APP_URL}',
+      APPLICATION_ID: '${env:APPLICATION_ID}',
+      APP_URL: '${env:APP_URL}',
+      CTP_AUTH_URL: '${env:CTP_AUTH_URL}',
+      CTP_API_URL: '${env:CTP_API_URL}',
+      CTP_PROJECT_KEY: '${env:CTP_PROJECT_KEY}',
+      CTP_CLIENT_SECRET: '${env:CTP_CLIENT_SECRET}',
+      CTP_CLIENT_ID: '${env:CTP_CLIENT_ID}',
+      CTP_SCOPES: '${env:CTP_SCOPES}',
     },
   },
 
