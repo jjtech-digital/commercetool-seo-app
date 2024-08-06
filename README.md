@@ -1,3 +1,4 @@
+
 # AI-Driven Product MetaData Generator for commercetools
 
 [![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-orange.svg)](https://sonarcloud.io/summary/new_code?id=jjtech-digital_commercetool-seo-app)
@@ -48,7 +49,8 @@ https://github.com/user-attachments/assets/5b17963e-c034-44a9-8cf6-663c7f1b079e
 
 
 ### 3. Generate SEO Metadata: 
-https://github.com/user-attachments/assets/9cbb45db-4019-448e-80cc-f09c2db578cb
+
+https://github.com/user-attachments/assets/2340fa0e-8666-44ef-b4c2-17eb62c2019e
 - Go the the SEO tab through the toggle button
 
   #### Generate SEO Metadata for a *Single Product*:**
@@ -72,8 +74,12 @@ https://github.com/user-attachments/assets/9cbb45db-4019-448e-80cc-f09c2db578cb
 
 
 ### 4. Generate Description and Key Features: 
-https://github.com/user-attachments/assets/95fbfeec-5175-4f25-967e-f88ccc57c17e
 - Go to the Description tab through the toggle button
+  
+
+
+https://github.com/user-attachments/assets/be88188c-7a20-4e3d-bb80-c3187cc81f9d
+
 
   #### Generate Description and Key Features for a *Single Product*:
 
