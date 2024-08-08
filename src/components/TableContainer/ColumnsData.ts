@@ -39,13 +39,19 @@ export const defaultDescColumns = [
       return features?.[LS_DataLocale];
     },
     valueSetter: (params: any) => {
-      const LS_DataLocale = localStorage.getItem('selectedDataLocale') || "en";
-      const features =
-        params.data.masterData.current.masterVariant.attributesRaw.find(
-          (item: any) => item.name === 'features'
-        )?.value?.[0];
-      if (features && LS_DataLocale) {
-        features[LS_DataLocale] = params.newValue;
+      const LS_DataLocale = localStorage.getItem('selectedDataLocale') ;
+      const attributesRaw =
+        params.data.masterData.current.masterVariant.attributesRaw;
+      let features = attributesRaw.find(
+        (item: any) => item.name === 'features'
+      );
+      if (!features) {
+        features = { name: 'features', value: [{ [LS_DataLocale]: params.newValue }] };
+        attributesRaw.push(features);
+        return true
+      }
+      if (features) {
+        features.value[0][LS_DataLocale] = params.newValue;
         return true;
       }
       return false;
