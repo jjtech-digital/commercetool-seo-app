@@ -34,22 +34,20 @@ const config = {
       initialProjectKey: 'jj-custom-app',
     },
     production: {
-      applicationId: '${env:APPLICATION_ID}',
-      url: '${env:APP_URL}',
+      applicationId: process.env.APPLICATION_ID,
+      url: process.env.APP_URL,
     },
   },
 
-  additionalEnv : {
-    applicationId: '${env:APPLICATION_ID}',
-      url: '${env:APP_URL}',
-      authUrl: '${env:CTP_AUTH_URL}',
-      apiUrl: '${env:CTP_API_URL}',
-      projectKey: '${env:CTP_PROJECT_KEY}',
-      clientSecret: '${env:CTP_CLIENT_SECRET}',
-      clientId: '${env:CTP_CLIENT_ID}',
-      scopes: '${env:CTP_SCOPES}',
+  additionalEnv: {
+    authUrl: process.env.CTP_AUTH_URL,
+    apiUrl: process.env.CTP_API_URL,
+    projectKey: process.env.CTP_PROJECT_KEY,
+    clientSecret: process.env.CTP_CLIENT_SECRET,
+    clientId: process.env.CTP_CLIENT_ID,
+    scopes: process.env.CTP_SCOPES,
   },
- 
+
   oAuthScopes: {
     view: ['view_products'],
     manage: ['manage_products'],
