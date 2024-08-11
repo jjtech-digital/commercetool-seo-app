@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkmerchant_center_custom_application=self.webpackChunkmerchant_center_custom_application||[]).push([[9765],{"./src/i18n/data/en.json":e=>{e.exports={}}}]);
