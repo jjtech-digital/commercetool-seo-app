@@ -18,10 +18,10 @@ jobs:
           node-version: '18'  # or the version you're using
 
       - name: Install dependencies
-        run: npm install --legacy-peer-deps
+        run: npm install
 
       - name: Build the project
-        run: npm run mc-scripts build
+        run: npm run build
 
       - name: Deploy to S3
         uses: jakejarvis/s3-sync-action@master
