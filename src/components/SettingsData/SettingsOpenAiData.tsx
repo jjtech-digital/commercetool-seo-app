@@ -83,7 +83,7 @@ const SettingsOpenAiData = () => {
             <input
               className={`${styles.gridRuleInputStyle}`}
               {...register(`openAi`, {
-                required: 'This field is required is required',
+                required: 'This field is required',
               })}
               placeholder="Enter OpenAI key"
             />
