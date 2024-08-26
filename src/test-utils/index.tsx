@@ -15,7 +15,7 @@ const mergeWithDefaultOptions = (
   ...options,
   environment: {
     ...(options.environment || {}),
-    entryPointUriPath,
+    entryPointUriPath : window.app.entryPointUriPath,
   },
   apolloClient: createApolloClient(),
 });

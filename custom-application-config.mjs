@@ -1,11 +1,11 @@
-import { PERMISSIONS, entryPointUriPath } from './src/constants';
+import { entryPointUriPathToPermissionKeys } from '@commercetools-frontend/application-shell/ssr';
 
 /**
  * @type {import('@commercetools-frontend/application-config').ConfigOptionsForCustomApplication}
  */
 const config = {
   name: 'Custom Seo',
-  entryPointUriPath,
+  entryPointUriPath: "${env:CTP_ENTRY_POINT_URI_PATH}",
   cloudIdentifier: 'gcp-au',
   headers: {
     csp: {
@@ -48,6 +48,7 @@ const config = {
     clientSecret: '${env:CTP_CLIENT_SECRET}',
     clientId: '${env:CTP_CLIENT_ID}',
     scopes: '${env:CTP_SCOPES}',
+    entryPointUriPath : "${env:CTP_ENTRY_POINT_URI_PATH}"
   },
 
   oAuthScopes: {
@@ -58,14 +59,14 @@ const config = {
   mainMenuLink: {
     defaultLabel: 'Template starter',
     labelAllLocales: [],
-    permissions: [PERMISSIONS.View],
+    permissions: [entryPointUriPathToPermissionKeys("${env:CTP_ENTRY_POINT_URI_PATH}").View],
   },
   submenuLinks: [
     {
       uriPath: 'channels',
       defaultLabel: 'Channels',
       labelAllLocales: [],
-      permissions: [PERMISSIONS.View],
+      permissions: [entryPointUriPathToPermissionKeys("${env:CTP_ENTRY_POINT_URI_PATH}").View],
     },
   ],
 };
