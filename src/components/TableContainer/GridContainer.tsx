@@ -96,7 +96,6 @@ const GridContainer: FC<GridContainerProps> = ({
               setSearch('');
               fetchData();
             }}
-            // isClearable={false}
           />
         </div>
         <BulkUpdateButtonSection
@@ -114,11 +113,9 @@ const GridContainer: FC<GridContainerProps> = ({
           <div style={gridStyle}>
             <AgGridReact
               ref={gridRef}
-              // getRowId={getRowId}
               rowData={tableData}
               columnDefs={colDefs}
               defaultColDef={defaultColDef}
-              // onGridReady={onGridReady as any}
               components={components}
               rowSelection={'multiple'}
               suppressRowClickSelection={true}
@@ -128,9 +125,6 @@ const GridContainer: FC<GridContainerProps> = ({
               onSelectionChanged={onSelectionChanged}
               loadingOverlayComponent={loadingOverlayComponent}
               context={context}
-              // onCellDoubleClick={onCellDoubleClick}
-              //  suppressClickEdit={true}
-              // editType="fullRow"
             />
           </div>
           <Pagination

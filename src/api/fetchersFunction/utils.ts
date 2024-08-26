@@ -161,11 +161,18 @@ export const generateMetaData = async (
 
     const productName = productResponse?.masterData?.current?.name;
     const categories = productResponse?.masterData?.current?.categories;
+    const attributes = productResponse?.masterData?.current?.masterVariant?.attributesRaw
+    const attributesJson = attributes?.reduce((acc : any, attr : any) => {
+      attr.value !== "" &&
+      acc.push({ [attr.name]: attr.value });
+      return acc;
+    }, []);
+    const attributesString = JSON.stringify(attributesJson);
 
     const categoryNames = categories
       ?.map((category: any) => category?.name)
       ?.join(', ');
-    const query = `Product name: "${productName}", Categories: "${categoryNames}"`;
+    const query = `Product name: "${productName}", Categories: "${categoryNames}", Attributes : "${attributesString}`;
 
     const localeQuery = dataLocale ? `, Locale: "${dataLocale}"` : '';
     const data: any = await openAiFunction(

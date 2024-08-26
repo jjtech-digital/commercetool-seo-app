@@ -4,9 +4,11 @@ import { PlusBoldIcon, CloseBoldIcon } from '@commercetools-uikit/icons';
 import LoadingSpinner from '@commercetools-uikit/loading-spinner';
 import PrimaryButton from '@commercetools-uikit/primary-button';
 import SecondaryButton from '@commercetools-uikit/secondary-button';
-import { RuleFormProps, RuleInputFieldProps, SettingRuleProps } from './Settings.types';
-
-
+import {
+  RuleFormProps,
+  RuleInputFieldProps,
+  SettingRuleProps,
+} from './Settings.types';
 
 const RuleInputField = ({ item, index, component }: RuleInputFieldProps) => {
   return (
@@ -26,19 +28,11 @@ const RuleInputField = ({ item, index, component }: RuleInputFieldProps) => {
             </div>
           )}
         </div>
-        {index === component.currentIndex ? (
-          <IconButton
-            icon={<PlusBoldIcon />}
-            label="Add"
-            onClick={component.handleAddField}
-          />
-        ) : (
-          <IconButton
-            icon={<CloseBoldIcon />}
-            label="Delete"
-            onClick={() => component.handleRemoveField(index)}
-          />
-        )}
+        <IconButton
+          icon={<CloseBoldIcon />}
+          label="Delete"
+          onClick={() => component.handleRemoveField(index)}
+        />
       </div>
     </div>
   );
@@ -58,17 +52,24 @@ const RuleForm = ({ component, isApiFetching }: RuleFormProps) => {
           component={component}
         />
       ))}
-      <div className={`${styles.ruleFormSubmitButton}`}>
-        {isApiFetching ? (
-          <SecondaryButton
-            iconLeft={<LoadingSpinner />}
-            label="Submitting"
-            type="submit"
-            isDisabled={true}
-          />
-        ) : (
-          <PrimaryButton label="Save" type="submit" />
-        )}
+      <div className={`${styles.ruleFormButtonContainer}`}>
+        <IconButton
+          icon={<PlusBoldIcon />}
+          label="Add"
+          onClick={component.handleAddField}
+        />
+        <div className={`${styles.ruleFormSubmitButton}`}>
+          {isApiFetching ? (
+            <SecondaryButton
+              iconLeft={<LoadingSpinner />}
+              label="Submitting"
+              type="submit"
+              isDisabled={true}
+            />
+          ) : (
+            <PrimaryButton label="Save" type="submit" />
+          )}
+        </div>
       </div>
     </form>
   );

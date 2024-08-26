@@ -141,15 +141,11 @@ export const queryProductOpenAi = async (
     }
   }
 
-  let contentString = `Find some key features and a precise description for a product with ${query}. The format for the output should be like this - *Description*:abc and *Key Features*:abc"`;
+  let fallbackDescriptionPrompt = "Give a user engaging description which would be able to put forward the proper explaination about the product and spark curiosity in incoming traffic. Limit the description to under 150-160 characters for full visibility in search results. Include the main keyword in description according to the its attributes. You must Highlight Key Features, Showcase Benefits, Use Clear, Direct Language, Sensory Description, Call to Action: Every product description should end with a strong call to action encouraging the reader to make a purchase or learn more."
+  let fallbackKeyFeaturesPrompt = "Give 5 or more key features, they should be separated with a comma. All the features should Be Specific, Showcase Functionality, Highlight Quality, Sustainability, Spotlight Innovation according to the given attributes."
 
-  // Append rules to the content string if updatedPrompt is not empty
-  if (updatedPromptDescription && updatedPromptKeyfeatures) {
-    contentString += ` and Rules for description: ${updatedPromptDescription} and rules for key features: ${updatedPromptKeyfeatures}`;
-  } else {
-    // Add fallback rules
-    contentString += ` and Rules: Include the main keyword in both the title and description. Seperate all the key features ith comma. Give a user engaging description which would be able to put forward the proper explaination about the product and spark curiosity in incoming traffic. Limit the description to under 150-160 characters for full visibility in search results. Give atleast 5 key features, you can give more`;
-  }
+  let contentString = `Generate some key features and a precise description for a product with ${query}. The format for the output should be like this - *Description*:abc and *Key Features*:abc". The rules for description are : ${updatedPromptDescription || fallbackDescriptionPrompt}. And the rules for key features are: ${updatedPromptKeyfeatures || fallbackKeyFeaturesPrompt}`;
+
   try {
     const response = await openAi.chat.completions.create({
       model: 'gpt-4-turbo-preview',
