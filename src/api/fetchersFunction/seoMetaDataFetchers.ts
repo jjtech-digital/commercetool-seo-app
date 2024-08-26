@@ -98,7 +98,7 @@ export const queryOpenAi = async (
   });
   let updatedPrompt = '';
   if (accessToken) {
-    const prompt: any = getAllSavedRulesFromCtObj(
+    const prompt: any = await getAllSavedRulesFromCtObj(
       accessToken,
       secrets,
       CTP_CUSTOM_OBJ_SEO_CONTAINER_NAME,
@@ -112,7 +112,7 @@ export const queryOpenAi = async (
     }
   }
 
-  let contentString = `Find the SEO title and description for product with ${query}`;
+  let contentString = `Generate the SEO title and description for product with ${query}`;
 
   // Append rules to the content string if updatedPrompt is not empty
   if (updatedPrompt) {
