@@ -4,16 +4,21 @@ import {
   type TRenderAppWithReduxOptions,
 } from '@commercetools-frontend/application-shell/test-utils';
 import { renderApplicationWithRedux } from '../../test-utils';
-import { entryPointUriPath, PERMISSIONS } from '../../constants';
+import { entryPointUriPathToPermissionKeys } from '@commercetools-frontend/application-shell/ssr';
 import ApplicationRoutes from '../../routes';
+import { useApplicationContext } from '@commercetools-frontend/application-shell-connectors';
 
 const renderApp = (options: Partial<TRenderAppWithReduxOptions> = {}) => {
+
+  const entryPointUriPath = useApplicationContext(
+    (context) => context.environment.entryPointUriPath
+  );
   const route = options.route || `/my-project/${entryPointUriPath}`;
   const { history } = renderApplicationWithRedux(<ApplicationRoutes />, {
     route,
     project: {
       allAppliedPermissions: mapResourceAccessToAppliedPermissions([
-        PERMISSIONS.View,
+        entryPointUriPathToPermissionKeys(entryPointUriPath).View,
       ]),
     },
     ...options,
