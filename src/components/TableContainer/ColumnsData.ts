@@ -31,27 +31,51 @@ export const defaultDescColumns = [
       return p.value;
     },
     valueGetter: (params: any) => {
-      const LS_DataLocale = localStorage.getItem('selectedDataLocale') || "en";
+      const LS_DataLocale = localStorage.getItem('selectedDataLocale') || 'en';
       const features =
         params.data.masterData.current.masterVariant.attributesRaw.find(
           (item: any) => item.name === 'features'
-        )?.value?.[0];
-      return features?.[LS_DataLocale];
+        )?.value;
+      const groupedResult: { [key: string]: string[] } = {};
+      let transformedArray = [];
+      if (features) {
+        for (let item of features) {
+          for (let key in item) {
+            if (groupedResult[key]) {
+              groupedResult[key].push(item[key]);
+            } else {
+              groupedResult[key] = [item[key]];
+            }
+          }
+        }
+        for (const key in groupedResult) {
+          transformedArray.push({ [key]: groupedResult[key].join(', ') });
+        }
+
+        return transformedArray?.[0]?.[LS_DataLocale];
+      }
+      return [];
     },
     valueSetter: (params: any) => {
-      const LS_DataLocale = localStorage.getItem('selectedDataLocale') ;
+      const LS_DataLocale = localStorage.getItem('selectedDataLocale');
       const attributesRaw =
         params.data.masterData.current.masterVariant.attributesRaw;
       let features = attributesRaw.find(
         (item: any) => item.name === 'features'
       );
       if (!features) {
-        features = { name: 'features', value: [{ [LS_DataLocale]: params.newValue }] };
+        features = {
+          name: 'features',
+          value: [{ [LS_DataLocale]: params.newValue }],
+        };
         attributesRaw.push(features);
-        return true
+        return true;
       }
       if (features) {
-        features.value[0][LS_DataLocale] = params.newValue;
+        features = {
+          name: 'features',
+          value: [{ [LS_DataLocale]: params.newValue }],
+        };
         return true;
       }
       return false;

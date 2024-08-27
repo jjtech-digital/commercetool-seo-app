@@ -20,7 +20,7 @@ export const updateProductMeta = async (
   setState?: Function
 ) => {
   function mdFeatures(keyFeatures : string) {
-    const matches = keyFeatures.matchAll(/-\s\*\*([^*]+)\*\*:\s(.+?)(?=\n-\s\*\*|$)/gs);
+    const matches = keyFeatures?.matchAll(/-\s\*\*([^*]+)\*\*:\s(.+?)(?=\n-\s\*\*|$)/gs);
     const result = [];
     for (const match of matches) {
       result.push(`${match[1]}: ${match[2]}`);
@@ -49,12 +49,17 @@ export const updateProductMeta = async (
     productResponse?.masterData?.current?.masterVariant.attributesRaw.find(
       (item: any) => item.name === 'features'
     );
-  if (existingFeatures?.value?.[0]) {
+  if (existingFeatures?.value) {
+    existingFeatures = { name: 'features', value: [{ [dataLocale]: '' }] };
+    const features = { name: 'features', value: [{ [dataLocale]: '' }] };
+    productResponse?.masterData?.current?.masterVariant.attributesRaw.push(
+      features
+    );
     existingFeatures.value[0][dataLocale] = featuresArray || [];
   }
   if (!existingFeatures) {
-    existingFeatures = { name: 'features', value: [{ [dataLocale]: [] }] };
-    const features = { name: 'features', value: [{ [dataLocale]: [] }] };
+    existingFeatures = { name: 'features', value: [{ [dataLocale]: '' }] };
+    const features = { name: 'features', value: [{ [dataLocale]: '' }] };
     productResponse?.masterData?.current?.masterVariant.attributesRaw.push(
       features
     );
@@ -62,13 +67,13 @@ export const updateProductMeta = async (
   }
 
   keyFeaturesObj = existingFeatures.value[0];
+  const features = [keyFeaturesObj];
+  const transformedValueForFeatures = features[0][dataLocale].map((item : any) => ({ [dataLocale]: item }));
   const apiUrl = `${CTP_API_URL}/${CTP_PROJECT_KEY}/products/${productId}`;
   const headers = {
     Authorization: `Bearer ${accessToken}`,
     'Content-Type': 'application/json',
   };
-  const features = [keyFeaturesObj];
-  const transformedValueForFeatures = features[0][dataLocale].map((item : any) => ({ [dataLocale]: item }));
   const payload = {
     version: version,
     actions: [

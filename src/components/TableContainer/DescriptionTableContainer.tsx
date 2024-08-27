@@ -184,7 +184,10 @@ const DescriptionTableContainer = () => {
           features = { name: 'features', value: [{ [featureDatalocale]: '' }] };
           attributesRaw.push(features);
         }
-        if (features?.value?.[0]) {
+        if(features.value.length === 0 ){
+          features.value = [{ [featureDatalocale]: cleanedFeatures }]
+        }
+        if (features?.value) {
           features.value[0][featureDatalocale] = cleanedFeatures;
         }
 
