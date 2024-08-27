@@ -65,7 +65,7 @@ export default (props: any) => {
       const keyFeatures =
         updatedRowData.masterData.current.masterVariant.attributesRaw.find(
           (item: any) => item.name === 'features'
-        ).value?.[0]?.[featureDataLocale];
+        ).value?.[0]?.[featureDataLocale] || "";
       if (!description && !keyFeatures) {
         setState((prev: any) => ({
           ...prev,
