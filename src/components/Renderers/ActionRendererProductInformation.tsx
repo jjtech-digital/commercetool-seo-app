@@ -73,6 +73,7 @@ export default (props: any) => {
           notificationMessage: 'Description and Key Features cannot be empty.',
           notificationMessageType: 'error',
         }));
+        
       } else if (!description) {
         setState((prev: any) => ({
           ...prev,
