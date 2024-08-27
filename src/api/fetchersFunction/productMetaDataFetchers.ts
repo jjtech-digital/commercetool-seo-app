@@ -19,13 +19,17 @@ export const updateProductMeta = async (
   secrets: any,
   setState?: Function
 ) => {
-  function mdFeatures(keyFeatures : string) {
-    const matches = keyFeatures?.matchAll(/-\s\*\*([^*]+)\*\*:\s(.+?)(?=\n-\s\*\*|$)/gs);
+  function mdFeatures(keyFeatures: string) {
+    const matches = keyFeatures?.matchAll(
+      /-\s\*\*([^*]+)\*\*:\s(.+?)(?=\n-\s\*\*|$)/gs
+    );
     const result = [];
-    for (const match of matches) {
-      result.push(`${match[1]}: ${match[2]}`);
+    if (matches) {
+      for (const match of matches) {
+        result.push(`${match[1]}: ${match[2]}`);
+      }
+      return result;
     }
-    return result;
   }
   const featuresArray = mdFeatures(keyFeatures);
   const { CTP_API_URL, CTP_PROJECT_KEY } = secrets;
@@ -68,7 +72,9 @@ export const updateProductMeta = async (
 
   keyFeaturesObj = existingFeatures.value[0];
   const features = [keyFeaturesObj];
-  const transformedValueForFeatures = features[0][dataLocale].map((item : any) => ({ [dataLocale]: item }));
+  const transformedValueForFeatures = features[0][dataLocale].map(
+    (item: any) => ({ [dataLocale]: item })
+  );
   const apiUrl = `${CTP_API_URL}/${CTP_PROJECT_KEY}/products/${productId}`;
   const headers = {
     Authorization: `Bearer ${accessToken}`,
@@ -154,10 +160,16 @@ export const queryProductOpenAi = async (
     }
   }
 
-  let fallbackDescriptionPrompt = "Give a user engaging description which would be able to put forward the proper explaination about the product and spark curiosity in incoming traffic. Limit the description to under 150-160 characters for full visibility in search results. Include the main keyword in description according to the its attributes. You must Highlight Key Features, Showcase Benefits, Use Clear, Direct Language, Sensory Description, Call to Action: Every product description should end with a strong call to action encouraging the reader to make a purchase or learn more."
-  let fallbackKeyFeaturesPrompt = "Give 5 or more key features, they should be in markdown format. All the features should Be Specific, Showcase Functionality, Highlight Quality, Sustainability, Spotlight Innovation according to the given attributes."
+  let fallbackDescriptionPrompt =
+    'Give a user engaging description which would be able to put forward the proper explaination about the product and spark curiosity in incoming traffic. Limit the description to under 150-160 characters for full visibility in search results. Include the main keyword in description according to the its attributes. You must Highlight Key Features, Showcase Benefits, Use Clear, Direct Language, Sensory Description, Call to Action: Every product description should end with a strong call to action encouraging the reader to make a purchase or learn more.';
+  let fallbackKeyFeaturesPrompt =
+    'Give 5 or more key features, they should be in markdown format. All the features should Be Specific, Showcase Functionality, Highlight Quality, Sustainability, Spotlight Innovation according to the given attributes.';
 
-  let contentString = `Generate some key features and a precise description for a product with ${query}. The format for the output should be like this - *Description*:abc and *Key Features*:abc". The rules for description are : ${updatedPromptDescription || fallbackDescriptionPrompt}. And the rules for key features are: ${updatedPromptKeyfeatures || fallbackKeyFeaturesPrompt}`;
+  let contentString = `Generate some key features and a precise description for a product with ${query}. The format for the output should be like this - *Description*:abc and *Key Features*:abc". The rules for description are : ${
+    updatedPromptDescription || fallbackDescriptionPrompt
+  }. And the rules for key features are: ${
+    updatedPromptKeyfeatures || fallbackKeyFeaturesPrompt
+  }`;
 
   try {
     const response = await openAi.chat.completions.create({
