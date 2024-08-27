@@ -62,16 +62,18 @@ export default (props: any) => {
     if (updatedRowData?.masterData?.current) {
       const { description } = updatedRowData.masterData.current;
       const featureDataLocale = dataLocale || 'en';
-      const keyFeatures =
+      const feats =
         updatedRowData.masterData.current.masterVariant.attributesRaw.find(
           (item: any) => item.name === 'features'
-        ).value?.[0]?.[featureDataLocale] || "";
+        )
+        const keyFeatures = feats?.value ? feats.value?.[0]?.[featureDataLocale] : "";
       if (!description && !keyFeatures) {
         setState((prev: any) => ({
           ...prev,
           notificationMessage: 'Description and Key Features cannot be empty.',
           notificationMessageType: 'error',
         }));
+        
       } else if (!description) {
         setState((prev: any) => ({
           ...prev,
