@@ -1,4 +1,5 @@
 import { getProducts } from "../../api/graphql/products";
+import { IProduct } from "./TableContainer.types";
 
 export const commonColumns = [
     {
@@ -97,9 +98,13 @@ export const fetchProductData = async (
         },
       })
       .execute();
+      const updatedTableData = productsData?.body?.data?.products?.results.map((row: IProduct) => ({
+        ...row,
+        isGenerating: false,
+      }));
     setState((prev: any) => ({ ...prev, pageLoading: false }));
     setTotalProductCount(productsData?.body?.data?.products?.total);
-    setTableData(productsData?.body?.data?.products?.results);
+    setTableData(updatedTableData);
   } catch (error) {
     console.error('Error fetching product data:', error);
     setState((state: any) => ({

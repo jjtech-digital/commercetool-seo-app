@@ -30,6 +30,7 @@ export default (props: any) => {
       'Generating product description and features';
 
     props.gridRef.current!.api.showLoadingOverlay();
+    params.data.isGenerating = true
     try {
       const aiResponse = await generateMetaData(
         secrets,
@@ -57,8 +58,9 @@ export default (props: any) => {
   };
 
   const handleApplyClick = async (rowIndex: number) => {
-    const updatedRowData =
-      props?.gridRef?.current?.api?.getDisplayedRowAtIndex(rowIndex)?.data;
+    props.gridRef.current.props.rowData[rowIndex].isGenerating =false
+    const rowNode = props?.gridRef?.current?.api?.getDisplayedRowAtIndex(rowIndex);
+    const updatedRowData = rowNode?.data;
     if (updatedRowData?.masterData?.current) {
       const { description } = updatedRowData.masterData.current;
       const featureDataLocale = dataLocale || 'en';
@@ -107,6 +109,7 @@ export default (props: any) => {
             ...prev,
             version: res?.version,
           }));
+          props.gridRef.current.props.rowData[rowIndex].isGenerating =false
         } catch (error) {
           console.error('Error updating product metadata:', error);
         } finally {

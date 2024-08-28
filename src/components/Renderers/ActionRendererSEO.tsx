@@ -30,6 +30,7 @@ export default (props: any) => {
   const handleGenerateClick = async (params: any) => {
     props.context.loadingOverlayMessage = 'Generating meta data';
     props.gridRef.current!.api.showLoadingOverlay();
+    params.data.isGenerating = true
     const aiResponse = await generateMetaData(
       secrets,
       params?.data?.id,
@@ -50,6 +51,7 @@ export default (props: any) => {
   };
 
   const handleApplyClick = async (rowIndex: number) => {
+    props.gridRef.current.props.rowData[rowIndex].isGenerating =false
     const updatedRowData =
       props?.gridRef?.current!?.api?.getDisplayedRowAtIndex(rowIndex)?.data;
 
