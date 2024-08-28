@@ -25,7 +25,8 @@
 - **Rules-Based Generation**: Define multiple rules separately in the settings page to guide the AI in generating metadata as per requirement.
 - **Single Product Generation**: Generate description and key features for individual products by clicking the "Generate" button in the product row.
 - **Bulk Generation**: Select multiple products and generate description and key features for all of them at once using the "Generate" button outside of the table.
-- **Editable Metadata**: Double-click on the description and key features cells to edit the AI-generated metadata.
+- **Editable Metadata**: Double-click on the description and key features cells to edit the AI-generated metadata. 
+   > Key features should be in the Markdown format as a list when we are adding them through editor.
 - **Update Commercetools**: Update the AI-generated metadata directly to the products in commercetools by clicking on the Apply button for each product or in bulk.
 - **Select Language**: Select locales in the header and have the product description and key features in multiple languages.
 
