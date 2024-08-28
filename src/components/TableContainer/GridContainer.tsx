@@ -81,6 +81,12 @@ const GridContainer: FC<GridContainerProps> = ({
       fetchData();
     }
   }, [dataLocale, offSet, perPage?.value]);
+  
+  const getRowStyle = (params: any) => {
+    if (params.data.isGenerating) {
+      return { background: '#F1F0FF' };
+    }
+  };
   return (
     <div className={`${styles.tableContainer}`}>
       <div className={`${styles.tableSearchSection}`}>
@@ -112,6 +118,7 @@ const GridContainer: FC<GridContainerProps> = ({
         >
           <div style={gridStyle}>
             <AgGridReact
+              getRowStyle={getRowStyle}
               ref={gridRef}
               rowData={tableData}
               columnDefs={colDefs}
