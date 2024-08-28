@@ -169,7 +169,7 @@ export const queryProductOpenAi = async (
     updatedPromptDescription || fallbackDescriptionPrompt
   }. And the rules for key features are: ${
     updatedPromptKeyfeatures || fallbackKeyFeaturesPrompt
-  }`;
+  }. Key features should always be generated in markdown format as list`;
 
   try {
     const response = await openAi.chat.completions.create({
