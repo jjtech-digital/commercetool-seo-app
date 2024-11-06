@@ -1,6 +1,5 @@
-
 deployAs:
-  - name: custom app
+  - name: custom-app
     applicationType: merchant-center-custom-application
     configuration:
       standardConfiguration:
