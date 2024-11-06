@@ -31,7 +31,7 @@ const config = {
   },
   env: {
     development: {
-      initialProjectKey: 'jj-custom-app',
+      initialProjectKey: 'tiny_mc_demo',
     },
     production: {
       applicationId: '${env:APPLICATION_ID}',
