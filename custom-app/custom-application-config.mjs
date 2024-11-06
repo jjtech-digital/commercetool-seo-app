@@ -59,14 +59,14 @@ const config = {
   mainMenuLink: {
     defaultLabel: 'Template starter',
     labelAllLocales: [],
-    permissions: [entryPointUriPathToPermissionKeys("${env:CTP_ENTRY_POINT_URI_PATH}").View],
+    permissions: [entryPointUriPathToPermissionKeys("${env:ENTRY_POINT_URI_PATH}").View],
   },
   submenuLinks: [
     {
       uriPath: 'channels',
       defaultLabel: 'Channels',
       labelAllLocales: [],
-      permissions: [entryPointUriPathToPermissionKeys("${env:CTP_ENTRY_POINT_URI_PATH}").View],
+      permissions: [entryPointUriPathToPermissionKeys("${env:ENTRY_POINT_URI_PATH}").View],
     },
   ],
 };
