@@ -3,12 +3,12 @@ deployAs:
     applicationType: merchant-center-custom-application
     configuration:
       standardConfiguration:
-        - key: APPLICATION_ID
+        - key: CUSTOM_APPLICATION_ID
           description: the Custom Application ID
           required: true
         - key: CLOUD_IDENTIFIER
           description: The cloud identifier
           default: 'gcp-au'
-        - key: CTP_ENTRY_POINT_URI_PATH
+        - key: ENTRY_POINT_URI_PATH
           description: The Application entry point URI path
           required: true

@@ -5,7 +5,7 @@ import { entryPointUriPathToPermissionKeys } from '@commercetools-frontend/appli
  */
 const config = {
   name: 'Custom Seo',
-  entryPointUriPath: "${env:CTP_ENTRY_POINT_URI_PATH}",
+  entryPointUriPath: "${env:ENTRY_POINT_URI_PATH}",
   cloudIdentifier: "${env:CLOUD_IDENTIFIER}",
   headers: {
     csp: {
@@ -34,13 +34,13 @@ const config = {
       initialProjectKey: 'jj-custom-app',
     },
     production: {
-      applicationId: '${env:APPLICATION_ID}',
+      applicationId: '${env:CUSTOM_APPLICATION_ID}',
       url: '${env:APP_URL}',
     },
   },
 
   additionalEnv: {
-    applicationId: '${env:APPLICATION_ID}',
+    applicationId: '${env:CUSTOM_APPLICATION_ID}',
     url: '${env:APP_URL}',
     authUrl: '${env:CTP_AUTH_URL}',
     apiUrl: '${env:CTP_API_URL}',
@@ -48,7 +48,7 @@ const config = {
     clientSecret: '${env:CTP_CLIENT_SECRET}',
     clientId: '${env:CTP_CLIENT_ID}',
     scopes: '${env:CTP_SCOPES}',
-    entryPointUriPath : "${env:CTP_ENTRY_POINT_URI_PATH}"
+    entryPointUriPath : "${env:ENTRY_POINT_URI_PATH}"
   },
 
   oAuthScopes: {
