@@ -6,7 +6,7 @@ import { entryPointUriPathToPermissionKeys } from '@commercetools-frontend/appli
 const config = {
   name: 'Custom Seo',
   entryPointUriPath: "${env:CTP_ENTRY_POINT_URI_PATH}",
-  cloudIdentifier: 'gcp-au',
+  cloudIdentifier: "${env:CLOUD_IDENTIFIER}",
   headers: {
     csp: {
       'connect-src': [
@@ -31,7 +31,7 @@ const config = {
   },
   env: {
     development: {
-      initialProjectKey: 'tiny_mc_demo',
+      initialProjectKey: 'jj-custom-app',
     },
     production: {
       applicationId: '${env:APPLICATION_ID}',

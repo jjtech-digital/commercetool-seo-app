@@ -1,15 +1,15 @@
 
 deployAs:
-  - name: commercetool-seo-app
+  - name: custom app
     applicationType: merchant-center-custom-application
     configuration:
       standardConfiguration:
-        - key: CUSTOM_APPLICATION_ID
+        - key: APPLICATION_ID
           description: the Custom Application ID
           required: true
         - key: CLOUD_IDENTIFIER
           description: The cloud identifier
-          default: 'gcp-eu'
-        - key: ENTRY_POINT_URI_PATH
+          default: 'gcp-au'
+        - key: CTP_ENTRY_POINT_URI_PATH
           description: The Application entry point URI path
           required: true
