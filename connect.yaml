@@ -2,8 +2,8 @@ deployAs:
   - name: custom-app
     applicationType: merchant-center-custom-application
      scripts:
-      postDeploy: npm install && npm run build && npm run connector:post-deploy
-      preUndeploy: npm install && npm run build && npm run connector:pre-undeploy
+      postDeploy: yarn install && yarn build && npm run connector:post-deploy
+      preUndeploy: yarn install && yarn build && npm run connector:pre-undeploy
     configuration:
       standardConfiguration:
         - key: CUSTOM_APPLICATION_ID
