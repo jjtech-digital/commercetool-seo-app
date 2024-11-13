@@ -172,3 +172,38 @@ You can now access the Custom Application within the respective Merchant Center 
 
 
 ## Thank you for using the AI-Driven Product MetaData Generator for commercetools!
+
+
+
+
+# Deployment Process
+
+## Prerequisites
+- A commercetools Composable Commerce Project.
+- A Custom Application configured in the Merchant Center.
+
+## Steps
+
+1. **Create Your Application**
+   - Install a Connect starter template.
+   - Open the `merchant-center-custom-application` folder and install the Custom Applications starter template inside this folder.
+   - Add your environment variables to `custom-application-config.mjs`.
+
+2. **Update Configuration**
+   - Update the value of `entryPointUriPath` in `constants.ts` / `constants.js`.
+   - Open `connect.yaml` in the root of the Connect starter template and replace it with the required configuration.
+
+3. **Push Code to GitHub**
+   - Push your code to a GitHub repository and make a new release with a Git tag.
+
+4. **Publish and Deploy**
+   - **Using the Merchant Center:**
+     - Create an Organization Connector referencing the GitHub repository and release tag.
+     - Publish your Connector using Request Preview or Publish for private use.
+     - Install the Organization Connector with the correct configuration values.
+
+5. **Update Application URL**
+   - Once your Connector is deployed, get the Deployment URL and update the Application URL of your Custom Application in the Merchant Center.
+
+6. **Test Your Deployment**
+   - Install the Custom Application in the Merchant Center and access it in your Projects.
