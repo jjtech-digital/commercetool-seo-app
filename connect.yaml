@@ -1,0 +1,24 @@
+deployAs:
+  - name: custom-app
+    applicationType: merchant-center-custom-application
+    configuration:
+      standardConfiguration:
+        - key: CUSTOM_APPLICATION_ID
+          description: the Custom Application ID
+          required: true
+        - key: CLOUD_IDENTIFIER
+          description: The cloud identifier
+          default: "gcp-au"
+        - key: ENTRY_POINT_URI_PATH
+          description: The Application entry point URI path
+          required: true
+        - key: CTP_REGION
+          description: commercetools Composable Commerce API region
+        - key: CTP_PROJECT_KEY
+          description: commercetools Composable Commerce project key
+        - key: CTP_CLIENT_ID
+          description: commercetools Composable Commerce client ID
+        - key: CTP_CLIENT_SECRET
+          description: commercetools Composable Commerce client secret
+        - key: CTP_SCOPES
+          description: commercetools Composable Commerce client scope
