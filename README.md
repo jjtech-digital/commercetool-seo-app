@@ -213,13 +213,16 @@ You can now access the Custom Application within the respective Merchant Center 
 
 After developing your Connect applications, do the following:
 1. From the Connect marketplace, click **Organization connectors**.
+
 2. Click **Create connector**.
+
 3. In the **Creator Details** section, follow these steps:
    * For Contact email, enter the contact email of the creator or maintainer of the Connector.
    * Optional: For **Title**, enter the title of the contact person.
    * Optional: For **Contact name**, enter the name of the contact person.
    * Optional: For **Company name**, enter the name of the company that created and maintains the Connector.
    * Optional: For **Number of developers**, enter the number of developers within the company.
+
 4. In the **Connector Details** section, follow these steps:
    * For **Name**, enter the display name for the Connector.
    * Optional: For **Description**, enter a description for the Connector.
@@ -228,13 +231,32 @@ After developing your Connect applications, do the following:
    * Optional: For **Connector key**, enter an identifier for the Connector.
    * Optional: For **Supported regions**, select the Regions in which the Connector will be available. If not selected, the Connector will be 
      available in all Regions supported by commercetools Connect.
+
 5. In the **Project Details** section, follow these steps:
    * For **Primary project**, select the primary Project for the Connector.
    * For **Supported projects**, choose to make this Connector available to all or specific Projects within the Organization.
+
 6. Click **Next**.
+
 7. Optional: If you want to publish the Connector, select one of the options. To publish later, click Skip this step.
    * To publish a Connector for testing or debug purposes in your own Projects, click **Request Preview**.
    * To publish the Connector for use in your own Projects, click **Publish for private use**.
    * To submit your Connector to the certification process, click **List on Marketplace**. After the Connector is certified, it will be 
      listed on the Connect marketplace as a Public Connector.
+
 8. The Manage connectors page appears, which displays your Organization Connectors.
+
+## Publish an Organization Connector
+
+Your Organization Connector must be published before it can be installed.
+
+1. From the Connect marketplace, click Manage connectors.
+
+2. On the Organization connectors tab, select a Connector from the list and choose one of the following:
+   * Request preview: To publish your Connector for testing or debug purposes, click Request preview. After the Previewable status appears as Accepted, the Connector can be installed.
+ 
+ > If the Previewable status appears as Rejected, you can view more information on the Preview Report tab of the Connector.
+   * List on Marketplace: To list the Connector as a Public Connector, click List on Marketplace. This will submit your Connector to the certification process. After the Connector status appears as Listed and certified, your Connector will be listed on the Connect marketplace as a Public Connector.
+   * Publish for private use: To publish the Connector for use in your own Projects, click Publish for private use. After the Connector status appears as Published, the Connector can be installed.
+ 
+ > If the Connector status appears as Publish failed, you can view more information on the Publish Report tab of the Connector.
