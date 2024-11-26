@@ -260,3 +260,21 @@ Your Organization Connector must be published before it can be installed.
    * Publish for private use: To publish the Connector for use in your own Projects, click Publish for private use. After the Connector status appears as Published, the Connector can be installed.
  
  > If the Connector status appears as Publish failed, you can view more information on the Publish Report tab of the Connector.
+
+## Install an Organization Connector
+You must create and publish an Organization Connector before it can be installed.
+
+1. From the Connect marketplace, click Manage connectors.
+
+2. On the Organization connectors tab, select the Connector to install.
+
+3. If the Connector was published for testing purposes, click Deploy on Preview. If the Connector was published for private use, click Deploy on Production.
+
+4. Select the Region in which you want to install the Connector.
+
+5. When deploying on production: Choose to install the Connector for all Projects, or for specific Projects within your Organization, and click Next.
+
+6. Enter the values for all fields for each application within the Connector.
+> If you selected multiple Projects, you must repeat this process for each Project.
+
+7. Click Install. The Manage connectors page appears, which displays the installation status.
