@@ -98,50 +98,6 @@ https://github.com/user-attachments/assets/be88188c-7a20-4e3d-bb80-c3187cc81f9d
   - Click the "Apply" button in the product row to update the metadata in commercetools.
 
 
-## AWS Amplify Deployment 
-
-### Step 1. Prepare your react application for production build : 
-
- - Make sure your React app is ready for production
-
-         npm run build 
-
- - This will create a build (or dist or public) directory with your production-ready files.
-
-### Step 2. Create an AWS Amplify App
-
-- Log in to the [AWS Amplify Console.](https://aws.amazon.com/amplify/)
-- Search for AWS Amplify in search bar and click on "create new app".
-<img width="1400" alt="Screenshot 2024-08-13 at 5 11 21 PM" src="https://github.com/user-attachments/assets/84987b4d-65df-4950-a9a0-8cc7bb3c34e9">
-
-
-### Step 3. Connect Your Repository
-
-- **Choose a repository provider**: Select your Git provider(e.g., GitHub, GitLab, Bitbucket, AWS CodeCommit) and authorize AWS Amplify to access your repository.
-<img width="1400" alt="Screenshot 2024-08-13 at 5 11 53 PM" src="https://github.com/user-attachments/assets/2235c14f-8001-4bde-a96c-82015012c9d2">
-
-- **Select a repository**: Choose the repository and branch where your React app is stored.
-<img width="1400" alt="Screenshot 2024-08-13 at 5 12 46 PM" src="https://github.com/user-attachments/assets/408ae2f6-4aba-4ad1-8fbd-d5c020525408">
-
-
-- **Configure build settings**:
-    - Amplify will automatically detect your React app and suggest a build configuration.
-    - You can review or edit the build settings. If needed, you can specify the build command (npm run build) and the directory where the build output is located (build or dist or public).
-<img width="1400" alt="Screenshot 2024-08-13 at 5 13 33 PM" src="https://github.com/user-attachments/assets/cf9bfe46-1970-4a5f-93e0-e489d6829270">
-
-
-### Step 4. Configure App Settings
-- **Environment variables**: If your React app requires environment variables, add them in the "Environment Variables" section.
-
-
-### Step 5. Deploy the App
-- **Deploy**: Click Save and deploy. AWS Amplify will build your app and deploy it to a globally available CDN (via Amazon CloudFront).
-<img width="1400" alt="Screenshot 2024-08-13 at 5 14 19 PM" src="https://github.com/user-attachments/assets/789152fe-3d9b-42a5-8508-a1b88f1a2da2">
-
-- **Monitor the deployment**: The Amplify Console will show the progress of your deployment. Once the deployment is complete, your app will be live.
-
-This will deploy your custom application on AWS Amplify and provide you with a domain link.
-
 
 ## Installing A Custom Application
 - Click the profile icon and select Manage Organizations & Teams.
@@ -171,18 +127,9 @@ This will deploy your custom application on AWS Amplify and provide you with a d
 You can now access the Custom Application within the respective Merchant Center Projects.
 
 
-## Thank you for using the AI-Driven Product MetaData Generator for commercetools!
-
-
-
-
 # Deployment Process
 
-## Prerequisites
-- A commercetools Composable Commerce Project.
-- A Custom Application configured in the Merchant Center.
-
-## Steps
+### Steps
 
 1. **Create Your Application**
    - Install a Connect starter template.
@@ -278,3 +225,9 @@ You must create and publish an Organization Connector before it can be installed
 > If you selected multiple Projects, you must repeat this process for each Project.
 
 7. Click Install. The Manage connectors page appears, which displays the installation status.
+
+- Open Manage connectors and click Installations. When the Status of the Connector is Installed, click the Connector and select your application from the list. Copy the value of the URL field. This is the URL where your Custom Application is deployed.
+
+-  Update the Application URL of your Custom Application with the URL where your Custom Application is deployed.
+
+## Thank you for using the AI-Driven Product MetaData Generator for commercetools!
