@@ -135,8 +135,10 @@ You can now access the Custom Application within the respective Merchant Center 
 
 After developing your Connect applications, do the following:
 1. From the Connect marketplace, click **Organization connectors**.
+![connector1](https://github.com/user-attachments/assets/fb266603-e2b3-43a0-94ff-d06f18c0d0f5)
 
 2. Click **Create connector**.
+![connector2](https://github.com/user-attachments/assets/be689c71-6722-41b7-920e-4e1d79c26923)
 
 3. In the **Creator Details** section, follow these steps:
    * For Contact email, enter the contact email of the creator or maintainer of the Connector.
@@ -153,6 +155,7 @@ After developing your Connect applications, do the following:
    * Optional: For **Connector key**, enter an identifier for the Connector.
    * Optional: For **Supported regions**, select the Regions in which the Connector will be available. If not selected, the Connector will be 
      available in all Regions supported by commercetools Connect.
+![newconnector1](https://github.com/user-attachments/assets/1589ead2-865f-4c08-bd5b-e99c300919f6)
 
 5. In the **Project Details** section, follow these steps:
    * For **Primary project**, select the primary Project for the Connector.
@@ -165,6 +168,7 @@ After developing your Connect applications, do the following:
    * To publish the Connector for use in your own Projects, click **Publish for private use**.
    * To submit your Connector to the certification process, click **List on Marketplace**. After the Connector is certified, it will be 
      listed on the Connect marketplace as a Public Connector.
+![connector4](https://github.com/user-attachments/assets/30c5a0dc-d89b-4bdd-95b6-706812d27b67)
 
 8. The Manage connectors page appears, which displays your Organization Connectors.
 
@@ -182,6 +186,7 @@ Your Organization Connector must be published before it can be installed.
    * Publish for private use: To publish the Connector for use in your own Projects, click Publish for private use. After the Connector status appears as Published, the Connector can be installed.
  
  > If the Connector status appears as Publish failed, you can view more information on the Publish Report tab of the Connector.
+![image](https://github.com/user-attachments/assets/8e7805bc-392d-432a-9830-d25984e01dd3)
 
 ## Install an Organization Connector
 You must create and publish an Organization Connector before it can be installed.
@@ -189,10 +194,12 @@ You must create and publish an Organization Connector before it can be installed
 1. From the Connect marketplace, click Manage connectors.
 
 2. On the Organization connectors tab, select the Connector to install.
+![newconnector3](https://github.com/user-attachments/assets/1c206897-74eb-45a0-b612-9f78241e7fef)
 
 3. If the Connector was published for testing purposes, click Deploy on Preview. If the Connector was published for private use, click Deploy on Production.
 
 4. Select the Region in which you want to install the Connector.
+![image](https://github.com/user-attachments/assets/f57adaa7-5702-4bbd-b577-2164e8ca8756)
 
 5. When deploying on production: Choose to install the Connector for all Projects, or for specific Projects within your Organization, and click Next.
 
@@ -200,8 +207,10 @@ You must create and publish an Organization Connector before it can be installed
 > If you selected multiple Projects, you must repeat this process for each Project.
 
 7. Click Install. The Manage connectors page appears, which displays the installation status.
+![newconnector5](https://github.com/user-attachments/assets/79d1eca5-02c8-4798-a484-d8ccb1cc1403)
 
 - Open Manage connectors and click Installations. When the Status of the Connector is Installed, click the Connector and select your application from the list. Copy the value of the URL field. This is the URL where your Custom Application is deployed.
+![connector1](https://github.com/user-attachments/assets/214437a2-58c5-4cee-9c96-5c31445189e4)
 
 -  Update the Application URL of your Custom Application with the URL where your Custom Application is deployed.
 
