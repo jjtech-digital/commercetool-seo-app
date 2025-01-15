@@ -98,35 +98,6 @@ https://github.com/user-attachments/assets/be88188c-7a20-4e3d-bb80-c3187cc81f9d
   - Click the "Apply" button in the product row to update the metadata in commercetools.
 
 
-
-## Installing A Custom Application
-- Click the profile icon and select Manage Organizations & Teams.
-<img width="1400" src="https://github.com/user-attachments/assets/3aa5941b-c83b-4b05-8e15-fff0fe9d52e1">
-
-- Select the Organization for which you wish to install a Custom Application.
-<img width="1400" src="https://github.com/user-attachments/assets/464980f8-71ea-4968-844a-c36890a981e1">
-
-- Click the Custom Applications tab.
-<img width="1400" src="https://github.com/user-attachments/assets/60c19803-a8ad-4c64-b2c7-639bdd2d210e">
-
-- Click Manage project access. 
-
-- Choose a Custom Application from the Ready for installation section.
-<img width="1400" src="https://github.com/user-attachments/assets/9ac8a454-94f5-4adf-b598-c0b1df24ba56">
-
-- Review the permissions listed in the Requested permissions section. A user must have at least View permission to access the Custom Application in the Merchant Center.
-
-- In the Projects access section, grant Projects access by selecting one of the following options:
-
-     - Install for all projects of this organization: grants access to all projects of an Organization.
-     - Install for selected projects only: grants access only to selected projects of an Organization. To do so, select the Projects from the Select projects drop-down list.
-     <img width="1400" src="https://github.com/user-attachments/assets/420df5d2-bd1f-42c0-956e-7b7ff8a0d3f2">
-
-- Click Save.
-
-You can now access the Custom Application within the respective Merchant Center Projects.
-
-
 # How to deploy using Connector
 
 ### Steps to follow:
@@ -213,5 +184,33 @@ You must create and publish an Organization Connector before it can be installed
 ![connector1](https://github.com/user-attachments/assets/214437a2-58c5-4cee-9c96-5c31445189e4)
 
 -  Update the Application URL of your Custom Application with the URL where your Custom Application is deployed.
+
+
+## Installing A Custom Application
+- Click the profile icon and select Manage Organizations & Teams.
+<img width="1400" src="https://github.com/user-attachments/assets/3aa5941b-c83b-4b05-8e15-fff0fe9d52e1">
+
+- Select the Organization for which you wish to install a Custom Application.
+<img width="1400" src="https://github.com/user-attachments/assets/464980f8-71ea-4968-844a-c36890a981e1">
+
+- Click the Custom Applications tab.
+<img width="1400" src="https://github.com/user-attachments/assets/60c19803-a8ad-4c64-b2c7-639bdd2d210e">
+
+- Click Manage project access. 
+
+- Choose a Custom Application from the Ready for installation section.
+<img width="1400" src="https://github.com/user-attachments/assets/9ac8a454-94f5-4adf-b598-c0b1df24ba56">
+
+- Review the permissions listed in the Requested permissions section. A user must have at least View permission to access the Custom Application in the Merchant Center.
+
+- In the Projects access section, grant Projects access by selecting one of the following options:
+
+     - Install for all projects of this organization: grants access to all projects of an Organization.
+     - Install for selected projects only: grants access only to selected projects of an Organization. To do so, select the Projects from the Select projects drop-down list.
+     <img width="1400" src="https://github.com/user-attachments/assets/420df5d2-bd1f-42c0-956e-7b7ff8a0d3f2">
+
+- Click Save.
+
+You can now access the Custom Application within the respective Merchant Center Projects.
 
 ## Thank you for using the AI-Driven Product MetaData Generator for commercetools!
